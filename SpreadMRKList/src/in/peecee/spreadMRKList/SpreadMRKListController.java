@@ -54,6 +54,7 @@ public class SpreadMRKListController {
 	public  ArrayList<String> subMarksArray = new ArrayList<String>();
 	public  ArrayList<String> headerArray = new ArrayList<String>();
 	public  ArrayList<String> StuDetailsArray = new ArrayList<String>();
+	public  ArrayList<String> subjectName = new ArrayList<String>();
 	
 	
 	public void show(float percent) {JOptionPane.showMessageDialog(null, percent);}   ///for debugging
@@ -613,8 +614,8 @@ public class SpreadMRKListController {
    
 	public void BtnPrintAllMarksCards(){
 		
-/*		   final ArrayList<String> subject;
-		    int row = 25;    //  View.getTable().getRowCount();
+//		   final ArrayList<String> subjectName;
+/*		    int row = 25;    //  View.getTable().getRowCount();
 //		    if(row <= 0){show("No name or Roll Number is selected "); return;}
 		    subMarksArray.removeAll(subMarksArray);   
 		   	for(int k = 4; k < 30 ; k++){	   		
@@ -632,7 +633,7 @@ public class SpreadMRKListController {
 
 		  try {
               final String[] TableItemC1 = {"Examination","Unit Test I","Terminal I","Unit test II","Terminaal II",
-            		                "Aggregate","Average","Grace"};
+            		                        "Aggregate","Average","Grace"};
               final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
               final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
 			  PrinterJob pjob = PrinterJob.getPrinterJob();
@@ -641,7 +642,7 @@ public class SpreadMRKListController {
 			  pjob.setPrintable(new Printable() {
 			  public int print(Graphics pg, PageFormat pf, int pageNum) {
 				int RowCount = View.getTable().getRowCount();  
-				int totalpages = RowCount;
+				int totalpages = 26;     //   RowCount;
 				  if (pageNum < totalpages) 
 				   {
 					pg.drawString("( FOR OFFICE USE ONLY )", 230, 40);
@@ -663,7 +664,10 @@ public class SpreadMRKListController {
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC1[i], 62, 315+i*20);}
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC2[i], 145, 315+i*20);}
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC3[i], 182, 315+i*20);}
-//				for(int i = 0; i < subject.size(); i++){ pg.drawString(subject.get(i), 214+i*35, 315);}	 // Subjects
+				
+				String RollNo = View.getTable().getModel().getValueAt(pageNum, 1).toString();
+				subjectName = collheaderfinder(RollNo);
+				for(int i = 0; i< subjectName.size(); i++){ pg.drawString(subjectName.get(i), 214+i*35, 315);}	 // Subjects
 
 				for(int j = 0; j < 6; j++){
 					for(int i = 0; i < 4; i++){                     //  All marks except EVS and PTE
