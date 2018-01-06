@@ -620,14 +620,14 @@ public class SpreadMRKListController {
 		    subMarksArray.removeAll(subMarksArray);   
 		   	for(int k = 4; k < 30 ; k++){	   		
 		   		subMarksArray.add((String) GetData1(View.getTable(),row,k));
-		   	}
+		   	}                                 */
 		   	
-		   	StuDetailsArray.removeAll(StuDetailsArray);
-		   	for(int k = 1; k < 4 ; k++){	   		
-		   		StuDetailsArray.add((String) GetData1(View.getTable(),row,k));
-		   	}
+//		   	StuDetailsArray.removeAll(StuDetailsArray);
+//		   	for(int k = 1; k < 4 ; k++){	   		
+//		   		StuDetailsArray.add((String) GetData1(View.getTable(),row,k));
+//		   	}
 		   	
-			  final String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
+/*			  final String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
 			  subject = collheaderfinder(RollNo);
 			  String EVS = GetData1(View.getTable(),row,28);       */
 
@@ -642,15 +642,14 @@ public class SpreadMRKListController {
 			  pjob.setPrintable(new Printable() {
 			  public int print(Graphics pg, PageFormat pf, int pageNum) {
 				int RowCount = View.getTable().getRowCount();  
+				int[] ExamwiseSum = {SumU1Score(), SumT1Score(), SumU2Score(), SumT2andEVSScore()};
 				int totalpages = 26;     //   RowCount;
 				  if (pageNum < totalpages) 
 				   {
 					pg.drawString("( FOR OFFICE USE ONLY )", 230, 40);
 					pg.drawString("( FOR OFFICE USE ONLY )", 230, 750);
-//					pg.drawString(subMarksArray.get(24), 430, 395);               //  EVS marks
-//					pg.drawString(subMarksArray.get(25), 465, 395);               //  PTE Grade
-					  pg.drawString("EVS", 425, 315);
-					  pg.drawString("PTE", 460, 315);          
+					pg.drawString("EVS", 425, 315);
+					pg.drawString("PTE", 460, 315);          
 					pg.drawString("Total", 505, 315);
 					pg.drawString("RESULT", 250, 475);
 				for(int j =0; j < 12; j++){
@@ -674,13 +673,39 @@ public class SpreadMRKListController {
 						pg.drawString(GetData1(View.getTable(), pageNum, 4+i+(4*j)), 220+j*35, 335+i*20);
 					}
                 }
-		        pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 395);
-		        pg.drawString(GetData1(View.getTable(), pageNum, 29), 465, 395);
+		        pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 395);     // EVS Marks
+		        pg.drawString(GetData1(View.getTable(), pageNum, 29), 465, 395);     // PTE Grade
+		        
+/////   E X A M W I S E   S U M
 				
-//				JTableHeader jTablHdr = View.getTable().getTableHeader();
-//		   		TableColumnModel jtcm = jTablHdr.getColumnModel();
-//		   		TableColumn jtc = jtcm.getColumn(pageNum++);
-		   		
+//				for(int i = 0; i < 4; i++){
+//					pg.drawString(String.valueOf(ExamwiseSum[i]), 515, 335+i*20);  // Sum of all Unit n Term Exams
+//				}
+		        
+/////   S T U D E N T  D E T A I L S
+		        
+		        StuDetailsArray.removeAll(StuDetailsArray);
+			   	for(int k = 1; k < 4 ; k++){	   		
+			   		StuDetailsArray.add((String) GetData1(View.getTable(),pageNum,k));
+			   	}
+       
+				Calendar cal = Calendar.getInstance();
+				int year = cal.get(Calendar.YEAR);
+				int YEAR = year-1;
+
+				pg.drawString("Mark Sheet showing the number of marks Obtained by  ", 60, 200);
+				pg.drawString(StuDetailsArray.get(2), 60, 220);   //  Name of student 
+				pg.drawString("with Roll No.:"+ StuDetailsArray.get(0)+" of Division : "
+				              +StuDetailsArray.get(1)+", in " + Streamfinder(RollNo)+ " stream", 60, 240);
+				pg.drawString("The following table shows each head of passing at FYJC examintion conducted", 60, 260);
+				pg.drawString("during the academic year " + YEAR +" - " + year, 60, 280);				
+				
+/////    F O O T E R - GO V E R N M E N T   C I R C U L A R		
+				
+				pg.drawString("NOTE  :  This marksheet has been prepared as per the instruction of circular", 60, 520);
+				pg.drawString("No 6987,dated 04/11/2009 issued by Secretary, Maharashtra State", 120, 540);
+				pg.drawString("Board of Secondary and Higher Secondary Education,Pune 411004", 120, 560);
+
 		   		
 		   		
 		   		return Printable.PAGE_EXISTS;
@@ -688,11 +713,8 @@ public class SpreadMRKListController {
 				    else
 					{
 					 return Printable.NO_SUCH_PAGE;
-					}
-				    
-		        }
-			    
-			    
+					}   
+		        }			    
 		});
 
 	        if (pjob.printDialog() == false) // choose printer

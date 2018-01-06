@@ -34,6 +34,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	    private JButton btnProcess;
 	    private JButton btnPrintAll;
 	    private JButton btnSpreadSheet;
+//	    private JButton btnPrintCconsolidated;
 	    
 	    private JTable table;
 	    ColumnGroup Eng, SL, Sub1, Sub2, Sub3, Sub4 ;
@@ -208,10 +209,13 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     southPanel.add(btnPrintAll);
     
     btnSpreadSheet = new JButton("Print Spread sheet");
-    btnPrintAll.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnSpreadSheet.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnSpreadSheet);
-
     
+//  btnPrintConsolidated = new JButton("Consolidated");
+//  btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
+//  southPanel.add(btnPrintConsolidated);
+   
     btnCansel = new JButton("Cancel");
     btnCansel.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent arg0) {
