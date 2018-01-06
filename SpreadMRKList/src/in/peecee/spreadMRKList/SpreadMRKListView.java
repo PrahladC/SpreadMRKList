@@ -34,7 +34,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	    private JButton btnProcess;
 	    private JButton btnPrintAll;
 	    private JButton btnSpreadSheet;
-//	    private JButton btnPrintCconsolidated;
+	    private JButton btnPrintConsolidated;
 	    
 	    private JTable table;
 	    ColumnGroup Eng, SL, Sub1, Sub2, Sub3, Sub4 ;
@@ -146,7 +146,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     header.revalidate(); 
     
     JPanel southPanel = new JPanel();  
-    southPanel.setLayout(new GridBagLayout());        
+    southPanel.setLayout(new GridLayout(2, 6));        
     
     btnLoad = new JButton("Load");
     btnLoad.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -168,21 +168,19 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnSave.setToolTipText("Save");
     btnSave.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnSave);    
-       
-    btnProcess = new JButton("Merit List");
-    btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));
-  //  btnLoad.setPreferredSize(new Dimension(115, 25));
-    southPanel.add(btnProcess);    
         
     btnSearch = new JButton("Search");        
     btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 14));
-  //  btnSearch.setMinimumSize(new Dimension(50,100));
     southPanel.add(btnSearch);
     
     search = new JTextField("");
     search.setFont(new Font("Times New Roman", Font.BOLD, 14));
     search.setColumns(8);
     southPanel.add(search);
+    
+    btnProcess = new JButton("Merit List");
+    btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    southPanel.add(btnProcess);    
 
     btnSetPrinter = new JButton("Set Printer");
     btnSetPrinter.addActionListener(new ActionListener() {
@@ -212,9 +210,9 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnSpreadSheet.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnSpreadSheet);
     
-//  btnPrintConsolidated = new JButton("Consolidated");
-//  btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
-//  southPanel.add(btnPrintConsolidated);
+    btnPrintConsolidated = new JButton("Print Consolidated");
+    btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    southPanel.add(btnPrintConsolidated);
    
     btnCansel = new JButton("Cancel");
     btnCansel.addActionListener(new ActionListener() {
