@@ -477,7 +477,7 @@ public class SpreadMRKListController {
 //	   SCButtons.showScoreButtons(); 
 	   final ArrayList<String> subject;
 	    int row = View.getTable().getSelectedRow();
-	    if(row <= 0){show("No name or Roll Number is selected "); return;}
+	    if(row < 0){show("No name or Roll Number is selected "); return;}
 	    subMarksArray.removeAll(subMarksArray);   
 	   	for(int k = 4; k < 30 ; k++){	   		
 	   		subMarksArray.add((String) GetData1(View.getTable(),row,k));
@@ -498,8 +498,8 @@ public class SpreadMRKListController {
 	                "Aggregate","Average","Grace"};
          final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
          final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
-         final int[] SubTotal = {Sub1(),Sub2(), Sub3(), Sub4(), Sub5(), Sub6()};
-         final int[] ExamwiseSum = {SumU1Score(), SumT1Score(), SumU2Score(), SumT2andEVSScore()};
+         final int[] SubTotal = {Sub1(row),Sub2(row), Sub3(row), Sub4(row), Sub5(row), Sub6(row)};
+         final int[] ExamwiseSum = {SumU1Score(row), SumT1Score(row), SumU2Score(row), SumT2andEVSScore(row)};
 		 
 	      PrinterJob pjob = PrinterJob.getPrinterJob();
 		  pjob.setJobName("Current Marks Card Print");
@@ -558,7 +558,8 @@ public class SpreadMRKListController {
         pg.drawString(GetData1(View.getTable(),row,28), 430, 415);    // Marks of EVS Subject
 
 /////  A  V  E  R  A  G  E  MARKS OF EVERY SUBJECT
-        float[] AverageMrks = {Sub1(), Sub2(), Sub3(), Sub4(), Sub5(), Sub6()};
+        
+        float[] AverageMrks = {Sub1(row), Sub2(row), Sub3(row), Sub4(row), Sub5(row), Sub6(row)};
         for(int i = 0; i < 6; i++){
     		pg.drawString(String.valueOf((int) Math.ceil(AverageMrks[i]/2)), 220+i*35, 435); // Average marks of each subject
 
@@ -568,11 +569,11 @@ public class SpreadMRKListController {
         
         newFont = new Font("Liberation Serif", Font.PLAIN, 9);
 
-		pg.drawString(String.valueOf(SumU1Score()+SumT1Score()+SumU2Score()
-				                     +SumT2andEVSScore()+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
+		pg.drawString(String.valueOf(SumU1Score(row)+SumT1Score(row)+SumU2Score(row)
+				                     +SumT2andEVSScore(row)+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
 
-		pg.drawString(String.valueOf((int) Math.ceil(Sub1()/2)+(int) Math.ceil(Sub2()/2)+(int) Math.ceil(Sub3()/2)+
-				                     (int) Math.ceil(Sub4()/2)+(int) Math.ceil(Sub5()/2)+(int) Math.ceil(Sub6()/2)+
+		pg.drawString(String.valueOf((int) Math.ceil(Sub1(row)/2)+(int) Math.ceil(Sub2(row)/2)+(int) Math.ceil(Sub3(row)/2)+
+				                     (int) Math.ceil(Sub4(row)/2)+(int) Math.ceil(Sub5(row)/2)+(int) Math.ceil(Sub6(row)/2)+
 				                      Integer.parseInt(GetData1(View.getTable(),row,28))+"/650" ), 500, 435);  // Sum of all Averages
 
 	    				
@@ -631,6 +632,8 @@ public class SpreadMRKListController {
 			  subject = collheaderfinder(RollNo);
 			  String EVS = GetData1(View.getTable(),row,28);       */
 		
+	    int row = View.getTable().getSelectedRow();
+	    if(row < 0){show("No name or Roll Number is selected "); return;}
 
 		  try {
               final String[] TableItemC1 = {"Examination","Unit Test I","Terminal I","Unit test II","Terminaal II",
@@ -643,7 +646,10 @@ public class SpreadMRKListController {
 			  pjob.setPrintable(new Printable() {
 			  public int print(Graphics pg, PageFormat pf, int pageNum) {
 				int RowCount = View.getTable().getRowCount();  
-				int[] ExamwiseSum = {SumU1Score(), SumT1Score(), SumU2Score(), SumT2andEVSScore()};
+				int[] ExamwiseSum = {SumU1Score(pageNum), SumT1Score(pageNum), SumU2Score(pageNum), 
+						             SumT2andEVSScore(pageNum)};
+				final int[] SubTotal = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
+						                Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
 				int totalpages = 26;     //   RowCount;
 				  if (pageNum < totalpages) 
 				   {
@@ -679,17 +685,40 @@ public class SpreadMRKListController {
 		        
 /////   E X A M W I S E   S U M
 				
-//				for(int i = 0; i < 4; i++){
-//					pg.drawString(String.valueOf(ExamwiseSum[i]), 515, 335+i*20);  // Sum of all Unit n Term Exams
-//				}
+				for(int i = 0; i < 4; i++){
+					pg.drawString(String.valueOf(ExamwiseSum[i]), 515, 335+i*20);  // Sum of all Unit n Term Exams
+				}
+/////  A  G  G  R  E  G  A  T  E
+				
+				int row = View.getTable().getSelectedRow();  
+		        for(int i = 0; i <6; i++){
+		        	pg.drawString(String.valueOf(SubTotal[i]), 215+i*35, 415);  // Aggregate marks of each subject
+		        }        
+		        pg.drawString(GetData1(View.getTable(),pageNum,28), 430, 415);    // Marks of EVS Subject
 		        
+
+/////  A  V  E  R  A  G  E  MARKS OF EVERY SUBJECT
+		        
+		float[] AverageMrks = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
+		   		               Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
+		for(int i = 0; i < 6; i++){
+			pg.drawString(String.valueOf((int) Math.ceil(AverageMrks[i]/2)), 220+i*35, 435); // Average marks of each subject
+        }
+		pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 435);    // Marks of EVS Subject		        
+		pg.drawString(String.valueOf(SumU1Score(pageNum)+SumT1Score(pageNum)+SumU2Score(pageNum)
+		 	                     +SumT2andEVSScore(pageNum)+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
+		pg.drawString(String.valueOf((int) Math.ceil(Sub1(pageNum)/2)+(int) Math.ceil(Sub2(pageNum)/2)+
+				                     (int) Math.ceil(Sub3(pageNum)/2)+(int) Math.ceil(Sub4(pageNum)/2)+
+				                     (int) Math.ceil(Sub5(pageNum)/2)+(int) Math.ceil(Sub6(pageNum)/2)+
+				                      Integer.parseInt(GetData1(View.getTable(),pageNum,28))+"/650" ), 500, 435);  // Sum of all Averages
+			   	
 /////   S T U D E N T  D E T A I L S
 		        
 		        StuDetailsArray.removeAll(StuDetailsArray);
 			   	for(int k = 1; k < 4 ; k++){	   		
 			   		StuDetailsArray.add((String) GetData1(View.getTable(),pageNum,k));
 			   	}
-       
+				
 				Calendar cal = Calendar.getInstance();
 				int year = cal.get(Calendar.YEAR);
 				int YEAR = year-1;
@@ -810,8 +839,9 @@ public class SpreadMRKListController {
 		 }							
 	}
 
-	public int SumU1Score(){
+	public int SumU1Score(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 	     String marks;
 		 int Marks = 0, SumOfU1Marks = 0;      
 		 for(int j = 0; j < 6; j++){
@@ -824,8 +854,9 @@ public class SpreadMRKListController {
 		return SumOfU1Marks;							
 	}
 
-	public int SumT1Score(){
+	public int SumT1Score(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 	     String marks;
 		 int Marks = 0, SumOfT1Marks = 0;      
 		 for(int j = 0; j < 6; j++){
@@ -838,8 +869,9 @@ public class SpreadMRKListController {
 		return SumOfT1Marks;							
 	}
 
-	public int SumU2Score(){
+	public int SumU2Score(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 	     String marks;
 		 int Marks = 0, SumOfU2Marks = 0;      
 		 for(int j = 0; j < 6; j++){
@@ -852,8 +884,9 @@ public class SpreadMRKListController {
 		return SumOfU2Marks;							
 	}
 
-	public int SumT2andEVSScore(){
+	public int SumT2andEVSScore(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 	     String marks;
 		 int Marks = 0, SumOfT2Marks = 0, EVSandT2Sum = 0;      
 		 for(int j = 0; j < 6; j++){
@@ -935,7 +968,7 @@ public class SpreadMRKListController {
 		String Result1 = "Fail", Result2 = "Promoted", Result3 = "PENDING";		
 		
 		for(int i = 0; i < 8; i++){
-			Show(Sub6());
+//			Show(Sub6());
 //			Show(Sub2(i));
 //			if( engmarks() <= 33) { SetData (Result1, i, 31) ; }
 			
@@ -947,13 +980,14 @@ public class SpreadMRKListController {
 				AVG = TotalXcludeEVS/2 + Integer.parseInt(GetData1(View.getTable(), i, 28));
 				Percent = ( (double) Math.ceil(AVG)/650) * 100;		
 				String result = String.format("%.2f", Percent);
-				SetData (Math.ceil(Sub6()/2), i, 31);
+//				SetData (Math.ceil(Sub6()/2), i, 31);
 //			}
 		
 		}
 	}                                  
-	public int Sub1(){
+	public int Sub1(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 		int TotalOfEng = 0, engtotal = 0;	
 			for(int j = 4; j < 8; j++ ){
 			String EngTotal = GetData1(View.getTable(), row, j);
@@ -967,8 +1001,9 @@ public class SpreadMRKListController {
 		return TotalOfEng;		
 	}
 	
-	public int Sub2(){
+	public int Sub2(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 		int TotalOfSLITEL1CS1 = 0, slitel1cs1 = 0;	
 			for(int j = 8; j < 12; j++ ){
 			String SlItEl1Cs1Total = GetData1(View.getTable(), row, j);
@@ -982,8 +1017,9 @@ public class SpreadMRKListController {
 		return TotalOfSLITEL1CS1;		
 	}
 	
-	public int Sub3(){
+	public int Sub3(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 		int TotalOfSLITEL2CS2 = 0, slitcl2cs2 = 0;	
 			for(int j = 12; j < 16; j++ ){
 			String SlItEl2Cs2Total = GetData1(View.getTable(), row, j);
@@ -997,8 +1033,9 @@ public class SpreadMRKListController {
 		return TotalOfSLITEL2CS2;		
 	}
 
-	public int Sub4(){
+	public int Sub4(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 		int TotalOfSub4 = 0, sub4 = 0;	
 			for(int j = 16; j < 20; j++ ){
 			String Sub4Total = GetData1(View.getTable(), row, j);
@@ -1012,8 +1049,9 @@ public class SpreadMRKListController {
 		return TotalOfSub4;		
 	}
 
-	public int Sub5(){
+	public int Sub5(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 		int TotalOfSub5 = 0, sub5 = 0;	
 			for(int j = 20; j < 24; j++ ){
 			String Sub5Total = GetData1(View.getTable(), row, j);
@@ -1027,8 +1065,9 @@ public class SpreadMRKListController {
 		return TotalOfSub5;		
 	}
 	
-	public int Sub6(){
+	public int Sub6(int pageNum){
 		int row = View.getTable().getSelectedRow();
+		row = pageNum;
 		int TotalOfSub6 = 0, sub6 = 0;	
 			for(int j = 24; j < 28; j++ ){
 			String Sub6Total = GetData1(View.getTable(), row, j);
