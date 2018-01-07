@@ -7,12 +7,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -47,6 +49,7 @@ public class SpreadMRKListController {
 	private SpreadMRKListSubMarks SubMarks = new SpreadMRKListSubMarks();
 	private showstatistics Stats = new showstatistics();
 	private ScoreCardButtons SCButtons = new ScoreCardButtons();
+//	private printRoutines prnRoutines = new printRoutines();
 	
 	public  ArrayList<String> strArray = new ArrayList<String>();
 	public  ArrayList<String> TotalMarksArray = new ArrayList<String>();
@@ -92,7 +95,8 @@ public class SpreadMRKListController {
     
     
     private ActionListener saveListener, loadListener, processListener, searchListener, ResultListener,
-	                       setprinterListener, printListener, printAllListener, canselListener, UpdateListener ;
+	                       setprinterListener, printCurrentListener, printAllListener, canselListener, 
+	                       UpdateListener, spreadsheetListener ;
     
     int TotalMarklists=0;
 	
@@ -203,7 +207,7 @@ public class SpreadMRKListController {
 	            }
 	  };
 	        
-	printListener = new ActionListener() {
+	printCurrentListener = new ActionListener() {
 	public void actionPerformed(ActionEvent actionEvent) {                  
 	                BtnPrintCurrent();
 	            }
@@ -214,7 +218,12 @@ public class SpreadMRKListController {
 			BtnPrintAllMarksCards();
         }
     }; 
-	  
+
+    spreadsheetListener = new ActionListener() {
+		public void actionPerformed(ActionEvent actionEvent) {                  
+			BtnPrintSpreadSheet();
+        }
+    }; 
 
 	View.getSaveButton().addActionListener(saveListener);
 	View.getLoadButton().addActionListener(loadListener);
@@ -222,13 +231,125 @@ public class SpreadMRKListController {
 	View.getProcessButton().addActionListener(processListener);
 	View.getSearchButton().addActionListener(searchListener);
 	View.getSetPrinterButton().addActionListener(setprinterListener);
-	View.getPrintButton().addActionListener(printListener);
+	View.getPrintCurrentButton().addActionListener(printCurrentListener);
 	View.getPrintAllButton().addActionListener(printAllListener);
 	View.getCanselButton().addActionListener(canselListener);
 	View.getUpdateButton().addActionListener(UpdateListener);
+	View.getSpreadSheetButton().addActionListener(spreadsheetListener);
 
 	 }	
 	
+	protected void BtnPrintSpreadSheet() {
+		// 	System.exit(0);
+	  try {
+		   PrinterJob pjob = PrinterJob.getPrinterJob();
+		   pjob.setJobName("Spread Sheet Print");
+		   pjob.setCopies(1);
+		   pjob.setPrintable(new Printable() {
+		   public int print(Graphics pg, PageFormat pf, int pageNum) {
+			int totalpages = 1;
+			if (pageNum < totalpages) 
+			{	
+			  Font newFont;		          
+			  newFont = new Font("Liberation Serif", Font.PLAIN, 13);
+//			  FontMetrics metrics = pg.getFontMetrics(newFont);
+		      int LtMrg = 25, BtMrg = 790;        
+				for(int j = 0; j < 6; j++){		  			 
+				pg.drawRect(50, 32+j*80, 17, 80);        // Printing Subject Headings
+				}      
+						          
+				for(int j = 0; j < 29; j++){
+				  for(int i = 0; i < 24; i++){	
+				    pg.drawRect(67 + j*17, 32+i*20, 17, 20);        // Printing Rectangular grid ( Body of Table for Marks )
+				    }
+				}
+								
+				for(int j = 0; j < 30; j++){				   			 
+				pg.drawRect(50 + j*17, 512, 17, 228);              // Printing Names
+				} 								
+				
+				
+				for(int j = 0; j < 30; j++){
+						pg.drawRect(50 + j*17, 740, 17, 35);        // Printing Serial No and Roll Numbers
+					}		          		          
+
+//				int y = 585;                                        // Right margin indent.
+				pg.drawString("( FOR OFFICE USE ONLY )", 230, LtMrg);
+				pg.drawString("( FOR OFFICE USE ONLY )", 230, BtMrg);	
+				pg.drawString("98",85,487);
+				Graphics g2 = (Graphics2D) pg;
+		        Font font = new Font(null, Font.PLAIN, 9);    
+		        AffineTransform AT = new AffineTransform();
+		        ((Graphics2D) g2).setTransform(AT);
+		        AT.rotate(Math.toRadians(270), 0, 0);
+		        AT.translate(LtMrg, BtMrg);
+		        Font rotatedFont = font.deriveFont(AT);
+		        g2.setFont(rotatedFont);
+		        g2.drawString("Sr. No.",62,807);
+		        g2.drawString("Roll No",62,774);
+		        g2.drawString("NAME",62,660);
+		        g2.drawString("ENG",62,480);
+		        g2.drawString("98",95,487);
+		        g2.drawString("100",95,510);
+		       
+		        
+/*		        int j = 1;
+//		        for(int i = 0; i < 2; i++){
+//		            g2.drawString(subjects[j],62,428 - i*80);
+//		            j++;
+//		        }
+
+		        j = 3;
+		        for(int i = 0; i < 3; i++){
+		            g2.drawString(subjects[j],62,255 - i*80);
+		            j++;
+		        }
+		        int k = 0;
+		        for(int i = 0; i < 6; i++){
+		          for(int m = 0; m < 4; m++){
+		              g2.drawString(Exams[m], 79, (507-m*20)-i*80);
+//		              k++;        	          	  
+		          }
+		        }                                  
+		        
+		        for( int i = 0; i <28; i++){
+		        	g2.drawString(Integer.toString(i+1),96+i*17,807);
+		        	
+//		        	pg.drawString(Integer.toString(i+1),96+i*17,770);
+		        }                                 */
+
+//		        for( int i = 0; i <25; i++){
+//		            String Roll = GetData1(View.getTable(), i, 3);
+//		        	pg.drawString(Roll, 96+i*17, 807);
+//
+//		        }
+
+		        g2.dispose();
+				return Printable.PAGE_EXISTS;
+				}
+				
+			    else
+				{
+				 return Printable.NO_SUCH_PAGE;
+				}   
+
+				
+		}
+			});
+			
+				if (pjob.printDialog() == false) // choose printer
+				return; 
+			
+				HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
+				pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
+				pjob.print(pattribs); 
+				}
+				catch (PrinterException pe) {
+				pe.printStackTrace();
+				}                                     		
+
+		
+	}
 	public void displayAll(){
 		String lines = null;
 		lines = Model.strArray.get(4);
@@ -614,23 +735,6 @@ public class SpreadMRKListController {
  }
    
 	public void BtnPrintAllMarksCards(){
-		
-//		   final ArrayList<String> subjectName;
-/*		    int row = 25;    //  View.getTable().getRowCount();
-//		    if(row <= 0){show("No name or Roll Number is selected "); return;}
-		    subMarksArray.removeAll(subMarksArray);   
-		   	for(int k = 4; k < 30 ; k++){	   		
-		   		subMarksArray.add((String) GetData1(View.getTable(),row,k));
-		   	}                                 */
-		   	
-//		   	StuDetailsArray.removeAll(StuDetailsArray);
-//		   	for(int k = 1; k < 4 ; k++){	   		
-//		   		StuDetailsArray.add((String) GetData1(View.getTable(),row,k));
-//		   	}
-		   	
-/*			  final String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
-			  subject = collheaderfinder(RollNo);
-			  String EVS = GetData1(View.getTable(),row,28);       */
 		
 	    int row = View.getTable().getSelectedRow();
 	    if(row < 0){show("No name or Roll Number is selected "); return;}

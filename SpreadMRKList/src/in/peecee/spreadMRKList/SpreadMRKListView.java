@@ -147,6 +147,15 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     
     JPanel southPanel = new JPanel();  
     southPanel.setLayout(new GridLayout(2, 6));        
+   
+	btnSearch = new JButton("Search");        
+	btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	southPanel.add(btnSearch);
+	
+	search = new JTextField("");
+	search.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	search.setColumns(8);
+	southPanel.add(search);
     
     btnLoad = new JButton("Load");
     btnLoad.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -168,15 +177,6 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnSave.setToolTipText("Save");
     btnSave.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnSave);    
-        
-    btnSearch = new JButton("Search");        
-    btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    southPanel.add(btnSearch);
-    
-    search = new JTextField("");
-    search.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    search.setColumns(8);
-    southPanel.add(search);
     
     btnProcess = new JButton("Merit List");
     btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -248,7 +248,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
         return btnProcess;
     }
 	
-	public JButton getPrintButton(){
+	public JButton getPrintCurrentButton(){
         return btnPrintCurrent;
     }
 
@@ -264,23 +264,25 @@ public class SpreadMRKListView extends javax.swing.JFrame {
         return btnSearch;
     }
 		
-	 public JTable getTable(){
+	public JTable getTable(){
 	        return table;
-	    }
+	}
 	 
-	 public JTextField Search(){
+	public JTextField Search(){
 	        return search;
-	    }
+	}
 	    
-	   public void setPrinterLabel(String text){
+	public void setPrinterLabel(String text){
 	    	lblPrinter.setText("   "+text);
-	    }
+	}
 	   
-	    public JButton getCanselButton(){
-	        return btnCansel;
-	    }
-	    
-	    
+	public JButton getCanselButton(){
+        return btnCansel;
+    }
+
+	public JButton getSpreadSheetButton(){
+        return btnSpreadSheet;
+    }	    	    	    
 	    
   public class ColumnGroup {
 	    protected TableCellRenderer renderer;
