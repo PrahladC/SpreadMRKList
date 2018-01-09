@@ -6,8 +6,10 @@ package in.peecee.spreadMRKList;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -41,6 +43,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import java.awt.Dimension;
 
 public class SpreadMRKListController {
 
@@ -242,19 +245,21 @@ public class SpreadMRKListController {
 	protected void BtnPrintSpreadSheet() {
 		// 	System.exit(0);
 	  try {
+//		    int row = View.getTable().getSelectedRow();
+//		    if(row < 0){show("No name or Roll Number is selected "); return;}
+		  
 		   PrinterJob pjob = PrinterJob.getPrinterJob();
 		   pjob.setJobName("Spread Sheet Print");
 		   pjob.setCopies(1);
+		   final String[] Exams = {"U1", "T1", "U2", "T2"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-			int totalpages = 1;
+			int totalpages = 3;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
-			  newFont = new Font("Liberation Serif", Font.PLAIN, 13);
-//			  FontMetrics metrics = pg.getFontMetrics(newFont);
-		      int LtMrg = 25, BtMrg = 790;        
-				for(int j = 0; j < 6; j++){		  			 
+			  newFont = new Font("Liberation Serif", Font.BOLD, 13);
+		      for(int j = 0; j < 6; j++){		  			 
 				pg.drawRect(50, 32+j*80, 17, 80);        // Printing Subject Headings
 				}      
 						          
@@ -267,32 +272,81 @@ public class SpreadMRKListController {
 				for(int j = 0; j < 30; j++){				   			 
 				pg.drawRect(50 + j*17, 512, 17, 228);              // Printing Names
 				} 								
-				
-				
+								
 				for(int j = 0; j < 30; j++){
 						pg.drawRect(50 + j*17, 740, 17, 35);        // Printing Serial No and Roll Numbers
 					}		          		          
 
-//				int y = 585;                                        // Right margin indent.
-				pg.drawString("( FOR OFFICE USE ONLY )", 230, LtMrg);
-				pg.drawString("( FOR OFFICE USE ONLY )", 230, BtMrg);	
-				pg.drawString("98",85,487);
-				Graphics g2 = (Graphics2D) pg;
-		        Font font = new Font(null, Font.PLAIN, 9);    
-		        AffineTransform AT = new AffineTransform();
-		        ((Graphics2D) g2).setTransform(AT);
-		        AT.rotate(Math.toRadians(270), 0, 0);
-		        AT.translate(LtMrg, BtMrg);
-		        Font rotatedFont = font.deriveFont(AT);
-		        g2.setFont(rotatedFont);
-		        g2.drawString("Sr. No.",62,807);
-		        g2.drawString("Roll No",62,774);
-		        g2.drawString("NAME",62,660);
-		        g2.drawString("ENG",62,480);
-		        g2.drawString("98",95,487);
-		        g2.drawString("100",95,510);
-		       
+				pg.drawString("( FOR OFFICE USE ONLY )", 200, 20);
+				pg.drawString("( FOR OFFICE USE ONLY )", 200, 785);							
+				pg.drawString("AA",10,10);
+				pg.drawString("AB",580,10);
+				pg.drawString("AC",10,780);
+				pg.drawString("AD",580,780);
+																
+				Graphics2D g2 = (Graphics2D) pg;
+				Font font = new Font("Liberation Serif", Font.PLAIN, 13);    
+				AffineTransform affineTransform = new AffineTransform();
+				affineTransform.rotate(Math.toRadians(270), 400, 380);
+				Font rotatedFont = font.deriveFont(affineTransform);
+				g2.setFont(rotatedFont);
+				g2.drawString("FOR OFFICE USE ONLY",300,5);   //  Max 760 on x - axis
+				g2.drawString("FOR OFFICE USE ONLY",300,580); //  Max 580 on y - axis
+		        g2.drawString("Roll",10,60);
+		        g2.drawString("NAME",125,60);
+
+		        for(int i = 0; i < 6; i++){
+		          for(int m = 0; m < 4; m++){
+		              pg.drawString(Exams[m], (270+m*20)+i*80, 60);
+		          }
+		        }
+
+
 		        
+				g2.dispose();
+																
+			        
+//			        for(int i = 0; i < 5; i++){
+//			        g2D.drawString(subjects[i], -185+i*80, 165);
+//			        if(i > 4){g2D.drawString(subjects[i], 200, 165);}
+//			        }
+//			        g2D.drawString(subjects[5], 200, 165);
+			        
+/*			        int row = View.getTable().getSelectedRow();
+				   	StuDetailsArray.removeAll(StuDetailsArray);
+				   	for(int k = 1; k < 4 ; k++){	   		
+				   		StuDetailsArray.add((String) GetData1(View.getTable(),row,k));
+				   		show(StuDetailsArray.get(0));
+				   	}
+
+//				   	g2D.drawString("001", -470, 165);
+//					g2D.drawString("5398", -473, 182);
+				   	for(int i = 0; i < 20; i++){
+				   		g2D.drawString(StuDetailsArray.get(0), -473, 165+i*17);
+				   	}                 */
+			        
+//			        g2D.setTransform(orig);
+				
+				
+/*		           Graphics2D g2d = (Graphics2D) pg;
+		            String text = "I don't see the problem";
+		            AffineTransform AT = new AffineTransform();
+//		            FontMetrics fm = g2d.getFontMetrics();
+		            g2d.setTransform(AT.getRotateInstance(Math.toRadians(-90), 250, 250));
+		            g2d.drawString("ENGLISH", 230, 230);
+		            				
+//		        ((Graphics2D) g2d).setTransform(AT);
+//		        AT.rotate(Math.toRadians(270), 0, 0);
+//		        Font rotatedFont = font.deriveFont(AT);
+//		        g2.setFont(rotatedFont);
+		        g2d.drawString("Sr. No.",62,807);
+		        g2d.drawString("Roll No",62,774);
+		        g2d.drawString("NAME",62,660);
+		        g2d.drawString("ENG",62,480);
+		        g2d.drawString("98",95,487);
+		        g2d.drawString("100",95,510);          
+		       
+		        g2d.dispose();   */
 /*		        int j = 1;
 //		        for(int i = 0; i < 2; i++){
 //		            g2.drawString(subjects[j],62,428 - i*80);
@@ -324,18 +378,16 @@ public class SpreadMRKListController {
 //
 //		        }
 
-		        g2.dispose();
+//		        g2.dispose();
 				return Printable.PAGE_EXISTS;
 				}
 				
 			    else
 				{
 				 return Printable.NO_SUCH_PAGE;
-				}   
-
-				
-		}
-			});
+				}   				
+		    }
+	   });
 			
 				if (pjob.printDialog() == false) // choose printer
 				return; 
@@ -344,12 +396,10 @@ public class SpreadMRKListController {
 				pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
 				pjob.print(pattribs); 
 				}
-				catch (PrinterException pe) {
-				pe.printStackTrace();
-				}                                     		
-
-		
+				catch (PrinterException pe) { pe.printStackTrace(); }                                     				
 	}
+	
+	
 	public void displayAll(){
 		String lines = null;
 		lines = Model.strArray.get(4);

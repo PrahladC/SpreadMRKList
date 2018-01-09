@@ -146,7 +146,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     header.revalidate(); 
     
     JPanel southPanel = new JPanel();  
-    southPanel.setLayout(new GridLayout(2, 6));        
+    southPanel.setLayout(new GridLayout(2, 8));        
    
 	btnSearch = new JButton("Search");        
 	btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 14));
