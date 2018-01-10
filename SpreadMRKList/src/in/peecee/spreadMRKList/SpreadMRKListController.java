@@ -254,7 +254,7 @@ public class SpreadMRKListController {
 		   final String[] Exams = {"U1", "T1", "U2", "T2"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-			int totalpages = 3;
+			int totalpages = 2;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
@@ -300,8 +300,32 @@ public class SpreadMRKListController {
 		              pg.drawString(Exams[m], (270+m*20)+i*80, 60);
 		          }
 		        }
+		        
+		        
+		        for( int i = 0; i < 30; i++){
+		            String Roll = GetData1(View.getTable(), i, 1);
+		        	pg.drawString(Roll, 10, 77+i*17);
+		        }
 
+		        for( int i = 0; i < 30; i++){
+		            String Name = GetData1(View.getTable(), i, 3);
+		        	pg.drawString(Name.substring(0, 27), 40, 77+i*17);
+		        }
 
+		        
+/*		        StuDetailsArray.removeAll(StuDetailsArray);
+			   	for(int k = 1; k < 4 ; k++){	   		
+			  		StuDetailsArray.add((String) GetData1(View.getTable(),pageNum,k));
+			   	}
+
+		        
+                for(int i = 0; i < 28; i++){
+ //                for(int j = 0; j < 4; j++){	
+                	show(StuDetailsArray.get(0));
+                	pg.drawString(StuDetailsArray.get(0), 10, 77+i*17);
+ //               	pageNum++;
+ //                }
+                }                */
 		        
 				g2.dispose();
 																
