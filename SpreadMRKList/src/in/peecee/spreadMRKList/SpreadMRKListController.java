@@ -254,7 +254,7 @@ public class SpreadMRKListController {
 		   final String[] Exams = {"U1", "T1", "U2", "T2"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-			int totalpages = 2;
+			int totalpages = 35;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
@@ -270,11 +270,11 @@ public class SpreadMRKListController {
 				}
 								
 				for(int j = 0; j < 30; j++){				   			 
-				pg.drawRect(50 + j*17, 512, 17, 228);              // Printing Names
+				pg.drawRect(50 + j*17, 512, 17, 228);              // Rectangle for Printing Names
 				} 								
 								
 				for(int j = 0; j < 30; j++){
-						pg.drawRect(50 + j*17, 740, 17, 35);        // Printing Serial No and Roll Numbers
+						pg.drawRect(50 + j*17, 740, 17, 35);        //  Rectangle for Printing Serial No and Roll Numbers
 					}		          		          
 
 				pg.drawString("( FOR OFFICE USE ONLY )", 200, 20);
@@ -302,14 +302,14 @@ public class SpreadMRKListController {
 		        }
 		        
 		        
-		        for( int i = 0; i < 30; i++){
-		            String Roll = GetData1(View.getTable(), i, 1);
-		        	pg.drawString(Roll, 10, 77+i*17);
+		        for( int i = 0; i < 28; i++){
+		            String Roll = GetData1(View.getTable(), i+pageNum*28, 1);          //  Printing Roll Numbers
+		        	pg.drawString(Roll, 5, 77+(i*17));
 		        }
 
-		        for( int i = 0; i < 30; i++){
-		            String Name = GetData1(View.getTable(), i, 3);
-		        	pg.drawString(Name.substring(0, 27), 40, 77+i*17);
+		        for( int i = 0; i < 28; i++){
+		            String Name = GetData1(View.getTable(), i+pageNum*28, 3);         //  Printing Names
+		        	pg.drawString(Name.substring(0, 27), 42, 77+i*17);
 		        }
 
 		        
