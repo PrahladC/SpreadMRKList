@@ -252,9 +252,10 @@ public class SpreadMRKListController {
 		   pjob.setJobName("Spread Sheet Print");
 		   pjob.setCopies(1);
 		   final String[] Exams = {"U1", "T1", "U2", "T2"};
+		   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-			int totalpages = 10;
+			int totalpages = 20;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
@@ -294,22 +295,29 @@ public class SpreadMRKListController {
 				g2.drawString("FOR OFFICE USE ONLY",300,580); //  Max 580 on y - axis
 		        g2.drawString("Roll",10,60);
 		        g2.drawString("NAME",125,60);
-
+		        
+		        for(int i = 0; i < 6; i++){
+		           if(i == 0) {pg.drawString(HeadereSubjects[i], 280, 43);}
+		           if(i == 1) {pg.drawString(HeadereSubjects[i], 360, 43);}
+		           if(i == 2) {pg.drawString(HeadereSubjects[i], 430, 43);}
+		           if(i > 2) {pg.drawString(HeadereSubjects[i], 280+i*80, 43);}
+		        }
+		        
 		        for(int i = 0; i < 6; i++){
 		          for(int m = 0; m < 4; m++){
 		              pg.drawString(Exams[m], (270+m*20)+i*80, 60);              //  Printing Exam Titles
 		          }
 		        }
-		        
-		        
+		        		        
 		        for( int i = 0; i < 28; i++){
 		            String Roll = GetData1(View.getTable(), i+pageNum*28, 1);          //  Printing Roll Numbers
 		        	pg.drawString(Roll, 5, 77+(i*17));
 		        }
 
 		        for( int i = 0; i < 28; i++){
-		            String Name = GetData1(View.getTable(), i+pageNum*28, 3);         //  Printing Names
-		        	pg.drawString(Name.substring(0, 27), 42, 77+i*17);
+		            String Name = GetData1(View.getTable(), i+pageNum*28, 3);         //  Printing Names  
+		            if(Name.length() > 27){ pg.drawString(Name.substring(0, 27), 42, 77+i*17);}
+		            else {pg.drawString(Name, 42, 77+i*17);}
 		        }
 
 		        for(int i = 0; i < 28; i++){                                     //  Number of Lines in one page = 28

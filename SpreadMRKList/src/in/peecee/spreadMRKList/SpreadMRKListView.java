@@ -22,12 +22,17 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 		private JLabel lblPrinter;
+		public JLabel lblCollegeName;
+		public JLabel lblplace;
 	    private JButton btnPrintCurrent;      
 	    private JButton btnCansel;
 	    private JButton btnSetPrinter;
 	    private JButton btnUpdate;
 	    private JButton btnSearch;
+	    private JButton btnHelp;
 	    private JTextField search;
+	    public JTextField CollName; 
+	    public JTextField Place;
 	    private JButton btnSave;
 	    private JButton btnLoad;
 	    private JButton btnResult;	
@@ -144,6 +149,41 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     getContentPane().add( scroll );
 
     header.revalidate(); 
+    
+//////   N O R T H  P A N E L
+    
+    JPanel northPanel = new JPanel();  
+    northPanel.setLayout(new GridLayout(1,0));
+    
+    lblCollegeName = new JLabel("College Name ");
+    lblCollegeName.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    lblCollegeName.setPreferredSize(new Dimension(0, 30)); 
+    northPanel.add(lblCollegeName);
+
+	CollName = new JTextField("");
+	CollName.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	CollName.setColumns(100);
+	northPanel.add(CollName);
+
+    lblplace = new JLabel("Place / Location");
+    lblplace.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    lblplace.setPreferredSize(new Dimension(0, 30)); 
+    northPanel.add(lblplace);
+    
+	Place = new JTextField("");
+	Place.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	Place.setColumns(100);
+	northPanel.add(Place);
+	
+	
+	btnHelp = new JButton("HELP");
+	btnHelp.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	northPanel.add(btnHelp);
+    
+
+    getContentPane().add(northPanel, BorderLayout.NORTH);
+    
+ //////   S O U T H  P A N E L    
     
     JPanel southPanel = new JPanel();  
     southPanel.setLayout(new GridLayout(2, 8));        
