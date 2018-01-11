@@ -153,26 +153,24 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 //////   N O R T H  P A N E L
     
     JPanel northPanel = new JPanel();  
-    northPanel.setLayout(new GridLayout(1,0));
+    northPanel.setLayout(new FlowLayout());
     
     lblCollegeName = new JLabel("College Name ");
     lblCollegeName.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    lblCollegeName.setPreferredSize(new Dimension(0, 30)); 
     northPanel.add(lblCollegeName);
 
-	CollName = new JTextField("");
+	CollName = new JTextField("S.I.W.S. College of Commerce and Economics and Smt. Thirumalai College of Science");
 	CollName.setFont(new Font("Times New Roman", Font.BOLD, 14));
-	CollName.setColumns(100);
+	CollName.setColumns(50);
 	northPanel.add(CollName);
 
     lblplace = new JLabel("Place / Location");
     lblplace.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    lblplace.setPreferredSize(new Dimension(0, 30)); 
     northPanel.add(lblplace);
     
-	Place = new JTextField("");
+	Place = new JTextField("WADALA");
 	Place.setFont(new Font("Times New Roman", Font.BOLD, 14));
-	Place.setColumns(100);
+	Place.setColumns(15);
 	northPanel.add(Place);
 	
 	
