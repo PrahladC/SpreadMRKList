@@ -254,7 +254,7 @@ public class SpreadMRKListController {
 		   final String[] Exams = {"U1", "T1", "U2", "T2"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-			int totalpages = 35;
+			int totalpages = 10;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
@@ -285,7 +285,7 @@ public class SpreadMRKListController {
 				pg.drawString("AD",580,780);
 																
 				Graphics2D g2 = (Graphics2D) pg;
-				Font font = new Font("Liberation Serif", Font.PLAIN, 13);    
+				Font font = new Font("Liberation Serif", Font.PLAIN, 12);    
 				AffineTransform affineTransform = new AffineTransform();
 				affineTransform.rotate(Math.toRadians(270), 400, 380);
 				Font rotatedFont = font.deriveFont(affineTransform);
@@ -297,7 +297,7 @@ public class SpreadMRKListController {
 
 		        for(int i = 0; i < 6; i++){
 		          for(int m = 0; m < 4; m++){
-		              pg.drawString(Exams[m], (270+m*20)+i*80, 60);
+		              pg.drawString(Exams[m], (270+m*20)+i*80, 60);              //  Printing Exam Titles
 		          }
 		        }
 		        
@@ -312,20 +312,12 @@ public class SpreadMRKListController {
 		        	pg.drawString(Name.substring(0, 27), 42, 77+i*17);
 		        }
 
-		        
-/*		        StuDetailsArray.removeAll(StuDetailsArray);
-			   	for(int k = 1; k < 4 ; k++){	   		
-			  		StuDetailsArray.add((String) GetData1(View.getTable(),pageNum,k));
-			   	}
-
-		        
-                for(int i = 0; i < 28; i++){
- //                for(int j = 0; j < 4; j++){	
-                	show(StuDetailsArray.get(0));
-                	pg.drawString(StuDetailsArray.get(0), 10, 77+i*17);
- //               	pageNum++;
- //                }
-                }                */
+		        for(int i = 0; i < 28; i++){                                     //  Number of Lines in one page = 28
+			        for(int j = 4; j < 28; j++){
+			        	String Marks = GetData1(View.getTable(), i+pageNum*28, j);
+			        	pg.drawString(Marks, 190+j*20, 77+i*17);                     //  Printing ALL MARKS
+			        }
+		        }
 		        
 				g2.dispose();
 																
@@ -336,73 +328,7 @@ public class SpreadMRKListController {
 //			        }
 //			        g2D.drawString(subjects[5], 200, 165);
 			        
-/*			        int row = View.getTable().getSelectedRow();
-				   	StuDetailsArray.removeAll(StuDetailsArray);
-				   	for(int k = 1; k < 4 ; k++){	   		
-				   		StuDetailsArray.add((String) GetData1(View.getTable(),row,k));
-				   		show(StuDetailsArray.get(0));
-				   	}
-
-//				   	g2D.drawString("001", -470, 165);
-//					g2D.drawString("5398", -473, 182);
-				   	for(int i = 0; i < 20; i++){
-				   		g2D.drawString(StuDetailsArray.get(0), -473, 165+i*17);
-				   	}                 */
-			        
-//			        g2D.setTransform(orig);
 				
-				
-/*		           Graphics2D g2d = (Graphics2D) pg;
-		            String text = "I don't see the problem";
-		            AffineTransform AT = new AffineTransform();
-//		            FontMetrics fm = g2d.getFontMetrics();
-		            g2d.setTransform(AT.getRotateInstance(Math.toRadians(-90), 250, 250));
-		            g2d.drawString("ENGLISH", 230, 230);
-		            				
-//		        ((Graphics2D) g2d).setTransform(AT);
-//		        AT.rotate(Math.toRadians(270), 0, 0);
-//		        Font rotatedFont = font.deriveFont(AT);
-//		        g2.setFont(rotatedFont);
-		        g2d.drawString("Sr. No.",62,807);
-		        g2d.drawString("Roll No",62,774);
-		        g2d.drawString("NAME",62,660);
-		        g2d.drawString("ENG",62,480);
-		        g2d.drawString("98",95,487);
-		        g2d.drawString("100",95,510);          
-		       
-		        g2d.dispose();   */
-/*		        int j = 1;
-//		        for(int i = 0; i < 2; i++){
-//		            g2.drawString(subjects[j],62,428 - i*80);
-//		            j++;
-//		        }
-
-		        j = 3;
-		        for(int i = 0; i < 3; i++){
-		            g2.drawString(subjects[j],62,255 - i*80);
-		            j++;
-		        }
-		        int k = 0;
-		        for(int i = 0; i < 6; i++){
-		          for(int m = 0; m < 4; m++){
-		              g2.drawString(Exams[m], 79, (507-m*20)-i*80);
-//		              k++;        	          	  
-		          }
-		        }                                  
-		        
-		        for( int i = 0; i <28; i++){
-		        	g2.drawString(Integer.toString(i+1),96+i*17,807);
-		        	
-//		        	pg.drawString(Integer.toString(i+1),96+i*17,770);
-		        }                                 */
-
-//		        for( int i = 0; i <25; i++){
-//		            String Roll = GetData1(View.getTable(), i, 3);
-//		        	pg.drawString(Roll, 96+i*17, 807);
-//
-//		        }
-
-//		        g2.dispose();
 				return Printable.PAGE_EXISTS;
 				}
 				
@@ -810,8 +736,8 @@ public class SpreadMRKListController {
    
 	public void BtnPrintAllMarksCards(){
 		
-	    int row = View.getTable().getSelectedRow();
-	    if(row < 0){show("No name or Roll Number is selected "); return;}
+//	    int row = View.getTable().getSelectedRow();
+//	    if(row < 0){show("No name or Roll Number is selected "); return;}
 
 		  try {
               final String[] TableItemC1 = {"Examination","Unit Test I","Terminal I","Unit test II","Terminaal II",
@@ -828,7 +754,7 @@ public class SpreadMRKListController {
 						             SumT2andEVSScore(pageNum)};
 				final int[] SubTotal = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
 						                Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
-				int totalpages = 26;     //   RowCount;
+				int totalpages = 70;     //   RowCount;
 				  if (pageNum < totalpages) 
 				   {
 					pg.drawString("( FOR OFFICE USE ONLY )", 230, 40);
@@ -868,7 +794,7 @@ public class SpreadMRKListController {
 				}
 /////  A  G  G  R  E  G  A  T  E
 				
-				int row = View.getTable().getSelectedRow();  
+//				int row = View.getTable().getSelectedRow();  
 		        for(int i = 0; i <6; i++){
 		        	pg.drawString(String.valueOf(SubTotal[i]), 215+i*35, 415);  // Aggregate marks of each subject
 		        }        
