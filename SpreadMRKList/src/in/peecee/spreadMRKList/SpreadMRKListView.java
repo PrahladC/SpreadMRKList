@@ -322,6 +322,13 @@ public class SpreadMRKListView extends javax.swing.JFrame {
         return btnSpreadSheet;
     }	    	    	    
 	    
+	public JTextField getCollName(){
+        return CollName;
+    }
+
+	
+	
+	
   public class ColumnGroup {
 	    protected TableCellRenderer renderer;
 	    protected Vector v;

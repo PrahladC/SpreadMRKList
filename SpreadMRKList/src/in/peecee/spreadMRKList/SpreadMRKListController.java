@@ -37,6 +37,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -245,21 +246,29 @@ public class SpreadMRKListController {
 	protected void BtnPrintSpreadSheet() {
 		// 	System.exit(0);
 	  try {
-//		    int row = View.getTable().getSelectedRow();
-//		    if(row < 0){show("No name or Roll Number is selected "); return;}
 		  
 		   PrinterJob pjob = PrinterJob.getPrinterJob();
 		   pjob.setJobName("Spread Sheet Print");
 		   pjob.setCopies(1);
+		   int TMrg = 748, BMrg = 8, Center = 0,  x = 7, StringPosition = 0;  // TMrg = Top Margin, BMrg = Bottom Margin.
+		   Center = (TMrg - BMrg)/2;
 		   final String[] Exams = {"U1", "T1", "U2", "T2"};
 		   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-			int totalpages = 20;
+			int totalpages = 3;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
 			  newFont = new Font("Liberation Serif", Font.BOLD, 13);
+			  int TMrg = 748, BMrg = 8, Center = 0,  x = 7, StringPosition = 0;  // TMrg = Top Margin, BMrg = Bottom Margin.
+
+			  FontMetrics metrics = pg.getFontMetrics(newFont);
+			  String collegename = View.CollName.getText();
+			  String PlaceName = View.Place.getText();
+			  Center = (TMrg - BMrg)/2;
+			  int StartHeader1 = Center - (int) (metrics.stringWidth(collegename))/2;
+			  int StartHeader2 = Center - (int) (metrics.stringWidth(PlaceName))/2;
 		      for(int j = 0; j < 6; j++){		  			 
 				pg.drawRect(50, 32+j*80, 17, 80);        // Printing Subject Headings
 				}      
@@ -278,12 +287,12 @@ public class SpreadMRKListController {
 						pg.drawRect(50 + j*17, 740, 17, 35);        //  Rectangle for Printing Serial No and Roll Numbers
 					}		          		          
 
-				pg.drawString("( FOR OFFICE USE ONLY )", 200, 20);
+/*				pg.drawString("( FOR OFFICE USE ONLY )", 200, 20);
 				pg.drawString("( FOR OFFICE USE ONLY )", 200, 785);							
 				pg.drawString("AA",10,10);
 				pg.drawString("AB",580,10);
 				pg.drawString("AC",10,780);
-				pg.drawString("AD",580,780);
+				pg.drawString("AD",580,780);               */
 																
 				Graphics2D g2 = (Graphics2D) pg;
 				Font font = new Font("Liberation Serif", Font.PLAIN, 12);    
@@ -291,10 +300,19 @@ public class SpreadMRKListController {
 				affineTransform.rotate(Math.toRadians(270), 400, 380);
 				Font rotatedFont = font.deriveFont(affineTransform);
 				g2.setFont(rotatedFont);
-				g2.drawString("FOR OFFICE USE ONLY",300,5);   //  Max 760 on x - axis
-				g2.drawString("FOR OFFICE USE ONLY",300,580); //  Max 580 on y - axis
+//				g2.drawString("FOR OFFICE USE ONLY",300,5);   //  Max 760 on x - axis
+//				g2.drawString("FOR OFFICE USE ONLY",300,580); //  Max 580 on y - axis
 		        g2.drawString("Roll",10,60);
 		        g2.drawString("NAME",125,60);
+//		        pg.drawString("AA",748,7);  
+//		        pg.drawString("AC",8,7);
+		        
+//		        show(collegename.toString());
+//		        show(PlaceName);
+//		        font = new Font("Liberation Serif", Font.BOLD, 14);
+		        
+		        pg.drawString(collegename, StartHeader1, 7);
+		        pg.drawString(PlaceName, StartHeader2, 22);
 		        
 		        for(int i = 0; i < 6; i++){
 		           if(i == 0) {pg.drawString(HeadereSubjects[i], 280, 43);}
@@ -402,7 +420,7 @@ public class SpreadMRKListController {
 
 	private void btnResult(){
 //		System.exit(0);
-		Result();
+//		Result();
 	}
 	
 	public void process(){
@@ -1070,33 +1088,17 @@ public class SpreadMRKListController {
 		    }		   		   
 	} 		        		
 	
-	public void Result(){
+	public void Result(int sub1, int sub2, int sub3, int sub4, int sub5, int sub6, int evs){
 		
-		int Total = 0, TotalXcludeEVS = 0, AVG;
-		double Percent;
-		int ENG = 0, SLITEL1CS1 = 0, ECOBIOEL2CS2 = 0, SUB1 = 0, SUB2 = 0, SUB3 = 0, SUB4 = 0, EVS = 0 ;
-		String eng = null, slitel1cs1 = null, ecobioel2cs2 = null, sub1 = null, sub2 = null, sub3 = null, 
-			   sub4 = null, evs = null ;
-		String Result1 = "Fail", Result2 = "Promoted", Result3 = "PENDING";		
+		String Result1 = "Fail", Result2 = "Promoted", Result3 = "PENDING", Result4 = "Pass";
+		int row = View.getTable().getSelectedRow();
+		sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row); sub4 = Sub4(row); sub5 = Sub5(row);
+		sub6 = Sub6(row); 
+		int[] AverageMarks = {};
 		
-		for(int i = 0; i < 8; i++){
-//			Show(Sub6());
-//			Show(Sub2(i));
-//			if( engmarks() <= 33) { SetData (Result1, i, 31) ; }
-			
-//			else {						
-				String GTotal = GetData1(View.getTable(), i, 30);
-				Total = Integer.parseInt(GTotal);		
-				TotalXcludeEVS = Total - Integer.parseInt(GetData1(View.getTable(), i, 28));
-				AVG = TotalXcludeEVS/2;
-				AVG = TotalXcludeEVS/2 + Integer.parseInt(GetData1(View.getTable(), i, 28));
-				Percent = ( (double) Math.ceil(AVG)/650) * 100;		
-				String result = String.format("%.2f", Percent);
-//				SetData (Math.ceil(Sub6()/2), i, 31);
-//			}
-		
-		}
-	}                                  
+	}            
+	
+	
 	public int Sub1(int pageNum){
 		int row = View.getTable().getSelectedRow();
 		row = pageNum;
@@ -1193,6 +1195,15 @@ public class SpreadMRKListController {
 		return TotalOfSub6;		
 	}
 
+	public int EVS(int pageNum){
+		int row = View.getTable().getSelectedRow();
+		row = pageNum;
+		String evsScore = GetData1(View.getTable(), row, 27);
+		int EVSMarks = Integer.parseInt(evsScore);
+		return EVSMarks;		
+	}
+
+	
 	
 	public void ENGMarks(){
 		  
