@@ -68,7 +68,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
       {"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""}},
       
     new Object[]{"Sr.No","Roll No","Div","Name","U1","T1","U2","T2","U1","T1","U2","T2","U1","T1","U2","T2",
-    		                        "U1","T1","U2","T2","U1","T1","U2","T2","U1","T1","U2","T2","EVS","PT","Total",""});
+    		                        "U1","T1","U2","T2","U1","T1","U2","T2","U1","T1","U2","T2","EVS","PTE","Total",""});
 
       table = new JTable( model ) {
         protected JTableHeader createDefaultTableHeader() {
@@ -198,7 +198,12 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnLoad = new JButton("Load");
     btnLoad.setFont(new Font("Times New Roman", Font.BOLD, 14));
   //  btnLoad.setPreferredSize(new Dimension(115, 25));
-    southPanel.add(btnLoad);    
+    southPanel.add(btnLoad);   
+       
+    btnSave = new JButton("Save");    
+    btnSave.setToolTipText("Save");
+    btnSave.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    southPanel.add(btnSave);    
 
     btnUpdate = new JButton("Update");    
     btnUpdate.setToolTipText("Update");
@@ -209,12 +214,6 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnResult.setToolTipText("Result");
     btnResult.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnResult);
-
-    
-    btnSave = new JButton("Save");    
-    btnSave.setToolTipText("Save");
-    btnSave.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    southPanel.add(btnSave);    
     
     btnProcess = new JButton("Merit List");
     btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));

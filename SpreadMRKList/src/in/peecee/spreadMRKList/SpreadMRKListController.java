@@ -79,7 +79,7 @@ public class SpreadMRKListController {
 	    }
 	
     String subject[] = { "ENG", "HIN", "MAR", "TAM", "ITE", "EL1", "CS1", "ECO", "BIO", "EL2", "CS2",
-    		             "BKE", "PHY", "OCM", "CHE", "MAT", "SEP"  /*, "EVS", "PTE" */ };
+    		             "BKE", "PHY", "OCM", "CHE", "MAT", "SEP", "EVS", "PTE" };
     
     String subjectExamType[] = {"U1=ENG","U2=ENG","T1=ENG","T2=ENG","U1=HIN","U2=HIN","T1=HIN","T2=HIN","U1=MAR","U2=MAR","T1=MAR","T2=MAR",
     		                    "U1=TAM","U2=TAM","T1=TAM","T2=TAM","U1=PHY","U2=PHY","T1=PHY","T2=PHY","U1=CHE","U2=CHE","T1=CHE","T2=CHE",
@@ -420,7 +420,7 @@ public class SpreadMRKListController {
 
 	private void btnResult(){
 //		System.exit(0);
-//		Result();
+		Result();
 	}
 	
 	public void process(){
@@ -721,7 +721,7 @@ public class SpreadMRKListController {
 
 		pg.drawString(String.valueOf((int) Math.ceil(Sub1(row)/2)+(int) Math.ceil(Sub2(row)/2)+(int) Math.ceil(Sub3(row)/2)+
 				                     (int) Math.ceil(Sub4(row)/2)+(int) Math.ceil(Sub5(row)/2)+(int) Math.ceil(Sub6(row)/2)+
-				                      Integer.parseInt(GetData1(View.getTable(),row,28))+"/650" ), 500, 435);  // Sum of all Averages
+				                     EVSmarks(row) +"/650" ), 500, 435);  // Sum of all Averages
 
 	    				
 		Calendar cal = Calendar.getInstance();
@@ -780,7 +780,7 @@ public class SpreadMRKListController {
 						             SumT2andEVSScore(pageNum)};
 				final int[] SubTotal = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
 						                Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
-				int totalpages = 70;     //   RowCount;
+				int totalpages = 10;     //   RowCount;
 				  if (pageNum < totalpages) 
 				   {
 					pg.drawString("( FOR OFFICE USE ONLY )", 230, 40);
@@ -840,7 +840,7 @@ public class SpreadMRKListController {
 		pg.drawString(String.valueOf((int) Math.ceil(Sub1(pageNum)/2)+(int) Math.ceil(Sub2(pageNum)/2)+
 				                     (int) Math.ceil(Sub3(pageNum)/2)+(int) Math.ceil(Sub4(pageNum)/2)+
 				                     (int) Math.ceil(Sub5(pageNum)/2)+(int) Math.ceil(Sub6(pageNum)/2)+
-				                      Integer.parseInt(GetData1(View.getTable(),pageNum,28))+"/650" ), 500, 435);  // Sum of all Averages
+				                      EVSmarks(pageNum)+"/650" ), 500, 435);  // Sum of all Averages
 			   	
 /////   S T U D E N T  D E T A I L S
 		        
@@ -1017,7 +1017,7 @@ public class SpreadMRKListController {
 	public int SumT2andEVSScore(int pageNum){
 		int row = View.getTable().getSelectedRow();
 		row = pageNum;
-	     String marks;
+	     String marks, EVS;
 		 int Marks = 0, SumOfT2Marks = 0, EVSandT2Sum = 0;      
 		 for(int j = 0; j < 6; j++){
 				marks = GetData1(View.getTable(),row, 7+4*j);   // show("marks = "+marks);
@@ -1026,46 +1026,14 @@ public class SpreadMRKListController {
 				Marks = Integer.parseInt(marks);               //   show("Marks = "+Marks);
 				SumOfT2Marks = SumOfT2Marks + Marks;           //  show(TotalMarks);			 
 			  }
-		        int evs = Integer.parseInt(GetData1(View.getTable(),row, 28)); 
+		        EVS = GetData1(View.getTable(),row, 28);
+		        if(EVS == null || EVS.isEmpty()){ EVS = "00"; }					 
+				if(EVS.contentEquals("AB") || EVS.contentEquals("AB ")){ EVS = "00"; }
+		        int evs = Integer.parseInt(EVS); 
 			    EVSandT2Sum = SumOfT2Marks + evs;
 		return EVSandT2Sum;							
 	}
 
-	
-	public void  SaveToFile(String fylnem){
-		
-		 FileWriter fw=null;		
-		 try {fw = new FileWriter(fylnem); }    catch (IOException e1){e1.printStackTrace();}
-		 String newLine = System.getProperty("line.separator");
-		 int rows = View.getTable().getRowCount();
-		 String Roll=null, Name = null, Div = null, Marks = null, SerialNo = null, Names = null;
-		 int roll =  0, serialNo = 0;
-		 	 
-		 try { fw.write(Model.strArray.get(0) + newLine); }  catch (IOException e1) {e1.printStackTrace();}
-		 for(int i = 0; i < rows-1; i++){		      
-			 Name = GetData(View.getTable(), i,3).toString().trim();
-			 Name = Name.replaceAll("\\s{2}", "").toUpperCase(); 
-			 Names = String.format("%-60s",Name.trim());
-			 Div =  GetData(View.getTable(), i,2).toString().trim();
-			 SerialNo = GetData1(View.getTable(),i,0).trim();
-			 serialNo = Integer.parseInt(SerialNo); 
-			 Roll = GetData1(View.getTable(),i,1).trim();
-		     roll = Integer.parseInt(Roll); 
-		     SubOfStudent(serialNo) ;			 
-			 try { fw.write(Roll+"#"+Names); }  catch (IOException e1) {e1.printStackTrace();}
-			 for(int k = 4; k < 28; k++){ 
-			       Marks = GetData(View.getTable(), i,k).toString().trim();
-			       if(Marks == null || Marks.isEmpty()){ continue; }			       
-				   String Exam = View.getTable().getColumnName(k);
-				 try { fw.write("#" + Div + "=" + Exam + "=" + subArray.get(k/4 -1) + ":" + Marks); }  catch (IOException e1) {e1.printStackTrace();}				 				 
-		   } 
-			 try { fw.write(newLine); }  catch (IOException e1) {e1.printStackTrace();}
-			 
-		 }
-			 		 
-		 try {fw.close();} catch (IOException e1) {e1.printStackTrace();}  
-	}
-	
 	public void SubOfStudent(int roll)
 	{ 
 		subArray.removeAll(subArray);		
@@ -1078,24 +1046,88 @@ public class SpreadMRKListController {
 		     subfromArray= subject[j];
 		       for(int k = 2; k < plate.length; k++)
 		         {
-        		     SubFromPlate = plate[k].substring(5, 8);         // SubFromPlate means Only Three Letter Subject CODE			               
-			         if(subfromArray.contains(SubFromPlate))
-			           { 		           
-			             subArray.add(subfromArray); 
-			             break;		        
-			           }		        
+        		   SubFromPlate = plate[k].substring(5, 8);         // SubFromPlate means Only Three Letter Subject CODE			               
+			       if(subfromArray.contains(SubFromPlate))
+			         { 		           
+			           subArray.add(subfromArray); 
+			           break;		        
+			         }		        
 		         }  
 		    }		   		   
 	} 		        		
 	
-	public void Result(int sub1, int sub2, int sub3, int sub4, int sub5, int sub6, int evs){
+	
+	public void  SaveToFile(String fylnem){
 		
+		 FileWriter fw=null;		
+		 try {fw = new FileWriter(fylnem); }    catch (IOException e1){e1.printStackTrace();}
+		 String newLine = System.getProperty("line.separator");
+		 int rows = View.getTable().getRowCount();
+		 String Roll=null, Name = null, Div = null, Marks = null, SerialNo = null, Names = null;
+		 String EVS =  null, PTE = null, Total = null, Result = null ;
+		 int roll =  0, serialNo = 0, EVSMrks;
+		 	 
+		 try { fw.write(Model.strArray.get(0) + newLine); }  catch (IOException e1) {e1.printStackTrace();}
+		 for(int i = 0; i < rows-1; i++){	
+			 SerialNo = GetData1(View.getTable(),i,0).trim();
+			 serialNo = Integer.parseInt(SerialNo); 
+		     SubOfStudent(serialNo) ;			 			 
+			 Roll = GetData1(View.getTable(),i,1).trim();
+		     roll = Integer.parseInt(Roll); 
+			 Div =  GetData(View.getTable(), i,2).toString().trim();
+			 Name = GetData(View.getTable(), i,3).toString().trim();
+			 Name = Name.replaceAll("\\s{2}", "").toUpperCase(); 
+			 Names = String.format("%-60s",Name.trim());
+			 try { fw.write(Roll+"#"+Names); }  catch (IOException e1) {e1.printStackTrace();}
+			 for(int k = 4; k < 30; k++){ 
+			     Marks = GetData(View.getTable(), i,k).toString().trim();
+			     if(Marks == null || Marks.isEmpty()){ continue; }
+			     if(Marks.contentEquals("AB") || Marks.contentEquals("AB ")){ Marks = "AB"; }
+				 String Exam = View.getTable().getColumnName(k);
+				 if(k == 28){Exam = "T2";}	
+				 if(k == 29){Exam = "T2"; k = 32;}         //   PTE
+			 	 try { fw.write("#" + Div + "=" + Exam + "=" + subArray.get(k/4 -1) + ":" + Marks); }  catch (IOException e1) {e1.printStackTrace();}
+		     } 
+		       
+//			 Marks = GetData(View.getTable(), i,28).toString().trim();
+//		     if(Marks == null || Marks.isEmpty()){ continue; }
+//		     if(Marks.contentEquals("AB") || Marks.contentEquals("AB ")){ Marks = "AB"; }
+//		     try { fw.write("#" + Div + "=" + "T2" + "=" + "EVS" + ":" + Marks); }  catch (IOException e1) {e1.printStackTrace();}
+			 
+		       
+		     try { fw.write(newLine); }  catch (IOException e1) {e1.printStackTrace();}
+			 
+		 }
+			 		 
+		 try {fw.close();} catch (IOException e1) {e1.printStackTrace();}  
+	}
+	
+	public void Result(){
+		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0, evs= 0;
+		String pte = null;
 		String Result1 = "Fail", Result2 = "Promoted", Result3 = "PENDING", Result4 = "Pass";
-		int row = View.getTable().getSelectedRow();
-		sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row); sub4 = Sub4(row); sub5 = Sub5(row);
-		sub6 = Sub6(row); 
-		int[] AverageMarks = {};
+		int row = 0;        //    View.getTable().getSelectedRow();
+	 for(row = 0; row < 7; row++){	
+//		int RowCount = 10;       //    View.getTable().getRowCount();
+		sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row); sub4 = Sub4(row); 
+		sub5 = Sub5(row); sub6 = Sub6(row);  evs =  EVSmarks(row);
 		
+		int[] AverageMarks = { (int) Math.ceil(sub1/2), (int) Math.ceil(sub2/2), (int) Math.ceil(sub3/2),
+				               (int) Math.ceil(sub4/2), (int) Math.ceil(sub5/2), (int) Math.ceil(sub6/2), evs };
+		int SumOfAverages = AverageMarks[0] + AverageMarks[1] + AverageMarks[2] 
+				          + AverageMarks[3] + AverageMarks[4] + AverageMarks[5];
+		int Total = SumOfAverages + evs;
+//		show(sub1);     show(sub2);  show(sub3);  show(sub4);  show(sub5);  show(sub6);  show(evs);
+		show(Total);
+          int counter = 0;
+		  for(int i = 0; i < 6; i++){
+		    if(AverageMarks[i] <= 35){ counter++; }  
+		    if(counter > 3){ SetData(Result1, row, 31); }
+		    else { SetData(Result4, row, 31); }
+		    
+		  }   
+		  show(counter);
+ 	   }
 	}            
 	
 	
@@ -1195,10 +1227,12 @@ public class SpreadMRKListController {
 		return TotalOfSub6;		
 	}
 
-	public int EVS(int pageNum){
+	public int EVSmarks(int pageNum){
 		int row = View.getTable().getSelectedRow();
 		row = pageNum;
-		String evsScore = GetData1(View.getTable(), row, 27);
+		String evsScore = GetData1(View.getTable(), row, 28);
+		if(evsScore == null || evsScore.isEmpty()){ evsScore = "00"; }					 
+		if(evsScore.contentEquals("AB") || evsScore.contentEquals("AB ")){ evsScore = "00"; }					 
 		int EVSMarks = Integer.parseInt(evsScore);
 		return EVSMarks;		
 	}
