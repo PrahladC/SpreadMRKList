@@ -62,6 +62,7 @@ public class SpreadMRKListController {
 	public  ArrayList<String> headerArray = new ArrayList<String>();
 	public  ArrayList<String> StuDetailsArray = new ArrayList<String>();
 	public  ArrayList<String> subjectName = new ArrayList<String>();
+	public  ArrayList<String> Failedin3Subjs = new ArrayList<String>();
 	
 	
 	public void show(float percent) {JOptionPane.showMessageDialog(null, percent);}   ///for debugging
@@ -1103,30 +1104,60 @@ public class SpreadMRKListController {
 	}
 	
 	public void Result(){
-		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0, evs= 0;
-		String pte = null;
+		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0, evs= 0, pte = 0;
+		String PTE = null;
 		String Result1 = "Fail", Result2 = "Promoted", Result3 = "PENDING", Result4 = "Pass";
 		int row = 0;        //    View.getTable().getSelectedRow();
-	 for(row = 0; row < 7; row++){	
 //		int RowCount = 10;       //    View.getTable().getRowCount();
+	
+	 for(row = 0; row < 15; row++){	
 		sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row); sub4 = Sub4(row); 
 		sub5 = Sub5(row); sub6 = Sub6(row);  evs =  EVSmarks(row);
-		
+		PTE = GetData1(View.getTable(), row, 30);
+		if(PTE == null || PTE.isEmpty()){ PTE = "00"; }					 
+		if(PTE.contentEquals("AB") || PTE.contentEquals("AB ")){ PTE = "00"; }	
+		pte = Integer.parseInt(PTE);
 		int[] AverageMarks = { (int) Math.ceil(sub1/2), (int) Math.ceil(sub2/2), (int) Math.ceil(sub3/2),
 				               (int) Math.ceil(sub4/2), (int) Math.ceil(sub5/2), (int) Math.ceil(sub6/2), evs };
 		int SumOfAverages = AverageMarks[0] + AverageMarks[1] + AverageMarks[2] 
 				          + AverageMarks[3] + AverageMarks[4] + AverageMarks[5];
 		int Total = SumOfAverages + evs;
 //		show(sub1);     show(sub2);  show(sub3);  show(sub4);  show(sub5);  show(sub6);  show(evs);
-		show(Total);
+		
           int counter = 0;
 		  for(int i = 0; i < 6; i++){
 		    if(AverageMarks[i] <= 35){ counter++; }  
-		    if(counter > 3){ SetData(Result1, row, 31); }
-		    else { SetData(Result4, row, 31); }
+/*		    if(counter == 3){ 
+	    	Failedin3Subjs.removeAll(Failedin3Subjs);
+	    	String AvgMrks = AverageMarks[i]
+	    	Failedin3Subjs.add((String) AverageMarks[i]);
+			int[] nums = {-5,1,2,11,3};
+			Arrays.sort(nums);
+			String[] a=Arrays.toString(nums).split("[\\[\\]]")[1].split(", "); 
+			System.out.println(Arrays.toString(a));  
+ 
+		    }       */
+		  } 
+//		  show(Total);
+//		  show(counter);    
+		  if( pte < 1){ SetData(Result1, row, 31); }  
+		  if( evs < 18){ SetData(Result1, row, 31); }
+ 
+		  if(counter > 3 || evs < 18){ SetData(Result1, row, 31); }
+		  else { SetData(Result4, row, 31); }
+		  
+		  
+		  
+		  String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
+		  if(counter == 6){show("Roll Number "+RollNo+" Failed in Six subjects");}		    		    		    
+		  if(counter == 5){show("Roll Number "+RollNo+" Failed in Five subjects");}
+		  if(counter == 4){show("Roll Number "+RollNo+" Failed in Four subjects");}		    		    		    
+		  if(counter == 3){show("Roll Number "+RollNo+" Failed in two subjects");}		    		    		    
+		  if(counter == 2){show("Roll Number "+RollNo+" Failed in two subjects");}
+		  if(counter == 1){show("Roll Number "+RollNo+" Failed in One subjects");}	
+		  if(counter == 0 && evs < 18){show("Roll Number "+RollNo+" Failed in EVS subject only");}		    		    		    
+
 		    
-		  }   
-		  show(counter);
  	   }
 	}            
 	
@@ -1832,12 +1863,12 @@ public class SpreadMRKListController {
 	           }
 	       }
 	     	 SEPTotalT2 = 0;
-	 }
+	   }
 		 
 	 JTableHeader th = View.getTable().getTableHeader();          //  For header changing dynamically
 	 th.repaint();                                           
 	 View.Sub4.text = "MAT / SEP";
-}
+    }
 
 	public void EVSMarks(){
 		 String[] subwithmarks = null;
@@ -1857,8 +1888,8 @@ public class SpreadMRKListController {
 			 SetData(EVSMarks, i-1, 28);
 	           }
 	       }
-	 }
-}
+	    }
+     }
 
 	public void PTEGrade(){
 		 String[] subwithmarks = null;
@@ -1878,8 +1909,8 @@ public class SpreadMRKListController {
 			    SetData(PTEGrade, i-1, 29);
 	           }
 	       }
-	 }
-}
+	    }
+     }
 
 	public ArrayList<String> collheaderfinder(String RollNo){
 		
