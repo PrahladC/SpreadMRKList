@@ -317,6 +317,10 @@ public class SpreadMRKListView extends javax.swing.JFrame {
         return btnCansel;
     }
 
+	public JButton getPrintConsolidatedButton(){
+        return btnPrintConsolidated;
+    }
+	
 	public JButton getSpreadSheetButton(){
         return btnSpreadSheet;
     }	    	    	    
