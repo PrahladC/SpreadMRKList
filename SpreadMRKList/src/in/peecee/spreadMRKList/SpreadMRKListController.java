@@ -255,27 +255,10 @@ public class SpreadMRKListController {
 	 }	
 
 	
-	  public String Result(int num){
-		   String result = null;
-		   int row = num;
-			int[] GraceValues = Mod1(row);
-			for(int i = 0; i < 6; i++){    
-				show((String.valueOf(GraceValues[i])));
-			}
-
-		   
-//			float f = Float.parseFloat("25");
-//			String s = Float.toString(25.0f);
-   
-		return result;
-	   }
-	   
-	
-	
 	protected void BtnPrintConsolidated() {
 //		System.exit(0);
-		for(int i = 0; i <5; i++){
-		     Result(i);
+		for(int i = 0; i < 15; i++){
+		     Percent(i);
 		}
 	}
 	protected void BtnPrintSpreadSheet() {
@@ -684,7 +667,7 @@ public class SpreadMRKListController {
 		  pg.drawString("EVS", 425, 315);
 		  pg.drawString("PTE", 460, 315);          
 		  pg.drawString("Total", 505, 315);
-		  pg.drawString("RESULT", 250, 475);
+		  pg.drawString("RESULT", 230, 475);
 
 		  for(int j =0; j < 12; j++){
 			for(int i = 0; i < 8; i++){
@@ -693,7 +676,8 @@ public class SpreadMRKListController {
 			  if(j>0 &&j<11) {pg.drawRect(105 + j*35, 300+i*20, 35, 20);}  // Printing Body of Marks Sheets
 			}					
 		  }
-		  for(int j = 0; j < 2; j++){pg.drawRect(230 + j*87, 460, 88, 20);}   // Printing Bottom Rectangles							
+		  for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 37, 20);
+                                      else pg.drawRect(210 + j*87, 460, 88, 20); }       // Printing Bottom Rectangles							
 		  for(int i = 0; i < 8; i++){pg.drawString(TableItemC1[i], 62, 315+i*20);}
 		  for(int i = 0; i < 8; i++){pg.drawString(TableItemC2[i], 145, 315+i*20);}
 		  for(int i = 0; i < 8; i++){pg.drawString(TableItemC3[i], 182, 315+i*20);}
@@ -743,17 +727,21 @@ public class SpreadMRKListController {
 		pg.drawString(String.valueOf((int) Math.ceil(Sub1(row)/2)+(int) Math.ceil(Sub2(row)/2)+(int) Math.ceil(Sub3(row)/2)+
 				                     (int) Math.ceil(Sub4(row)/2)+(int) Math.ceil(Sub5(row)/2)+(int) Math.ceil(Sub6(row)/2)+
 				                     EVSmarks(row) +"/650" ), 500, 435);  // Sum of all Averages
+		
+//////  R E S U L  T    P A R T   		
 
 		String result = Mod(row);
-		pg.drawString(result, 330, 475);
-		
+		pg.drawString(result, 302, 475);		
 		int[] GraceValues = Mod1(row);
+		int GraceTotal = 0;
+		for(int j = 0; j <6; j++){GraceTotal += GraceValues[j];}
+		show(GraceTotal);
 		for(int i = 0; i < 6; i++){    
-			pg.drawString(String.valueOf(GraceValues[i]), 222+i*35, 455);
-//			show(GraceValues[i]);	
+			if(result == "Promoted"){pg.drawString(String.valueOf(GraceValues[i]), 220+i*35, 455);
+			                         pg.drawString(String.valueOf(GraceTotal)+"/15", 505, 455); }
+			else pg.drawString("", 220+i*35, 455);
 		}
-		
-	    				
+			    				
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int YEAR = year-1;
@@ -810,7 +798,7 @@ public class SpreadMRKListController {
 						             SumT2andEVSScore(pageNum)};
 				final int[] SubTotal = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
 						                Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
-				int totalpages = 10;     //   RowCount;
+				int totalpages = 15;     //   RowCount;
 				  if (pageNum < totalpages) 
 				   {
 					pg.drawString("( FOR OFFICE USE ONLY )", 230, 40);
@@ -818,7 +806,7 @@ public class SpreadMRKListController {
 					pg.drawString("EVS", 425, 315);
 					pg.drawString("PTE", 460, 315);          
 					pg.drawString("Total", 505, 315);
-					pg.drawString("RESULT", 250, 475);
+					pg.drawString("RESULT", 230, 475);
 				for(int j =0; j < 12; j++){
 					 for(int i = 0; i < 8; i++){
 					   if(j == 0) { pg.drawRect(60, 300+i*20, 80, 20); }            // Printing LEFT columns grid
@@ -826,7 +814,8 @@ public class SpreadMRKListController {
 					   if(j>0 &&j<11) {pg.drawRect(105 + j*35, 300+i*20, 35, 20);}  // Printing Body of Marks Sheets
 					 }					
 				}
-				for(int j = 0; j < 2; j++){pg.drawRect(230 + j*87, 460, 88, 20);}   // Printing Bottom Rectangles							
+				for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 37, 20);
+					                        else pg.drawRect(210 + j*87, 460, 88, 20); }       // Printing Bottom Rectangles							
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC1[i], 62, 315+i*20);}
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC2[i], 145, 315+i*20);}
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC3[i], 182, 315+i*20);}
@@ -872,8 +861,19 @@ public class SpreadMRKListController {
 				                     (int) Math.ceil(Sub5(pageNum)/2)+(int) Math.ceil(Sub6(pageNum)/2)+
 				                      EVSmarks(pageNum)+"/650" ), 500, 435);  // Sum of all Averages
 		
+//////  R E S U L  T    P A R T   
+		
 		String result = Mod(pageNum);
-		pg.drawString(result, 340, 475);
+		pg.drawString(result, 302, 475);
+		int[] GraceValues = Mod1(pageNum);
+		int GraceTotal = 0;
+		for(int j = 0; j <6; j++){GraceTotal += GraceValues[j];}
+		show(GraceTotal);
+		for(int i = 0; i < 6; i++){    
+			if(result == "Promoted"){pg.drawString(String.valueOf(GraceValues[i]), 220+i*35, 455);
+                                     pg.drawString(String.valueOf(GraceTotal)+"/15", 505, 455); }
+			else pg.drawString("", 220+i*35, 455);
+		}
 
 			   	
 /////   S T U D E N T  D E T A I L S
@@ -1136,10 +1136,35 @@ public class SpreadMRKListController {
 		 try {fw.close();} catch (IOException e1) {e1.printStackTrace();}  
 	}
 	
+	
+   public String Percent(int num){
+       int row = num;
+       int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0, evs= 0, pte = 0;
+       pte = Integer.parseInt(GetData1(View.getTable(), row, 29));
+       evs = Integer.parseInt(GetData1(View.getTable(), row, 28));
+
+       String percent = null;
+		int[] AverageMarks = { (int) Math.ceil(sub1/2), (int) Math.ceil(sub2/2), (int) Math.ceil(sub3/2),
+	               (int) Math.ceil(sub4/2), (int) Math.ceil(sub5/2), (int) Math.ceil(sub6/2), evs };
+
+       int SumOfAverages = AverageMarks[0] + AverageMarks[1] + AverageMarks[2] 
+                         + AverageMarks[3] + AverageMarks[4] + AverageMarks[5];
+       int Total = SumOfAverages + evs;
+       float percentScore = 0;
+       percentScore = (Total*100)/650;
+		   
+//			float f = Float.parseFloat("25");
+//			String s = Float.toString(25.0f);
+   
+	    return percent;
+	   }
+	   
+	
 	public String Mod(int row){
 		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0, evs= 0, pte = 0;
 		String PTE = null;
-		String Result1 = "Fail", Result2 = "Promoted", Result4 = "Pass";
+		String Result1 = "Fail", Result2 = "Promoted", Result3 = "Pass Class"; 
+		String Result4 = "Second Class", Result5 = "First Class", Result6 = "Distinction";
 //		row =  View.getTable().getSelectedRow();
 //		int RowCount = 15;       //    View.getTable().getRowCount();
 		int GraceCount = 0, GraceTotal = 0, GraceValue = 0; 
@@ -1151,15 +1176,15 @@ public class SpreadMRKListController {
 		if(PTE == null || PTE.isEmpty()){ PTE = "00"; }					 
 		if(PTE.contentEquals("AB") || PTE.contentEquals("AB ")){ PTE = "00"; }	
 		pte = Integer.parseInt(PTE);
-		
+
 		int[] AverageMarks = { (int) Math.ceil(sub1/2), (int) Math.ceil(sub2/2), (int) Math.ceil(sub3/2),
 				               (int) Math.ceil(sub4/2), (int) Math.ceil(sub5/2), (int) Math.ceil(sub6/2), evs };
 		
 		int SumOfAverages = AverageMarks[0] + AverageMarks[1] + AverageMarks[2] 
 		          + AverageMarks[3] + AverageMarks[4] + AverageMarks[5];
-        int Total = SumOfAverages + evs;
+        int Total = SumOfAverages + evs;  //   show("AVerages : "+SumOfAverages); show("EVS : "+evs);  show("Total : "+Total);
 
-        String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
+//        String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
 		int[] GraceMrks = {0,0,0,0,0,0};
 		for(int i = 0; i < 6; i++){
 			if(AverageMarks[i] < 35 )
@@ -1172,35 +1197,17 @@ public class SpreadMRKListController {
 			
 			 if(GraceMrks[i] > 10) {GraceValue = GraceMrks[i];}
 		}
-
+		 int Class = (Total*100)/650;  //   show(Class);
+		
 		 if(GraceValue > 10 || pte < 1 || evs < 18){ return Result1;}
 		 else if(GraceCount > 3){ return Result1;}
-		 else if(GraceCount > 0 && GraceCount < 4 && GraceTotal > 16){return Result1;}
-		 else if(GraceCount > 0 && GraceCount < 4 && GraceTotal > 0 && GraceTotal < 16){return Result2;}
-		 else return Result4;
+		 else if(GraceCount < 4 && GraceTotal > 16){return Result1;}
+		 else if(GraceCount < 4 && GraceTotal > 0 && GraceTotal < 16){return Result2;}
+		 else if(Class >= 50 && Class < 60) { return Result4; }
+		 else if(Class >= 60 && Class < 70) { return Result5; }
+		 else if(Class >= 75) { return Result6; }
+		 else return Result3;
 		
-/*		if(GraceValue > 10){SetData(Result1, row, 31);}
-		else if( pte < 1 || evs < 18 ){ SetData(Result1, row, 31); }
-		else if(GraceCount > 3){ SetData(Result1, row, 31); }
-		else if(GraceCount < 4 && GraceTotal > 16){SetData(Result1, row, 31); }
-//		else if(GraceCount == 1 && GraceTotal > 10){ SetData( Result1 + "( "+ GraceCount + " )", row, 31);}
-		else if(GraceCount < 4 && GraceTotal > 0 && GraceTotal < 16){ SetData( Result2, row, 31);}
-		else { SetData(Result4, row, 31); }
-*/		
-		
-/*		 if(GraceValue > 10){ show("Grace value is " + GraceValue); SetData(Result1, row, 31);}		      
-		 else if( pte < 1 || evs < 18 ){show("Failed Because of Either EVS or PTE"); SetData(Result1, row, 31); }  
-		 else if(GraceCount > 3){ Show("Roll is "+ RollNo +"\nGrace Count is " + GraceCount); SetData(Result1, row, 31); }
-		 else if(GraceCount < 4 && GraceTotal > 16){ Show("Roll is "+ RollNo +"\nGrace Total is " + GraceTotal 
-				 +"\nGrace Count is " + GraceCount );  SetData(Result1, row, 31); }		      
-		 else if(GraceCount == 1 && GraceTotal > 10){ Show("Roll is "+ RollNo 
-				 +"\nGrace Total is " + GraceTotal +"\nGrace Count is " + GraceCount );  SetData( Result1 + "( "+ GraceCount + " )", row, 31);}	
-		 else if(GraceCount < 4 && GraceTotal > 0 && GraceTotal < 16){ Show("Roll is "+ RollNo 
-				 +"\nGrace Total is " + GraceTotal +"\nGrace Count is " + GraceCount ); SetData( Result2 + "( "+ GraceCount + " )", row, 31);}
-		 else { Show("Roll is "+ RollNo 
-				 +"\nGrace Total is " + GraceTotal +"\nGrace Count is " + GraceCount ); SetData(Result4, row, 31); }
-*/		    
- 
 	}            
 		
 	public int[] Mod1(int row){
@@ -1238,14 +1245,7 @@ public class SpreadMRKListController {
 			    else GraceMrks[i] = 0; 				
 		}
 		
-		return GraceMrks;
-
-//		 if(GraceValue > 10 || pte < 1 || evs < 18){ return Result1;}
-//		 else if(GraceCount > 3){ return Result1;}
-//		 else if(GraceCount > 0 && GraceCount < 4 && GraceTotal > 16){return Result1;}
-//		 else if(GraceCount > 0 && GraceCount < 4 && GraceTotal > 0 && GraceTotal < 16){return Result2;}
-		 
- 
+		return GraceMrks; 
 	}            
 	
 	
