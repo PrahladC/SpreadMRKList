@@ -257,9 +257,9 @@ public class SpreadMRKListController {
 	
 	protected void BtnPrintConsolidated() {
 //		System.exit(0);
-		for(int i = 0; i < 15; i++){
-		     Percent(i);
-		}
+	    int row = View.getTable().getSelectedRow();
+	    if(row < 0){show("No name or Roll Number is selected "); return;}
+		     Percent(row);
 	}
 	protected void BtnPrintSpreadSheet() {
 		// 	System.exit(0);
@@ -676,7 +676,7 @@ public class SpreadMRKListController {
 			  if(j>0 &&j<11) {pg.drawRect(105 + j*35, 300+i*20, 35, 20);}  // Printing Body of Marks Sheets
 			}					
 		  }
-		  for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 37, 20);
+		  for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 55, 20);
                                       else pg.drawRect(210 + j*87, 460, 88, 20); }       // Printing Bottom Rectangles							
 		  for(int i = 0; i < 8; i++){pg.drawString(TableItemC1[i], 62, 315+i*20);}
 		  for(int i = 0; i < 8; i++){pg.drawString(TableItemC2[i], 145, 315+i*20);}
@@ -724,9 +724,11 @@ public class SpreadMRKListController {
 		pg.drawString(String.valueOf(SumU1Score(row)+SumT1Score(row)+SumU2Score(row)
 				                     +SumT2andEVSScore(row)+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
 
-		pg.drawString(String.valueOf((int) Math.ceil(Sub1(row)/2)+(int) Math.ceil(Sub2(row)/2)+(int) Math.ceil(Sub3(row)/2)+
-				                     (int) Math.ceil(Sub4(row)/2)+(int) Math.ceil(Sub5(row)/2)+(int) Math.ceil(Sub6(row)/2)+
-				                     EVSmarks(row) +"/650" ), 500, 435);  // Sum of all Averages
+        int AvgSum = 0;
+        for(int i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
+        int AvgTotal = AvgSum + EVSmarks(row);
+        pg.drawString(String.valueOf(AvgTotal)+"/650",500,435);          // Sum of all Averages
+        
 		
 //////  R E S U L  T    P A R T   		
 
@@ -735,12 +737,16 @@ public class SpreadMRKListController {
 		int[] GraceValues = Mod1(row);
 		int GraceTotal = 0;
 		for(int j = 0; j <6; j++){GraceTotal += GraceValues[j];}
-		show(GraceTotal);
+//		show(GraceTotal);
 		for(int i = 0; i < 6; i++){    
 			if(result == "Promoted"){pg.drawString(String.valueOf(GraceValues[i]), 220+i*35, 455);
 			                         pg.drawString(String.valueOf(GraceTotal)+"/15", 505, 455); }
 			else pg.drawString("", 220+i*35, 455);
 		}
+		String percent = Percent(row);
+		if(result == "Promoted" || result == "Fail") pg.drawString(" ", 387, 475);
+		else pg.drawString(percent+" %", 387, 475);
+		
 			    				
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
@@ -814,7 +820,7 @@ public class SpreadMRKListController {
 					   if(j>0 &&j<11) {pg.drawRect(105 + j*35, 300+i*20, 35, 20);}  // Printing Body of Marks Sheets
 					 }					
 				}
-				for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 37, 20);
+				for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 55, 20);
 					                        else pg.drawRect(210 + j*87, 460, 88, 20); }       // Printing Bottom Rectangles							
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC1[i], 62, 315+i*20);}
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC2[i], 145, 315+i*20);}
@@ -856,10 +862,12 @@ public class SpreadMRKListController {
 		pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 435);    // Marks of EVS Subject		        
 		pg.drawString(String.valueOf(SumU1Score(pageNum)+SumT1Score(pageNum)+SumU2Score(pageNum)
 		 	                     +SumT2andEVSScore(pageNum)+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
-		pg.drawString(String.valueOf((int) Math.ceil(Sub1(pageNum)/2)+(int) Math.ceil(Sub2(pageNum)/2)+
-				                     (int) Math.ceil(Sub3(pageNum)/2)+(int) Math.ceil(Sub4(pageNum)/2)+
-				                     (int) Math.ceil(Sub5(pageNum)/2)+(int) Math.ceil(Sub6(pageNum)/2)+
-				                      EVSmarks(pageNum)+"/650" ), 500, 435);  // Sum of all Averages
+		
+        int AvgSum = 0;
+        for(int i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
+        int AvgTotal = AvgSum + EVSmarks(pageNum);
+        pg.drawString(String.valueOf(AvgTotal)+"/650",500,435);          // Sum of all Averages
+
 		
 //////  R E S U L  T    P A R T   
 		
@@ -867,13 +875,18 @@ public class SpreadMRKListController {
 		pg.drawString(result, 302, 475);
 		int[] GraceValues = Mod1(pageNum);
 		int GraceTotal = 0;
-		for(int j = 0; j <6; j++){GraceTotal += GraceValues[j];}
-		show(GraceTotal);
+		for(int j = 0; j < 6; j++){GraceTotal += GraceValues[j];}
+//		show(GraceTotal);
 		for(int i = 0; i < 6; i++){    
 			if(result == "Promoted"){pg.drawString(String.valueOf(GraceValues[i]), 220+i*35, 455);
                                      pg.drawString(String.valueOf(GraceTotal)+"/15", 505, 455); }
 			else pg.drawString("", 220+i*35, 455);
 		}
+		
+		String percent = Percent(pageNum);
+		if(result == "Promoted" || result == "Fail") pg.drawString(" ", 387, 475);
+		else pg.drawString(percent+" %", 387, 475);
+
 
 			   	
 /////   S T U D E N T  D E T A I L S
@@ -1122,12 +1135,7 @@ public class SpreadMRKListController {
 				 if(k == 29){Exam = "T2"; k = 32;}         //   PTE
 			 	 try { fw.write("#" + Div + "=" + Exam + "=" + subArray.get(k/4 -1) + ":" + Marks); }  catch (IOException e1) {e1.printStackTrace();}
 		     } 
-		       
-//			 Marks = GetData(View.getTable(), i,28).toString().trim();
-//		     if(Marks == null || Marks.isEmpty()){ continue; }
-//		     if(Marks.contentEquals("AB") || Marks.contentEquals("AB ")){ Marks = "AB"; }
-//		     try { fw.write("#" + Div + "=" + "T2" + "=" + "EVS" + ":" + Marks); }  catch (IOException e1) {e1.printStackTrace();}
-			 
+
 		       
 		     try { fw.write(newLine); }  catch (IOException e1) {e1.printStackTrace();}
 			 
@@ -1137,26 +1145,23 @@ public class SpreadMRKListController {
 	}
 	
 	
-   public String Percent(int num){
-       int row = num;
-       int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0, evs= 0, pte = 0;
-       pte = Integer.parseInt(GetData1(View.getTable(), row, 29));
-       evs = Integer.parseInt(GetData1(View.getTable(), row, 28));
+   public String Percent(int row){
+		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0, evs= 0;
+		String percent = null;
+//		row =  View.getTable().getSelectedRow();
+		sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row); sub4 = Sub4(row); 
+		sub5 = Sub5(row); sub6 = Sub6(row);  evs =  EVSmarks(row);
 
-       String percent = null;
 		int[] AverageMarks = { (int) Math.ceil(sub1/2), (int) Math.ceil(sub2/2), (int) Math.ceil(sub3/2),
-	               (int) Math.ceil(sub4/2), (int) Math.ceil(sub5/2), (int) Math.ceil(sub6/2), evs };
+				               (int) Math.ceil(sub4/2), (int) Math.ceil(sub5/2), (int) Math.ceil(sub6/2), evs };
+		
+		int SumOfAverages = AverageMarks[0] + AverageMarks[1] + AverageMarks[2] 
+		          + AverageMarks[3] + AverageMarks[4] + AverageMarks[5];
+        double Total = SumOfAverages + evs;  //s  Show(Total);
+	    double Class = (Total*100)/650;   
 
-       int SumOfAverages = AverageMarks[0] + AverageMarks[1] + AverageMarks[2] 
-                         + AverageMarks[3] + AverageMarks[4] + AverageMarks[5];
-       int Total = SumOfAverages + evs;
-       float percentScore = 0;
-       percentScore = (Total*100)/650;
-		   
-//			float f = Float.parseFloat("25");
-//			String s = Float.toString(25.0f);
-   
-	    return percent;
+        return percent.format("%.2f", Class);
+
 	   }
 	   
 	
