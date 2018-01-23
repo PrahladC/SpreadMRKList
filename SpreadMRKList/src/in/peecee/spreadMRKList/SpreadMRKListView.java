@@ -40,6 +40,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	    private JButton btnPrintAll;
 	    private JButton btnSpreadSheet;
 	    private JButton btnPrintConsolidated;
+	    private JButton btnFailedNumbers;
 	    
 	    private JTable table;
 	    ColumnGroup Eng, SL, Sub1, Sub2, Sub3, Sub4 ;
@@ -75,10 +76,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
         return new GroupableTableHeader(columnModel);
       }
     };
-    
-//    int n = 1500;
-//	ResizeTable(table,n);
-    
+     
     TableColumnModel cm = table.getColumnModel();
 //    ColumnGroup RollNo = new ColumnGroup("Roll No");
 //    RollNo.add(cm.getColumn(1));
@@ -218,6 +216,10 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnProcess = new JButton("Merit List");
     btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnProcess);    
+    
+    btnFailedNumbers = new JButton("Failed Numbers");
+    btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    southPanel.add(btnFailedNumbers);
 
     btnSetPrinter = new JButton("Set Printer");
     btnSetPrinter.addActionListener(new ActionListener() {
@@ -283,6 +285,10 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	    	    	
 	public JButton getProcessButton(){
         return btnProcess;
+    }
+	
+	public JButton getFailedNums(){
+        return btnFailedNumbers;
     }
 	
 	public JButton getPrintCurrentButton(){

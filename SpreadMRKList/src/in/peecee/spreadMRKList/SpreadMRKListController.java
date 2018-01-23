@@ -103,7 +103,7 @@ public class SpreadMRKListController {
     
     private ActionListener saveListener, loadListener, processListener, searchListener, ResultListener,
 	                       setprinterListener, printCurrentListener, printAllListener, canselListener, 
-	                       UpdateListener, spreadsheetListener, printConsolidatedListener ;
+	                       UpdateListener, spreadsheetListener, printConsolidatedListener, failedNumbersListener ;
     
     int TotalMarklists=0;
 	
@@ -196,6 +196,12 @@ public class SpreadMRKListController {
 	            }
 	  };
 	        
+	failedNumbersListener = new ActionListener() {
+		public void actionPerformed(ActionEvent actionEvent) {                  
+            BtnFailedNumbers();
+        }
+};
+	  
 	searchListener = new ActionListener() {
 	public void actionPerformed(ActionEvent actionEvent) {                  
 	                BtnSearch();
@@ -243,6 +249,7 @@ public class SpreadMRKListController {
 	View.getLoadButton().addActionListener(loadListener);
 	View.getResultButton().addActionListener(ResultListener);
 	View.getProcessButton().addActionListener(processListener);
+	View.getFailedNums().addActionListener(failedNumbersListener);
 	View.getSearchButton().addActionListener(searchListener);
 	View.getSetPrinterButton().addActionListener(setprinterListener);
 	View.getPrintCurrentButton().addActionListener(printCurrentListener);
@@ -255,12 +262,231 @@ public class SpreadMRKListController {
 	 }	
 
 	
+	protected void BtnFailedNumbers() {
+		// TODO Auto-generated method stub
+//	     ClearTable();
+//	     ResizeTable(View.getTable(),Model.strArray.size());
+
+		
+	}
 	protected void BtnPrintConsolidated() {
 //		System.exit(0);
-	    int row = View.getTable().getSelectedRow();
-	    if(row < 0){show("No name or Roll Number is selected "); return;}
-		     Percent(row);
+		
+		  try {
+              final String[] TableItemC1 = {"Exam","Unit I","Term I","Unit II","Term II",
+            		                        "Agg","Avg","Grace"};
+              final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
+              final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
+              final String[] RowHeader = {"EVS", "PTE", "    Total"};
+              final String[] StuDetails = {"Roll No:", "Div", ""};
+			  PrinterJob pjob = PrinterJob.getPrinterJob();
+			  pjob.setCopies(1);			    
+			  pjob.setJobName("Consolidated Marks Card");
+			  pjob.setPrintable(new Printable() {
+			  public int print(Graphics pg, PageFormat pf, int pageNum) {
+				int RowCount = View.getTable().getRowCount();  
+				int[] ExamwiseSum = {SumU1Score(pageNum), SumT1Score(pageNum), SumU2Score(pageNum), 
+						             SumT2andEVSScore(pageNum)};
+				final int[] SubTotal = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
+						                Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
+				int Rows = View.getTable().getRowCount();
+				
+				int totalpages = Rows/12;     //   RowCount;
+				  if (pageNum < totalpages) 
+				   {
+					Font newFont;		          
+					newFont = new Font("Liberation Serif", Font.BOLD, 9);
+                    pg.setFont(newFont);
+                    
+//					pg.drawString("AA",10,10);
+//					pg.drawString("AB",580,10);
+//					pg.drawString("AC",10,780);
+//					pg.drawString("AD",580,780);
+					
+	pg.drawString(String.valueOf(pageNum+1),580,780);         //  Page Number at right bottom corner
+	for(int i = 0; i < 5; i++){
+		pg.drawLine(35, 137+i*125, 600, 137+i*125);           //  Horizontal Lines
 	}
+	
+	pg.drawLine(316, 10, 315, 780);                            //  Vertical LINE in between
+
+/////     L E F T   S I D E   G R I D 	
+	
+	for(int r = 0; r < 6; r++){
+		 for(int i = 0; i < 8; i++){
+		   pg.drawRect(35,  (30+r*125)+i*12, 30, 12);         // Printing LEFT columns grid    Left of Page
+		   pg.drawRect(265, (30+r*125)+i*12, 45, 12);         // Printing RIGHT columns grid   Left of Page
+		   pg.drawRect(320, (30+r*125)+i*12, 30, 12);         // Printing LEFT columns grid   Right of Page
+		   pg.drawRect(550, (30+r*125)+i*12, 45, 12);         // Printing RIGHT columns grid  Right of Page
+		   pg.drawString(TableItemC1[i], 36, (39+r*125)+i*12);
+		   pg.drawString(TableItemC2[i], 66, (39+r*125)+i*12);
+		   pg.drawString(TableItemC3[i], 87, (39+r*125)+i*12);
+           pg.drawString(TableItemC1[i], 321,(39+r*125)+i*12);
+     	   pg.drawString(TableItemC2[i], 351,(39+r*125)+i*12);
+           pg.drawString(TableItemC3[i], 372,(39+r*125)+i*12);
+		 }
+		   pg.drawString("Result :",36 ,  135+r*125);
+		   pg.drawString("Result :",321 , 135+r*125);
+		   pg.drawString("Name:",115,  28+r*125);
+		   pg.drawString("Name:",400,  28+r*125);
+		   
+    	}
+
+	for(int r = 0; r < 6; r++){
+		   for(int j =0; j < 10; j++){
+			 for(int i = 0; i < 8; i++){
+			   pg.drawRect(65+j*20,  (30+r*125)+i*12, 20, 12);   // Printing Body of Marks Sheets    Left of Page
+			   pg.drawRect(350+j*20, (30+r*125)+i*12, 20, 12);   // Printing Body of Marks Sheets   Righr of page
+			 }
+		   }		
+		}
+	
+	for(int r = 0; r < 6; r++){	
+    	for(int i = 0; i < 3; i++){
+		   pg.drawString(RowHeader[i], 226+i*20, 39+r*125);      //  PTE and EVS - Left of Page
+		   pg.drawString(RowHeader[i], 511+i*20, 39+r*125);      //  PTE and EVS - Right of Page
+		   pg.drawString(StuDetails[i],35+i*55,  28+r*125);      //  Roll No and Division   Left of Page
+		   pg.drawString(StuDetails[i],320+i*55,  28+r*125);     //  Roll No and Division  Right of Page
+	     }
+	}
+	
+    for( int i = 0; i < 12; i++){
+        String Roll = GetData1(View.getTable(), i+pageNum*12, 1);          //  Printing Roll Numbers
+    	pg.drawString(Roll, 5, 77+(i*17));
+    }
+	
+//	pg.drawString("9999",70,  28);
+//	pg.drawString("H",105,  28);
+//	pg.drawString("H",392,  28);
+//	pg.drawString("Name:",115,  28);
+//	pg.drawString("Nagaraj",142,  28);
+     
+/*				for(int j =0; j < 12; j++){
+					 for(int i = 0; i < 8; i++){
+					   if(j == 0) { pg.drawRect(60, 300+i*20, 80, 20); }            // Printing LEFT columns grid
+					   if(j == 11){ pg.drawRect(490, 300+i*20, 70, 20);}            // Printing RIGHT columns grid
+					   if(j>0 &&j<11) {pg.drawRect(105 + j*35, 300+i*20, 35, 20);}  // Printing Body of Marks Sheets
+					 }					
+				}
+				for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 55, 20);
+					                        else pg.drawRect(210 + j*87, 460, 88, 20); }       // Printing Bottom Rectangles							
+				for(int i = 0; i < 8; i++){pg.drawString(TableItemC1[i], 62, 315+i*20);}
+				for(int i = 0; i < 8; i++){pg.drawString(TableItemC2[i], 145, 315+i*20);}
+				for(int i = 0; i < 8; i++){pg.drawString(TableItemC3[i], 182, 315+i*20);}
+				
+				String RollNo = View.getTable().getModel().getValueAt(pageNum, 1).toString();
+				subjectName = collheaderfinder(RollNo);
+				for(int i = 0; i< subjectName.size(); i++){ pg.drawString(subjectName.get(i), 214+i*35, 315);}	 // Subjects
+
+				for(int j = 0; j < 6; j++){
+					for(int i = 0; i < 4; i++){                     //  All marks except EVS and PTE
+						pg.drawString(GetData1(View.getTable(), pageNum, 4+i+(4*j)), 220+j*35, 335+i*20);
+					}
+                }
+		        pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 395);     // EVS Marks
+		        pg.drawString(GetData1(View.getTable(), pageNum, 29), 465, 395);     // PTE Grade
+*/		        
+/////   E X A M W I S E   S U M
+				
+/*				for(int i = 0; i < 4; i++){
+					pg.drawString(String.valueOf(ExamwiseSum[i]), 515, 335+i*20);  // Sum of all Unit n Term Exams
+				}
+/////  A  G  G  R  E  G  A  T  E
+				
+//				int row = View.getTable().getSelectedRow();  
+		        for(int i = 0; i <6; i++){
+		        	pg.drawString(String.valueOf(SubTotal[i]), 215+i*35, 415);  // Aggregate marks of each subject
+		        }        
+		        pg.drawString(GetData1(View.getTable(),pageNum,28), 430, 415);    // Marks of EVS Subject
+		        
+
+/////  A  V  E  R  A  G  E  MARKS OF EVERY SUBJECT
+		        
+		float[] AverageMrks = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
+		   		               Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
+		for(int i = 0; i < 6; i++){
+			pg.drawString(String.valueOf((int) Math.ceil(AverageMrks[i]/2)), 220+i*35, 435); // Average marks of each subject
+        }
+		pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 435);    // Marks of EVS Subject		        
+		pg.drawString(String.valueOf(SumU1Score(pageNum)+SumT1Score(pageNum)+SumU2Score(pageNum)
+		 	                     +SumT2andEVSScore(pageNum)+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
+		
+        int AvgSum = 0;
+        for(int i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
+        int AvgTotal = AvgSum + EVSmarks(pageNum);
+        pg.drawString(String.valueOf(AvgTotal)+"/650",500,435);          // Sum of all Averages
+
+		
+//////  R E S U L  T    P A R T   
+		
+		String result = Mod(pageNum);
+		pg.drawString(result, 302, 475);
+		int[] GraceValues = Mod1(pageNum);
+		int GraceTotal = 0;
+		for(int j = 0; j < 6; j++){GraceTotal += GraceValues[j];}
+//		show(GraceTotal);
+		for(int i = 0; i < 6; i++){    
+			if(result == "Promoted"){pg.drawString(String.valueOf(GraceValues[i]), 220+i*35, 455);
+                                     pg.drawString(String.valueOf(GraceTotal)+"/15", 505, 455); }
+			else pg.drawString("", 220+i*35, 455);
+		}
+		
+		String percent = Percent(pageNum);
+		if(result == "Promoted" || result == "Fail") pg.drawString(" ", 387, 475);
+		else pg.drawString(percent+" %", 387, 475);
+
+
+			   	
+/////   S T U D E N T  D E T A I L S
+		        
+		        StuDetailsArray.removeAll(StuDetailsArray);
+			   	for(int k = 1; k < 4 ; k++){	   		
+			   		StuDetailsArray.add((String) GetData1(View.getTable(),pageNum,k));
+			   	}
+				
+				Calendar cal = Calendar.getInstance();
+				int year = cal.get(Calendar.YEAR);
+				int YEAR = year-1;
+
+				pg.drawString("Mark Sheet showing the number of marks Obtained by  ", 60, 200);
+				pg.drawString(StuDetailsArray.get(2), 60, 220);   //  Name of student 
+//				pg.drawString("with Roll No.:"+ StuDetailsArray.get(0)+" of Division : "
+//				              +StuDetailsArray.get(1)+", in " + Streamfinder(RollNo)+ " stream", 60, 240);
+				pg.drawString("The following table shows each head of passing at FYJC examintion conducted", 60, 260);
+				pg.drawString("during the academic year " + YEAR +" - " + year, 60, 280);				
+				
+/////    F O O T E R - G O V E R N M E N T   C I R C U L A R		
+				
+				pg.drawString("NOTE  :  This marksheet has been prepared as per the instruction of circular", 60, 520);
+				pg.drawString("No 6987,dated 04/11/2009 issued by Secretary, Maharashtra State", 120, 540);
+				pg.drawString("Board of Secondary and Higher Secondary Education,Pune 411004", 120, 560);
+*/
+		   		
+		   		
+		   		return Printable.PAGE_EXISTS;
+				    } 
+				    else
+					{
+					 return Printable.NO_SUCH_PAGE;
+					}   
+		        }			    
+		});
+
+	        if (pjob.printDialog() == false) // choose printer
+		    return; 
+			      
+			HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
+		    pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
+			pjob.print(pattribs); 
+		  }
+		    catch (PrinterException pe) {
+		    pe.printStackTrace();
+		  }                                     				
+
+
+	}
+	
+	
 	protected void BtnPrintSpreadSheet() {
 		// 	System.exit(0);
 	  try {
@@ -274,7 +500,9 @@ public class SpreadMRKListController {
 		   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-			int totalpages = 3;
+		   int Rows = View.getTable().getRowCount();   
+		   
+			int totalpages = Rows/28;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
