@@ -273,7 +273,7 @@ public class SpreadMRKListController {
 //		System.exit(0);
 		
 		  try {
-              final String[] TableItemC1 = {"Exam","Unit I","Term I","Unit II","Term II",
+              final String[] TableItemC1 = {"Exam","Unit I","Term I","Unit II","TermII",
             		                        "Agg","Avg","Grace"};
               final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
               final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
@@ -302,59 +302,68 @@ public class SpreadMRKListController {
 //					pg.drawString("AB",580,10);
 //					pg.drawString("AC",10,780);
 //					pg.drawString("AD",580,780);
-					
-	pg.drawString(String.valueOf(pageNum+1),580,780);         //  Page Number at right bottom corner
-	for(int i = 0; i < 5; i++){
-		pg.drawLine(35, 137+i*125, 600, 137+i*125);           //  Horizontal Lines
-	}
-	
-	pg.drawLine(316, 10, 315, 780);                            //  Vertical LINE in between
-
-/////     L E F T   S I D E   G R I D 	
-	
-	for(int r = 0; r < 6; r++){
+                    
+    pg.drawLine(315, 20, 315, 770);                         //  Vertical Divider LINE
+    pg.drawString(String.valueOf(pageNum+1), 580, 780);     //  Pane Number at Right Bottom Corner.
+    for(int r = 0; r < 6; r++){
+       pg.drawLine(35, 140+r*125, 600, 140+r*125);          //  Horizontal Divider LINES
+    }
+	int LGltx = 35, LGlty = 30, BRWidth = 30, SRWidth = 20, jump = 285 , ht =  12;  //  BRWidth = Big Rectangle width SR = Small Rect
+	int YCText = 39, JVNGrid = 125;   //Y Coordinate of Text, Jump to Vertically Next Grid, 	
+	for(int r = 0; r < 6; r++){ 
 		 for(int i = 0; i < 8; i++){
-		   pg.drawRect(35,  (30+r*125)+i*12, 30, 12);         // Printing LEFT columns grid    Left of Page
-		   pg.drawRect(265, (30+r*125)+i*12, 45, 12);         // Printing RIGHT columns grid   Left of Page
-		   pg.drawRect(320, (30+r*125)+i*12, 30, 12);         // Printing LEFT columns grid   Right of Page
-		   pg.drawRect(550, (30+r*125)+i*12, 45, 12);         // Printing RIGHT columns grid  Right of Page
-		   pg.drawString(TableItemC1[i], 36, (39+r*125)+i*12);
-		   pg.drawString(TableItemC2[i], 66, (39+r*125)+i*12);
-		   pg.drawString(TableItemC3[i], 87, (39+r*125)+i*12);
-           pg.drawString(TableItemC1[i], 321,(39+r*125)+i*12);
-     	   pg.drawString(TableItemC2[i], 351,(39+r*125)+i*12);
-           pg.drawString(TableItemC3[i], 372,(39+r*125)+i*12);
+		   pg.drawRect(LGltx,  (LGlty+r*JVNGrid)+i*ht, BRWidth, ht); // Printing LEFT columns grid  Left of Page
+		   pg.drawRect(265, (LGlty+r*JVNGrid)+i*ht, 45, ht);         // Printing RIGHT columns grid   Left of Page
+		   pg.drawRect(LGltx+jump, (30+r*JVNGrid)+i*ht, 30, ht);         // Printing LEFT columns grid   Right of Page
+		   pg.drawRect(550, (LGlty+r*JVNGrid)+i*ht, 45, ht);         // Printing RIGHT columns grid  Right of Page
+		   pg.drawString(TableItemC1[i], 36, (YCText+r*JVNGrid)+i*ht);
+		   pg.drawString(TableItemC2[i], 66, (YCText+r*JVNGrid)+i*ht);
+		   pg.drawString(TableItemC3[i], 87, (YCText+r*JVNGrid)+i*ht);
+           pg.drawString(TableItemC1[i], 321,(YCText+r*JVNGrid)+i*ht);
+     	   pg.drawString(TableItemC2[i], 351,(YCText+r*JVNGrid)+i*ht);
+           pg.drawString(TableItemC3[i], 372,(YCText+r*JVNGrid)+i*ht);
 		 }
-		   pg.drawString("Result :",36 ,  135+r*125);
-		   pg.drawString("Result :",321 , 135+r*125);
-		   pg.drawString("Name:",115,  28+r*125);
-		   pg.drawString("Name:",400,  28+r*125);
+		   pg.drawString("Result :",36 ,  135+r*JVNGrid);
+		   pg.drawString("Result :",321 , 135+r*JVNGrid);
+		   pg.drawString("Name:",115,  28+r*JVNGrid);
+		   pg.drawString("Name:",400,  28+r*JVNGrid);
 		   
     	}
 
 	for(int r = 0; r < 6; r++){
 		   for(int j =0; j < 10; j++){
 			 for(int i = 0; i < 8; i++){
-			   pg.drawRect(65+j*20,  (30+r*125)+i*12, 20, 12);   // Printing Body of Marks Sheets    Left of Page
-			   pg.drawRect(350+j*20, (30+r*125)+i*12, 20, 12);   // Printing Body of Marks Sheets   Righr of page
+			   pg.drawRect(65+j*20,  (30+r*JVNGrid)+i*ht, SRWidth, ht);   // Printing Body of Marks Sheets    Left of Page
+			   pg.drawRect(350+j*20, (30+r*JVNGrid)+i*ht, SRWidth, ht);   // Printing Body of Marks Sheets   Righr of page
 			 }
 		   }		
 		}
 	
 	for(int r = 0; r < 6; r++){	
     	for(int i = 0; i < 3; i++){
-		   pg.drawString(RowHeader[i], 226+i*20, 39+r*125);      //  PTE and EVS - Left of Page
-		   pg.drawString(RowHeader[i], 511+i*20, 39+r*125);      //  PTE and EVS - Right of Page
-		   pg.drawString(StuDetails[i],35+i*55,  28+r*125);      //  Roll No and Division   Left of Page
-		   pg.drawString(StuDetails[i],320+i*55,  28+r*125);     //  Roll No and Division  Right of Page
+		   pg.drawString(RowHeader[i], 226+i*20, 39+r*JVNGrid);      //  PTE and EVS - Left of Page
+		   pg.drawString(RowHeader[i], 511+i*20, 39+r*JVNGrid);      //  PTE and EVS - Right of Page
+		   pg.drawString(StuDetails[i],35+i*55,  28+r*JVNGrid);      //  Roll No and Division   Left of Page
+		   pg.drawString(StuDetails[i],320+i*55, 28+r*JVNGrid);     //  Roll No and Division  Right of Page
 	     }
 	}
-	
-    for( int i = 0; i < 12; i++){
-        String Roll = GetData1(View.getTable(), i+pageNum*12, 1);          //  Printing Roll Numbers
-    	pg.drawString(Roll, 5, 77+(i*17));
-    }
-	
+    int i = 0;
+	int y = 28;
+//        String Roll = GetData1(View.getTable(), i+pageNum*12, 1);          //  Printing Roll Numbers
+        for(int j = 0; j < 6; j++){
+        	for(int k = 0; k< 2; k++){
+        		String Roll = GetData1(View.getTable(), i+pageNum*12, 1);
+        		String Div = GetData1(View.getTable(), i+pageNum*12, 2);
+        		String Name = GetData1(View.getTable(), i+pageNum*12, 3);
+        		pg.drawString(Roll, 70+k*jump, y);
+        		pg.drawString(Div, 105+k*jump, y);
+        		pg.drawString(Name.substring(0, 28), 142+k*jump, y);
+        		if(i < 12)i++;
+        	}
+            y = y + JVNGrid;	
+        }                       
+       
+        
 //	pg.drawString("9999",70,  28);
 //	pg.drawString("H",105,  28);
 //	pg.drawString("H",392,  28);
