@@ -285,10 +285,6 @@ public class SpreadMRKListController {
 			  pjob.setPrintable(new Printable() {
 			  public int print(Graphics pg, PageFormat pf, int pageNum) {
 				int RowCount = View.getTable().getRowCount();  
-				int[] ExamwiseSum = {SumU1Score(pageNum), SumT1Score(pageNum), SumU2Score(pageNum), 
-						             SumT2andEVSScore(pageNum)};
-				final int[] SubTotal = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
-						                Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
 				int Rows = View.getTable().getRowCount();
 				
 				int totalpages = Rows/12;     //   RowCount;
@@ -304,7 +300,7 @@ public class SpreadMRKListController {
 //					pg.drawString("AD",580,780);
                     
     pg.drawLine(315, 20, 315, 770);                         //  Vertical Divider LINE
-    pg.drawString(String.valueOf(pageNum+1), 580, 780);     //  Pane Number at Right Bottom Corner.
+    pg.drawString(String.valueOf(pageNum+1), 580, 780);     //  Page Number at Right Bottom Corner.
     for(int r = 0; r < 6; r++){
        pg.drawLine(35, 140+r*125, 600, 140+r*125);          //  Horizontal Divider LINES
     }
@@ -362,7 +358,9 @@ public class SpreadMRKListController {
         	}
             y = y + JVNGrid;	
         }                       
-//        show(subjectName.size());
+
+/////   E V S   M A R K S   and   P T E    G R A D E S
+        
         m = 0;
         int y1 = 39,  y2 = 87;
         for( int j = 0; j < 6; j++){
@@ -382,9 +380,78 @@ public class SpreadMRKListController {
 	        y1 = y1 + JVNGrid;
 	        y2 = y2 + JVNGrid;
         }
+ ////   A L L    S U B J E C T    A L L    E X A M    M A R K S   
         
-        
-        
+        m = 0;
+        int y3 = 51;
+      for(int d = 0; d < 6; d++){  
+        for(int k = 0; k < 2; k++){
+		  for(int j = 0; j < 6; j++){
+			for(int i = 0; i < 4; i++){                                             //  All marks except EVS and PTE
+				pg.drawString(GetData1(View.getTable(), m+pageNum*12, 4+i+(4*j)), (110+j*20)+k*jump, y3+i*12);
+			}			
+          }
+		     if(m < 12) m++;
+        }
+             y3 = y3 + JVNGrid;
+      }
+      
+/////   EX A M W I S E   T O T A L       
+      
+	  m = 0;	
+	 int y4 = 51;
+     for( int j = 0; j < 6; j++){
+	        for(int k = 0; k < 2; k++){
+	        	int[] ExamwiseSum = {SumU1Score(m+pageNum*12), SumT1Score(m+pageNum*12), SumU2Score(m+pageNum*12), 
+			             SumT2andEVSScore(m+pageNum*12)};
+	        	      
+				for(int i = 0; i< 4; i++){ 
+				pg.drawString(String.valueOf(ExamwiseSum[i]), (276)+k*jump, y4+i*12);      // Sum of Unit and Term Exams				
+				}
+				if(m < 12) m++;
+	        }   	        
+              y4 = y4 + JVNGrid;
+     }
+  
+//////    A G G R E G A T E   A N D   A V E R A G E    M A R K S      
+     
+     m = 0;
+     int y5 = 99, y6 = 111;
+     for( int j = 0; j < 6; j++){
+	   for(int k = 0; k < 2; k++){
+		int[] SubTotal = {Sub1(m+pageNum*12), Sub2(m+pageNum*12), Sub3(m+pageNum*12),
+				          Sub4(m+pageNum*12), Sub5(m+pageNum*12), Sub6(m+pageNum*12)};
+		float[] AggMrks ={Sub1(m+pageNum*12), Sub2(m+pageNum*12), Sub3(m+pageNum*12),
+		                  Sub4(m+pageNum*12), Sub5(m+pageNum*12), Sub6(m+pageNum*12)};		  
+	      for(int i = 0; i< 6; i++){ 
+				pg.drawString(String.valueOf(SubTotal[i]), (110+i*20)+k*jump, y5);    //  Aggregate Marks
+				pg.drawString(String.valueOf((int) Math.ceil(AggMrks[i]/2)), (110+i*20)+k*jump, y6); // Average marks of each subject
+		  }
+				if(m < 12) m++;
+	    }   	        
+	        y5 = y5 + JVNGrid;
+	        y6 = y6 + JVNGrid;
+     }
+  
+     
+	m = 0;	
+	y5 = 99;
+    for( int j = 0; j < 6; j++){
+	        for(int k = 0; k < 2; k++){
+	        	int[] ExamwiseSum = {SumU1Score(m+pageNum*12), SumT1Score(m+pageNum*12), SumU2Score(m+pageNum*12), 
+			             SumT2andEVSScore(m+pageNum*12)};
+	        	int AggSum = 0;
+	        	AggSum = ExamwiseSum[0]+ExamwiseSum[1]+ExamwiseSum[2]+ExamwiseSum[3];
+//				for(int i = 0; i< 4; i++){ 
+				pg.drawString(String.valueOf(AggSum)+"/1250", (270)+k*jump, y5);      // Sum of Unit and Term Exams				
+//				}
+				if(m < 12) m++;
+	        }   	        
+             y5 = y5 + JVNGrid;
+    }
+     
+     
+     
 //	pg.drawString("9999",70,  28);
 //	pg.drawString("H",105,  28);
 //	pg.drawString("H",392,  28);
@@ -437,7 +504,6 @@ public class SpreadMRKListController {
 		for(int i = 0; i < 6; i++){
 			pg.drawString(String.valueOf((int) Math.ceil(AverageMrks[i]/2)), 220+i*35, 435); // Average marks of each subject
         }
-		pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 435);    // Marks of EVS Subject		        
 		pg.drawString(String.valueOf(SumU1Score(pageNum)+SumT1Score(pageNum)+SumU2Score(pageNum)
 		 	                     +SumT2andEVSScore(pageNum)+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
 		
