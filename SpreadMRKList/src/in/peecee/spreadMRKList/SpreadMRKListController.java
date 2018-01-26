@@ -295,7 +295,7 @@ public class SpreadMRKListController {
 				  if (pageNum < totalpages) 
 				   {
 					Font newFont;		          
-					newFont = new Font("Liberation Serif", Font.BOLD, 9);
+					newFont = new Font("Liberation Serif", Font.BOLD, 8);
                     pg.setFont(newFont);
                     
 //					pg.drawString("AA",10,10);
@@ -347,22 +347,43 @@ public class SpreadMRKListController {
 		   pg.drawString(StuDetails[i],320+i*55, 28+r*JVNGrid);     //  Roll No and Division  Right of Page
 	     }
 	}
-    int i = 0;
+    int m = 0;
 	int y = 28;
-//        String Roll = GetData1(View.getTable(), i+pageNum*12, 1);          //  Printing Roll Numbers
+//        String Roll = GetData1(View.getTable(), i+pageNum*12, 1);          
         for(int j = 0; j < 6; j++){
         	for(int k = 0; k< 2; k++){
-        		String Roll = GetData1(View.getTable(), i+pageNum*12, 1);
-        		String Div = GetData1(View.getTable(), i+pageNum*12, 2);
-        		String Name = GetData1(View.getTable(), i+pageNum*12, 3);
-        		pg.drawString(Roll, 70+k*jump, y);
-        		pg.drawString(Div, 105+k*jump, y);
-        		pg.drawString(Name.substring(0, 28), 142+k*jump, y);
-        		if(i < 12)i++;
+        		String Roll = GetData1(View.getTable(), m+pageNum*12, 1);
+        		String Div = GetData1(View.getTable(), m+pageNum*12, 2);
+        		String Name = GetData1(View.getTable(), m+pageNum*12, 3);
+        		pg.drawString(Roll, 65+k*jump, y);                          //  Printing Roll Numbers
+        		pg.drawString(Div, 105+k*jump, y);                          //  Printing Divisions
+        		pg.drawString(Name.substring(0, 32), 142+k*jump, y);        //  Printing Names
+        		if(m < 12) m++;
         	}
             y = y + JVNGrid;	
         }                       
-       
+//        show(subjectName.size());
+        m = 0;
+        int y1 = 39,  y2 = 87;
+        for( int j = 0; j < 6; j++){
+	        for(int k = 0; k < 2; k++){
+		      String EVS = GetData1(View.getTable(), m+pageNum*12, 28);                          // EVS
+		      String PTE = GetData1(View.getTable(), m+pageNum*12, 29);                          // PTE
+		      String RollNo = View.getTable().getModel().getValueAt(m+pageNum*12, 1).toString();
+		      subjectName = collheaderfinder(RollNo);        
+				for(int i = 0; i< subjectName.size(); i++){ 
+				pg.drawString(subjectName.get(i), (106+i*20)+k*jump, y1);                   	 // Subjects				
+				}
+				pg.drawString(EVS, 230+k*jump, y2); pg.drawString(EVS, 230+k*jump, y2+12);       // EVS Marks
+				pg.drawString(EVS, 230+k*jump, y2+24);                                           // EVS Marks
+				pg.drawString(PTE, 250+k*jump, y2);                                              // PTE Grade
+				if(m < 12) m++;
+	        }   	        
+	        y1 = y1 + JVNGrid;
+	        y2 = y2 + JVNGrid;
+        }
+        
+        
         
 //	pg.drawString("9999",70,  28);
 //	pg.drawString("H",105,  28);
