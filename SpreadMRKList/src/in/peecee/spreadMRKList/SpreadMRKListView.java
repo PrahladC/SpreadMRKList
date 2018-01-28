@@ -245,11 +245,11 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnPrintAll.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnPrintAll);
     
-    btnSpreadSheet = new JButton("Print Spread sheet");
+    btnSpreadSheet = new JButton("Spread sheet");
     btnSpreadSheet.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnSpreadSheet);
     
-    btnPrintConsolidated = new JButton("Print Consolidated");
+    btnPrintConsolidated = new JButton("Pr.Consolidated");
     btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnPrintConsolidated);
    
