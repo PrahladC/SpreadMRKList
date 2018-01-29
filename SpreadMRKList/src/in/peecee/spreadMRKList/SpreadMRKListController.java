@@ -483,122 +483,11 @@ public class SpreadMRKListController {
              y6 = y6 + JVNGrid;
              y7 = y7 + JVNGrid;
     }
- 
-    
-     
-//	pg.drawString("9999",70,  28);
-//	pg.drawString("H",105,  28);
-//	pg.drawString("H",392,  28);
-//	pg.drawString("Name:",115,  28);
-//	pg.drawString("Nagaraj",142,  28);
-     
-/*				for(int j =0; j < 12; j++){
-					 for(int i = 0; i < 8; i++){
-					   if(j == 0) { pg.drawRect(60, 300+i*20, 80, 20); }            // Printing LEFT columns grid
-					   if(j == 11){ pg.drawRect(490, 300+i*20, 70, 20);}            // Printing RIGHT columns grid
-					   if(j>0 &&j<11) {pg.drawRect(105 + j*35, 300+i*20, 35, 20);}  // Printing Body of Marks Sheets
-					 }					
-				}
-				for(int j = 0; j < 3; j++){ if(j == 2) pg.drawRect(384, 460, 55, 20);
-					                        else pg.drawRect(210 + j*87, 460, 88, 20); }       // Printing Bottom Rectangles							
-				for(int i = 0; i < 8; i++){pg.drawString(TableItemC1[i], 62, 315+i*20);}
-				for(int i = 0; i < 8; i++){pg.drawString(TableItemC2[i], 145, 315+i*20);}
-				for(int i = 0; i < 8; i++){pg.drawString(TableItemC3[i], 182, 315+i*20);}
-				
-				String RollNo = View.getTable().getModel().getValueAt(pageNum, 1).toString();
-				subjectName = collheaderfinder(RollNo);
-				for(int i = 0; i< subjectName.size(); i++){ pg.drawString(subjectName.get(i), 214+i*35, 315);}	 // Subjects
-
-				for(int j = 0; j < 6; j++){
-					for(int i = 0; i < 4; i++){                     //  All marks except EVS and PTE
-						pg.drawString(GetData1(View.getTable(), pageNum, 4+i+(4*j)), 220+j*35, 335+i*20);
-					}
-                }
-		        pg.drawString(GetData1(View.getTable(), pageNum, 28), 430, 395);     // EVS Marks
-		        pg.drawString(GetData1(View.getTable(), pageNum, 29), 465, 395);     // PTE Grade
-*/		        
-/////   E X A M W I S E   S U M
-				
-/*				for(int i = 0; i < 4; i++){
-					pg.drawString(String.valueOf(ExamwiseSum[i]), 515, 335+i*20);  // Sum of all Unit n Term Exams
-				}
-/////  A  G  G  R  E  G  A  T  E
-				
-//				int row = View.getTable().getSelectedRow();  
-		        for(int i = 0; i <6; i++){
-		        	pg.drawString(String.valueOf(SubTotal[i]), 215+i*35, 415);  // Aggregate marks of each subject
-		        }        
-		        pg.drawString(GetData1(View.getTable(),pageNum,28), 430, 415);    // Marks of EVS Subject
-		        
-
-/////  A  V  E  R  A  G  E  MARKS OF EVERY SUBJECT
-		        
-		float[] AverageMrks = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
-		   		               Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
-		for(int i = 0; i < 6; i++){
-			pg.drawString(String.valueOf((int) Math.ceil(AverageMrks[i]/2)), 220+i*35, 435); // Average marks of each subject
-        }
-		pg.drawString(String.valueOf(SumU1Score(pageNum)+SumT1Score(pageNum)+SumU2Score(pageNum)
-		 	                     +SumT2andEVSScore(pageNum)+"/1250" ), 493, 415);  // Sum of all U1, T1, U2, T2
-		
-        int AvgSum = 0;
-        for(int i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
-        int AvgTotal = AvgSum + EVSmarks(pageNum);
-        pg.drawString(String.valueOf(AvgTotal)+"/650",500,435);          // Sum of all Averages
-
-		
-//////  R E S U L  T    P A R T   
-		
-		String result = Mod(pageNum);
-		pg.drawString(result, 302, 475);
-		int[] GraceValues = Mod1(pageNum);
-		int GraceTotal = 0;
-		for(int j = 0; j < 6; j++){GraceTotal += GraceValues[j];}
-//		show(GraceTotal);
-		for(int i = 0; i < 6; i++){    
-			if(result == "Promoted"){pg.drawString(String.valueOf(GraceValues[i]), 220+i*35, 455);
-                                     pg.drawString(String.valueOf(GraceTotal)+"/15", 505, 455); }
-			else pg.drawString("", 220+i*35, 455);
-		}
-		
-		String percent = Percent(pageNum);
-		if(result == "Promoted" || result == "Fail") pg.drawString(" ", 387, 475);
-		else pg.drawString(percent+" %", 387, 475);
-
-
-			   	
-/////   S T U D E N T  D E T A I L S
-		        
-		        StuDetailsArray.removeAll(StuDetailsArray);
-			   	for(int k = 1; k < 4 ; k++){	   		
-			   		StuDetailsArray.add((String) GetData1(View.getTable(),pageNum,k));
-			   	}
-				
-				Calendar cal = Calendar.getInstance();
-				int year = cal.get(Calendar.YEAR);
-				int YEAR = year-1;
-
-				pg.drawString("Mark Sheet showing the number of marks Obtained by  ", 60, 200);
-				pg.drawString(StuDetailsArray.get(2), 60, 220);   //  Name of student 
-//				pg.drawString("with Roll No.:"+ StuDetailsArray.get(0)+" of Division : "
-//				              +StuDetailsArray.get(1)+", in " + Streamfinder(RollNo)+ " stream", 60, 240);
-				pg.drawString("The following table shows each head of passing at FYJC examintion conducted", 60, 260);
-				pg.drawString("during the academic year " + YEAR +" - " + year, 60, 280);				
-				
-/////    F O O T E R - G O V E R N M E N T   C I R C U L A R		
-				
-				pg.drawString("NOTE  :  This marksheet has been prepared as per the instruction of circular", 60, 520);
-				pg.drawString("No 6987,dated 04/11/2009 issued by Secretary, Maharashtra State", 120, 540);
-				pg.drawString("Board of Secondary and Higher Secondary Education,Pune 411004", 120, 560);
-*/
-		   		
-		   		
-		   		return Printable.PAGE_EXISTS;
-				    } 
-				    else
-					{
-					 return Printable.NO_SUCH_PAGE;
-					}   
+ 		   		
+		 return Printable.PAGE_EXISTS;
+	} 
+		    else { return Printable.NO_SUCH_PAGE; }  
+				  
 		        }			    
 		});
 
@@ -847,8 +736,7 @@ public class SpreadMRKListController {
 //		show(Eng);
 		Stats.SetData1(Eng, 0, 4);
 		Stats.ShowStats();
-
-		
+		ranking();		
 	}                    
 	    	    	    
 	private void BtnSearch(){
@@ -1294,53 +1182,38 @@ public class SpreadMRKListController {
 		  }                                     				
 	   }	
 
-
-	   	   //   Swapping Total Scores in decreasing order --- Insertion Sorting 
-	   	   
-/*	   	   int first = 0, second = 0, max = 0, temp = 0;
-	   	   String Fst = null, sec = null, Marks = null,temp1 = null, temp2 = null ;
-	   	   
-	   	TotalMarksArray.removeAll(TotalMarksArray);   
-	   	for(int k = 0; k < Rows ; k++){	   		
-	   		TotalMarksArray.add((String) GetData1(View.getTable(),k,28));
+ 	
+public void ranking(){
+	//   Swapping Total Scores in decreasing order --- Insertion Sorting  
+	    int rowcount = View.getTable().getRowCount();
+	   	int array[];
+	   	array = new int [50];
+	   	int length = array.length;	   	
+	   	for(int row = 0; row < length; row++){
+	   	       String TotalMrks = GetData(View.getTable(),row,30).toString();
+	   	       if(TotalMrks == null || TotalMrks.isEmpty()){ TotalMrks = "00"; }
+    	   	   array[row] = Integer.parseInt(TotalMrks); 
 	   	}
 	   	
-	   	   for(int i = 0; i < 10; i++)
-	   	   {
-	   		  Fst =  GetData(View.getTable(),i,28).toString().trim();
-	   		  first = Integer.parseInt(Fst);
-	   		    for(int j = i + 1; j < 11; j++)
-	   		     {	   			  
-		   	       sec = GetData(View.getTable(),j,28).toString().trim();		   		  
-		   		   second = Integer.parseInt(sec);
-                   String Temp = GetData1(View.getTable(),j,1);
-		   		  if(first < second)
-		   			    {     				         		   				        
-//		   				   SetData(sec,i,28);
-//		                   SetData(Fst,j,28);
-		   			       temp = first;
-		   			       first = second;
-		   			       second = temp;		
-//		   			       show("First is : " + first); 
-		                   SetData(first,i,28);
-//		                   show("Second is " + second);
-		                   SetData(second,j,28);		                   		                   
-		   			     } 
-	   		     }
-          }		
-	   	   for(int i = 0; i < 10; i++){
-	   	       temp1 = GetData(View.getTable(),i,28).toString();
-	   	       show(temp1);
-	   	         {
-	   	            for(int j = 0; j < 10; j++){
-	   	        	temp2 = TotalMarksArray.get(j);
-	   	        	if(temp1.equals(temp2)) SetData(j+1,i,29);
-	   	            }
-	   	         }
-	   	   }
-	   	   
-	   	   */	   	   	   	   
-	 
+		   int i;
+		    int large[] = new int[10];
+		    int max = 0, index;
+		    for (int j = 0; j < 10; j++) {
+		        max = array[0];
+		        index = 0;
+		        for (i = 1; i < array.length; i++) {
+		            if (max < array[i]) {
+		                max = array[i];
+		                index = i;
+		            }
+		        }
+		        large[j] = max;
+		        array[index] = Integer.MIN_VALUE;
+                Stats.SetData(String.valueOf(large[j]), j, 5);
+		    }
+}	 
+
+
 	private void BtnSetPrinter(){
 //	        System.exit(0);
 			SetPrinter sp=new SetPrinter();

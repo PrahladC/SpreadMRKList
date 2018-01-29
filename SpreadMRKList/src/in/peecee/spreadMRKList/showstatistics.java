@@ -73,7 +73,7 @@ public class showstatistics {
    	gbc_lblNewLabel.gridy = 0;
    	frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
    	
-   	JLabel label = new JLabel("OVER ALL RANKINGS");
+   	JLabel label = new JLabel(" OVER ALL RANKINGS");
    	label.setFont(new Font("Times New Roman", Font.BOLD, 18));
    	GridBagConstraints gbc_label = new GridBagConstraints();
    	gbc_label.insets = new Insets(0, 0, 5, 5);
@@ -95,7 +95,7 @@ public class showstatistics {
    	table.setBorder(new LineBorder(new Color(0, 0, 20)));
    	table.setModel(new DefaultTableModel(
    		new Object[][] {
-   				{"Science", "1", null, null, null, null, null},
+   				{" Science", "1", null, null, null, null, null},
 	    		{null, "2", null, null, null, null, null},
 	    		{null, "3", null, null, null, null, null},
 	    		{null, "4", null, null, null, null, null},
@@ -106,7 +106,7 @@ public class showstatistics {
 	    		{null, "9", null, null, null, null, null},
 	    		{null, "10", null, null, null, null, null},
 	    		{null, null, null, null, null, null, null},
-	    		{"Commerce", "1", null, null, null, null, null},
+	    		{" Commerce", "1", null, null, null, null, null},
 	    		{null, "2", null, null, null, null, null},
 	    		{null, "3", null, null, null, null, null},
 	    		{null, "4", null, null, null, null, null},
@@ -178,7 +178,7 @@ public class showstatistics {
 	    		{"  Tamil (Sci)", null, null, null, null},
 	    		{"  Physics", null, null, null, null},
 	    		{"  Chemistry", null, null, null, null},
-	    		{"  Mathematics", null, null, null, null},
+	    		{"  Mathematics Sci", null, null, null, null},
 	    		{"  Biology", null, null, null, null},
 	    		{"  Electronics", null, null, null, null},
 	    		{"  Computer Science", null, null, null, null},
