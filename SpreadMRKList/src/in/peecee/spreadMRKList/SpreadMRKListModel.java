@@ -107,7 +107,7 @@ public class SpreadMRKListModel {
 		 int EngT2Marks = 0, ENGTotalT2 = 0;
 		 for(int i=1; i < strArray.size() ; i++)                      //  strArray.size()
 	     	{ 
-			 Show(strArray.size());
+//			 Show(strArray.size());
 	     	  plate = strArray.get(i).split("#");
 	     	  Show(plate);
 	     	  line = plate[4];

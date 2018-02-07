@@ -280,14 +280,17 @@ public class SpreadMRKListController {
               final String[] RowHeader = {"EVS", "PTE", "    Total"};
               final String[] StuDetails = {"Roll No:", "Div", ""};
 			  PrinterJob pjob = PrinterJob.getPrinterJob();
-			  pjob.setCopies(1);			    
+//			  pjob.setCopies(1);			    
 			  pjob.setJobName("Consolidated Marks Card");
 			  pjob.setPrintable(new Printable() {
 			  public int print(Graphics pg, PageFormat pf, int pageNum) {
-				int RowCount = View.getTable().getRowCount();  
-				int Rows = View.getTable().getRowCount();
-				
-				int totalpages = Rows/12;     //   RowCount;
+//				int RowCount = View.getTable().getRowCount();  
+				int Rows = View.getTable().getRowCount()-1;    //   show("Number of Rows : "+Rows);
+				int totalpages = 0;
+				int TotalPages = Rows/12;
+				int Remainder = Rows%12;                     //   show("Remainder is : "+Remainder);
+				 if(Remainder == 0) totalpages = TotalPages;            
+				 else totalpages = TotalPages + 1;           //   show("TotalNumber of pages : "+totalpages);
 				  if (pageNum < totalpages) 
 				   {
 					Font newFont;		          
@@ -351,10 +354,12 @@ public class SpreadMRKListController {
         		String Roll = GetData1(View.getTable(), m+pageNum*12, 1);
         		String Div = GetData1(View.getTable(), m+pageNum*12, 2);
         		String Name = GetData1(View.getTable(), m+pageNum*12, 3);
+        		if(Name == null || Name.isEmpty()){ continue; }
         		pg.drawString(Roll, 65+k*jump, y);                          //  Printing Roll Numbers
-        		pg.drawString(Div, 105+k*jump, y);                          //  Printing Divisions
-        		pg.drawString(Name.substring(0, 32), 142+k*jump, y);        //  Printing Names
-        		if(m < 12) m++;
+        		pg.drawString(Div, 105+k*jump, y);                          //  Printing Divisions        		
+	            if(Name.length() > 32) {pg.drawString(Name.substring(0, 32), 142+k*jump, y);}        //  Printing Names
+	            else pg.drawString(Name, 142+k*jump, y);
+	            if(m < 12) m++;
         	}
             y = y + JVNGrid;	
         }                       
@@ -366,8 +371,11 @@ public class SpreadMRKListController {
         for( int j = 0; j < 6; j++){
 	        for(int k = 0; k < 2; k++){
 		      String EVS = GetData1(View.getTable(), m+pageNum*12, 28);                          // EVS
+//		      if(EVS == null || EVS.isEmpty()){ EVS = "00"; }    show("The page No. is : "+pageNum);
 		      String PTE = GetData1(View.getTable(), m+pageNum*12, 29);                          // PTE
+//		      if(PTE == null || PTE.isEmpty()){ PTE = "00"; }
 		      String RollNo = View.getTable().getModel().getValueAt(m+pageNum*12, 1).toString();
+//		      if(RollNo == null || RollNo.isEmpty()){ continue; }
 		      subjectName = collheaderfinder(RollNo);        
 				for(int i = 0; i< subjectName.size(); i++){ 
 				pg.drawString(subjectName.get(i), (106+i*20)+k*jump, y1);                   	 // Subjects				
@@ -519,9 +527,12 @@ public class SpreadMRKListController {
 		   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
-		   int Rows = View.getTable().getRowCount();   
-		   
-			int totalpages = Rows/28;
+		   int Rows = View.getTable().getRowCount()-1;   
+		   int totalpages = 0;
+		   int TotalPages = Rows/28;
+		   int Remainder = Rows%28;
+		   if(Remainder == 0){ totalpages = TotalPages;}
+		   else totalpages = TotalPages+1;
 			if (pageNum < totalpages) 
 			{	
 			  Font newFont;		          
@@ -575,7 +586,7 @@ public class SpreadMRKListController {
 		           if(i == 0) {pg.drawString(HeadereSubjects[i], 280, 43);}
 		           if(i == 1) {pg.drawString(HeadereSubjects[i], 360, 43);}
 		           if(i == 2) {pg.drawString(HeadereSubjects[i], 430, 43);}
-		           if(i > 2) {pg.drawString(HeadereSubjects[i], 280+i*80, 43);}
+		           if(i > 2)  {pg.drawString(HeadereSubjects[i], 280+i*80, 43);}
 		        }
 		        
 		        for(int i = 0; i < 6; i++){
@@ -668,16 +679,16 @@ public class SpreadMRKListController {
 	    }
 
 	private void btnResult(){
-         
-		for(int row = 0; row < 15; row++){
+        int Rows = View.getTable().getRowCount();
+		for(int row = 0; row < Rows-1; row++){
 			String result =	Mod(row);
 			SetData(result, row, 31);
 		}		
 	}
 	
 	public void process(){
-	     ClearTable();
-	     ResizeTable(View.getTable(),Model.strArray.size());
+	 ClearTable();
+	 ResizeTable(View.getTable(),Model.strArray.size());      //   Show(Model.strArray.size());
   	 String plate[];
   	 String rollno, names, div;		   	
 		 for(int i=1; i < Model.strArray.size(); i++)                      //  strArray.size()
@@ -729,14 +740,9 @@ public class SpreadMRKListController {
 	
 	private void BtnProcess(){
 //	    	System.exit(0);
-		String EngMarks = GetData1(View.getTable(),5,28);
-//		show(EngMarks);
-		String Eng = GetData1(View.getTable(),7,28);
-		Stats.SetData(EngMarks, 1,6);
-//		show(Eng);
-		Stats.SetData1(Eng, 0, 4);
 		Stats.ShowStats();
-		ranking();		
+		rankingcom();
+		rankingsci();
 	}                    
 	    	    	    
 	private void BtnSearch(){
@@ -1050,7 +1056,7 @@ public class SpreadMRKListController {
 						             SumT2andEVSScore(pageNum)};
 				final int[] SubTotal = {Sub1(pageNum), Sub2(pageNum), Sub3(pageNum), 
 						                Sub4(pageNum), Sub5(pageNum), Sub6(pageNum)};
-				int totalpages = 50;     //   RowCount;
+				int totalpages = RowCount;
 				  if (pageNum < totalpages) 
 				   {
 					pg.drawString("( FOR OFFICE USE ONLY )", 230, 40);
@@ -1183,13 +1189,67 @@ public class SpreadMRKListController {
 	   }	
 
  	
-public void ranking(){
+public void rankingcom(){
+	//   Swapping Total Scores in decreasing order --- Insertion Sorting  
+	
+	    int rowcount = View.getTable().getRowCount();
+	   	int array[];
+	   	array = new int [rowcount];
+	   	int length = array.length;	   	
+	   	for(int row = 0; row < 898; row++){
+	   	       String TotalMrks = GetData(View.getTable(),row,30).toString().trim();
+	   	       if(TotalMrks == null || TotalMrks.isEmpty()){ TotalMrks = "00"; }
+    	   	   array[row] = Integer.parseInt(TotalMrks); 
+	   	}
+	   	
+		   int i;
+		    int large[] = new int[10];
+		    int max = 0, index;
+		    for (int j = 0; j < 10; j++) {
+		        max = array[0];
+		        index = 0;
+		        for (i = 1; i < array.length; i++) {
+		            if (max < array[i]) {
+		                max = array[i];
+		                index = i;
+		            }
+		        }
+		        float[] AverageMrks = {Sub1(index), Sub2(index), Sub3(index), 
+	   		               Sub4(index), Sub5(index), Sub6(index)};
+
+		        int AvgSum = 0;
+		        for(i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
+		        int AvgTotal = AvgSum + EVSmarks(index);
+		 
+		        int Score = 0;
+                String RollNo = GetData(View.getTable(), index,1).toString().trim();
+		        String Stream = Streamfinder(RollNo);
+		        String percent = Percent(Integer.valueOf(index));
+		        large[j] = max;
+		        array[index] = Integer.MIN_VALUE;
+//		        if(Stream == "SCIENCE") continue;
+//		        if(Stream == "COMMERCE" )
+		          { 
+	                String Name = GetData(View.getTable(), index,3).toString();
+	                String Div =  GetData(View.getTable(), index,2).toString();
+		        	Stats.SetData("  "+String.valueOf(AvgTotal), j, 5);
+	                Stats.SetData("    "+percent, j, 6);
+	                Stats.SetData("    "+RollNo, j, 3);
+	                Stats.SetData(Name.substring(0, 35), j, 2);
+	                Stats.SetData("     "+Div, j, 4);
+		          }
+                
+		    }
+}	 
+
+
+public void rankingsci(){
 	//   Swapping Total Scores in decreasing order --- Insertion Sorting  
 	    int rowcount = View.getTable().getRowCount();
 	   	int array[];
-	   	array = new int [50];
+	   	array = new int [rowcount];
 	   	int length = array.length;	   	
-	   	for(int row = 0; row < length; row++){
+	   	for(int row = 899; row < 1376; row++){
 	   	       String TotalMrks = GetData(View.getTable(),row,30).toString();
 	   	       if(TotalMrks == null || TotalMrks.isEmpty()){ TotalMrks = "00"; }
     	   	   array[row] = Integer.parseInt(TotalMrks); 
@@ -1207,9 +1267,31 @@ public void ranking(){
 		                index = i;
 		            }
 		        }
-		        large[j] = max;
-		        array[index] = Integer.MIN_VALUE;
-                Stats.SetData(String.valueOf(large[j]), j, 5);
+		        float[] AverageMrks = {Sub1(index), Sub2(index), Sub3(index), 
+	   		               Sub4(index), Sub5(index), Sub6(index)};
+
+		        int AvgSum = 0;
+		        for(i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
+		        int AvgTotal = AvgSum + EVSmarks(index);
+
+	               String RollNo = GetData(View.getTable(), index,1).toString().trim();
+			        String Stream = Streamfinder(RollNo);
+			        String percent = Percent(Integer.valueOf(index));
+			        large[j] = max;
+			        array[index] = Integer.MIN_VALUE;
+//			        if(Stream == "SCIENCE") continue;
+//			        if(Stream == "COMMERCE" )
+			          { 
+		                String Name = GetData(View.getTable(), index,3).toString();
+		                String Div =  GetData(View.getTable(), index,2).toString();
+			        	Stats.SetData("  "+String.valueOf(AvgTotal), j+11, 5);
+		                Stats.SetData("    "+percent, j+11, 6);
+		                Stats.SetData("    "+RollNo, j+11, 3);
+		                Stats.SetData(Name.substring(0, 35), j+11, 2);
+		                Stats.SetData("     "+Div, j+11, 4);
+		          }
+                
+                
 		    }
 }	 
 

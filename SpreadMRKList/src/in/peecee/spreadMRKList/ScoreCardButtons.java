@@ -38,8 +38,8 @@ public class ScoreCardButtons {
 	
 	public void showScoreButtons(){
 		frame.validate();                
-	    frame.setTitle("Score Card/Spread Sheet");
-	    frame.setSize(450, 175);
+	    frame.setTitle("Score Card / Spread Sheet");
+	    frame.setSize(550, 175);
 	    frame.setLocationRelativeTo(null);
 	    frame.setResizable(false);
 	    frame.getContentPane().setBackground(Color.lightGray);
