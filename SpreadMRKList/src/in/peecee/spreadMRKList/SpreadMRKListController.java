@@ -52,7 +52,7 @@ public class SpreadMRKListController {
 	private SpreadMRKListView View;
 	private SpreadMRKListSubMarks SubMarks = new SpreadMRKListSubMarks();
 	private showstatistics Stats = new showstatistics();
-	private ScoreCardButtons SCButtons = new ScoreCardButtons();
+	private FailuresList fl = new FailuresList();
 //	private printRoutines prnRoutines = new printRoutines();
 	
 	public  ArrayList<String> strArray = new ArrayList<String>();
@@ -263,28 +263,30 @@ public class SpreadMRKListController {
 
 	
 	protected void BtnFailedNumbers() {
-		// TODO Auto-generated method stub
-//	     ClearTable();
-//	     ResizeTable(View.getTable(),Model.strArray.size());
-
+		
+		fl.showScoreButtons();
+		
+		
 		
 	}
+	
+	
 	protected void BtnPrintConsolidated() {
 //		System.exit(0);
 		
+        final String[] TableItemC1 = {"Exam","Unit I","Term I","Unit II","TermII",
+                "Agg","Avg","Grace"};
+		final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
+		final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
+		final String[] RowHeader = {"EVS", "PTE", "    Total"};
+		final String[] StuDetails = {"Roll No:", "Div", ""};
+
+		
 		  try {
-              final String[] TableItemC1 = {"Exam","Unit I","Term I","Unit II","TermII",
-            		                        "Agg","Avg","Grace"};
-              final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
-              final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
-              final String[] RowHeader = {"EVS", "PTE", "    Total"};
-              final String[] StuDetails = {"Roll No:", "Div", ""};
 			  PrinterJob pjob = PrinterJob.getPrinterJob();
-//			  pjob.setCopies(1);			    
 			  pjob.setJobName("Consolidated Marks Card");
 			  pjob.setPrintable(new Printable() {
 			  public int print(Graphics pg, PageFormat pf, int pageNum) {
-//				int RowCount = View.getTable().getRowCount();  
 				int Rows = View.getTable().getRowCount()-1;    //   show("Number of Rows : "+Rows);
 				int totalpages = 0;
 				int TotalPages = Rows/12;
@@ -351,9 +353,10 @@ public class SpreadMRKListController {
 //        String Roll = GetData1(View.getTable(), i+pageNum*12, 1);          
         for(int j = 0; j < 6; j++){
         	for(int k = 0; k< 2; k++){
+        		if(m+pageNum*12 > Rows)continue;
         		String Roll = GetData1(View.getTable(), m+pageNum*12, 1);
         		String Div = GetData1(View.getTable(), m+pageNum*12, 2);
-        		String Name = GetData1(View.getTable(), m+pageNum*12, 3);
+       		    String Name = GetData1(View.getTable(), m+pageNum*12, 3);
         		if(Name == null || Name.isEmpty()){ continue; }
         		pg.drawString(Roll, 65+k*jump, y);                          //  Printing Roll Numbers
         		pg.drawString(Div, 105+k*jump, y);                          //  Printing Divisions        		
@@ -364,36 +367,41 @@ public class SpreadMRKListController {
             y = y + JVNGrid;	
         }                       
 
-/////   E V S   M A R K S   and   P T E    G R A D E S
+/////   E V S   M A R K S,  P T E   G R A D E S  and  S U B J E C T    N A M E S 
         
         m = 0;
         int y1 = 39,  y2 = 87;
         for( int j = 0; j < 6; j++){
 	        for(int k = 0; k < 2; k++){
+	          if(m+pageNum*12 > Rows)continue;
 		      String EVS = GetData1(View.getTable(), m+pageNum*12, 28);                          // EVS
 //		      if(EVS == null || EVS.isEmpty()){ EVS = "00"; }    show("The page No. is : "+pageNum);
 		      String PTE = GetData1(View.getTable(), m+pageNum*12, 29);                          // PTE
-//		      if(PTE == null || PTE.isEmpty()){ PTE = "00"; }
+		      if(PTE == null || PTE.isEmpty()){ PTE = "00"; }
 		      String RollNo = View.getTable().getModel().getValueAt(m+pageNum*12, 1).toString();
-//		      if(RollNo == null || RollNo.isEmpty()){ continue; }
+		      if(RollNo == null || RollNo.isEmpty()){ continue; }
 		      subjectName = collheaderfinder(RollNo);        
 				for(int i = 0; i< subjectName.size(); i++){ 
-				pg.drawString(subjectName.get(i), (106+i*20)+k*jump, y1);                   	 // Subjects				
+				  pg.drawString(subjectName.get(i), (106+i*20)+k*jump, y1);                   	 // Subjects				
 				}
-				pg.drawString(EVS, 230+k*jump, y2); pg.drawString(EVS, 230+k*jump, y2+12);       // EVS Marks
-				pg.drawString(EVS, 230+k*jump, y2+24);                                           // EVS Marks
-				pg.drawString(PTE, 250+k*jump, y2);                                              // PTE Grade
+				  for(int t = 0; t < 3; t++){
+				    pg.drawString(EVS, 230+k*jump, y2+t*12);   //  pg.drawString(EVS, 230+k*jump, y2+12);       // EVS Marks
+				  }    
+				 pg.drawString(PTE, 250+k*jump, y2);                                              // PTE Grade
+				
 				if(m < 12) m++;
 	        }   	        
 	        y1 = y1 + JVNGrid;
 	        y2 = y2 + JVNGrid;
         }
+        
  ////   A L L    S U B J E C T    A L L    E X A M    M A R K S   
         
         m = 0;
         int y3 = 51;
       for(int d = 0; d < 6; d++){  
         for(int k = 0; k < 2; k++){
+        	if(m+pageNum*12 > Rows)continue;
 		  for(int j = 0; j < 6; j++){
 			for(int i = 0; i < 4; i++){                                             //  All marks except EVS and PTE
 				pg.drawString(GetData1(View.getTable(), m+pageNum*12, 4+i+(4*j)), (110+j*20)+k*jump, y3+i*12);
@@ -403,13 +411,14 @@ public class SpreadMRKListController {
         }
              y3 = y3 + JVNGrid;
       }
-      
+     
 /////   EX A M W I S E   T O T A L       
       
 	  m = 0;	
 	 int y4 = 51;
      for( int j = 0; j < 6; j++){
 	        for(int k = 0; k < 2; k++){
+	        	if(m+pageNum*12 > Rows)continue;
 	        	int[] ExamwiseSum = {SumU1Score(m+pageNum*12), SumT1Score(m+pageNum*12), SumU2Score(m+pageNum*12), 
 			             SumT2andEVSScore(m+pageNum*12)};
 	        	      
@@ -427,6 +436,7 @@ public class SpreadMRKListController {
      int y5 = 99, y6 = 111;
      for( int j = 0; j < 6; j++){
 	   for(int k = 0; k < 2; k++){
+		   if(m+pageNum*12 > Rows)continue;
 		int[] SubTotal = {Sub1(m+pageNum*12), Sub2(m+pageNum*12), Sub3(m+pageNum*12),
 				          Sub4(m+pageNum*12), Sub5(m+pageNum*12), Sub6(m+pageNum*12)};
 		float[] AggMrks ={Sub1(m+pageNum*12), Sub2(m+pageNum*12), Sub3(m+pageNum*12),
@@ -448,6 +458,7 @@ public class SpreadMRKListController {
 	y5 = 99; 	y6 = 111;
     for( int j = 0; j < 6; j++){
 	        for(int k = 0; k < 2; k++){
+	        	if(m+pageNum*12 > Rows)continue;
 	        	int[] ExamwiseSum = {SumU1Score(m+pageNum*12), SumT1Score(m+pageNum*12), SumU2Score(m+pageNum*12), 
 			                         SumT2andEVSScore(m+pageNum*12)};
 	    		float[] AggMrks ={Sub1(m+pageNum*12), Sub2(m+pageNum*12), Sub3(m+pageNum*12),
@@ -471,7 +482,8 @@ public class SpreadMRKListController {
 	m = 0;	
 	y6 = 123; int y7 = 135;
     for( int j = 0; j < 6; j++){
-	  for(int k = 0; k < 2; k++){	        	
+	  for(int k = 0; k < 2; k++){	
+		if(m+pageNum*12 > Rows)continue;		  
 	  	String result = Mod(m+pageNum*12);
 	    pg.drawString(result, 66+k*jump, y7);
 	    int[] GraceValues = Mod1(m+pageNum*12);
@@ -515,16 +527,16 @@ public class SpreadMRKListController {
 	
 	
 	protected void BtnPrintSpreadSheet() {
-		// 	System.exit(0);
+		   int TMrg = 748, BMrg = 8, Center = 0,  x = 7, StringPosition = 0;  // TMrg = Top Margin, BMrg = Bottom Margin.
+		   Center = (TMrg - BMrg)/2;
+		   final String[] Exams = {"U1", "T1", "U2", "T2"};
+		   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
+				
 	  try {
 		  
 		   PrinterJob pjob = PrinterJob.getPrinterJob();
 		   pjob.setJobName("Spread Sheet Print");
 		   pjob.setCopies(1);
-		   int TMrg = 748, BMrg = 8, Center = 0,  x = 7, StringPosition = 0;  // TMrg = Top Margin, BMrg = Bottom Margin.
-		   Center = (TMrg - BMrg)/2;
-		   final String[] Exams = {"U1", "T1", "U2", "T2"};
-		   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
 		   pjob.setPrintable(new Printable() {
 		   public int print(Graphics pg, PageFormat pf, int pageNum) {
 		   int Rows = View.getTable().getRowCount()-1;   
@@ -581,7 +593,8 @@ public class SpreadMRKListController {
 		        
 		        pg.drawString(collegename, StartHeader1, 7);
 		        pg.drawString(PlaceName, StartHeader2, 22);
-		        
+		        pg.drawString(String.valueOf(pageNum+1), 760, 570);
+	        
 		        for(int i = 0; i < 6; i++){
 		           if(i == 0) {pg.drawString(HeadereSubjects[i], 280, 43);}
 		           if(i == 1) {pg.drawString(HeadereSubjects[i], 360, 43);}
@@ -596,24 +609,23 @@ public class SpreadMRKListController {
 		        }
 		        		        
 		        for( int i = 0; i < 28; i++){
-		            String Roll = GetData1(View.getTable(), i+pageNum*28, 1);          //  Printing Roll Numbers
+		        	if(i+pageNum*28 > Rows) continue;
+		            String Roll = GetData1(View.getTable(), i+pageNum*28, 1);                    //  Printing Roll Numbers
 		        	pg.drawString(Roll, 5, 77+(i*17));
-		        }
-
-		        for( int i = 0; i < 28; i++){
-		            String Name = GetData1(View.getTable(), i+pageNum*28, 3);         //  Printing Names  
+		            String Name = GetData1(View.getTable(), i+pageNum*28, 3);                    //  Printing Names  
 		            if(Name.length() > 27){ pg.drawString(Name.substring(0, 27), 42, 77+i*17);}
 		            else {pg.drawString(Name, 42, 77+i*17);}
 		        }
 
 		        for(int i = 0; i < 28; i++){                                     //  Number of Lines in one page = 28
+		        	if(i+pageNum*28 > Rows) continue;
 			        for(int j = 4; j < 28; j++){
 			        	String Marks = GetData1(View.getTable(), i+pageNum*28, j);
 			        	pg.drawString(Marks, 190+j*20, 77+i*17);                     //  Printing ALL MARKS
 			        }
 		        }
 		        
-				g2.dispose();
+				g2.dispose();                   
 																				
 				return Printable.PAGE_EXISTS;
 				}

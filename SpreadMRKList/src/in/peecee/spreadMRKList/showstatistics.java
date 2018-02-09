@@ -43,15 +43,20 @@ public class showstatistics {
 //    private MeritListButtons MLButtons = new MeritListButtons();
 	public JButton MLSCPrintButton;
 	public JButton STPrintButton;
+	public JButton FailedButtons;
 	int TopLeftX = 50, TopLeftY = 80, Height = 20, Width = 50;
+	
     String[] SerialNum = {" ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"};
+    
     String[] Header1 = {"Rank", "          Name", "Roll", "Div", "Score", "Per",
     		            "Subject", "Commerce", "Science"};
+    
     String[] ComSubjects = {"English", "Hindi", "Marathi", "Tamil", "Economics", "Accountancy", "Org. of Commerce",
     		                "Secreterial Practice", "Mathematics", "Info. Technology"};
 
     String[] SciSubjects = {"English", "Hindi", "Marathi", "Tamil", "Physics", "Chemistry", "Mathematics",
                             "Biology", "Electronics", "Computer Science", "Info. Technology"};
+    
     String[] Result = {"Number of Students registered", "Number of students appeared", "Number of Students Passed",
     		           "Number of Students Failed", "Number of Distinctions", "Number of First Class",
     		           "Number of Second  Class", "Number of Pass Class", "Number of Students Promoted",
@@ -67,8 +72,8 @@ public class showstatistics {
 		 
 	    frame.validate();                
 	    frame.setTitle("MERIT LIST - OVER ALL RANKINGS AND SUBJECT TOPPERS");
-	    frame.setSize(1100, 700);
-	    frame.setLocationRelativeTo(null);
+	    frame.setSize(1290, 700);
+//	    frame.setLocationRelativeTo(null);
 	    frame.setResizable(false);
 	    frame.getContentPane().setBackground(Color.lightGray);
 	    frame.setVisible(true);
@@ -229,7 +234,7 @@ public class showstatistics {
     table_1.getColumnModel().getColumn(3).setPreferredWidth(30);       // DIVISION
     table_1.getColumnModel().getColumn(4).setPreferredWidth(50);       // SCORE   
     
-	MLSCPrintButton = new JButton("Merit List Science / Commerce");       //  MLCom = Merit List Science
+	MLSCPrintButton = new JButton("Merit List Science / Commerce");       //  MLSC = Merit List Science Commerce
 	MLSCPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	GridBagConstraints gbc_MLSCPrintButton = new GridBagConstraints();
 	gbc_MLSCPrintButton.anchor = GridBagConstraints.EAST;
@@ -294,11 +299,16 @@ public class showstatistics {
 			  for(int j = 0; j < Result.length; j++){
 				  pg.drawString(Result[j], TopLeftX+Width+5, (TopLeftY+20*Height-5)+(j*Height));				  				  
 			  }
-			  for(int i = 0; i <6; i++){
-			       String nameC = GetData(table, i, 2);         //     show(nameC);
-			       
-			       String nameS = GetData(table, i+11, 2);      //     show(nameS);
+			  			  
+			  
+			for(int j = 0; j < 4; j++){  
+			  for(int i = 0; i < 5; i++){
+				  pg.drawString(GetData(table, i, 2), TopLeftX+Width-10, TopLeftY+i*Height+2*Height-5);            //  Names
+			      pg.drawString(GetData(table, i, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+2*Height-5); //  Roll No, Div, Score n Percentage
+			      pg.drawString(GetData(table, i+11, 2), TopLeftX+Width-10, TopLeftY+i*Height+11*Height-5);            //  Names
+			      pg.drawString(GetData(table, i+11, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+11*Height-5);
 			  }
+		    }
   				  
 											    				
 			return Printable.PAGE_EXISTS;
@@ -416,8 +426,23 @@ public class showstatistics {
    	gbc_btnOK.gridx = 3;
    	gbc_btnOK.gridy = 8;
    	frame.getContentPane().add(btnOK, gbc_btnOK);
+
    	
-   
+/*   	FailedButtons = new JButton("Failure List");
+   	btnOK.addActionListener(new ActionListener() {
+   		public void actionPerformed(ActionEvent arg0) {
+   			
+   		
+   		}
+   	});
+   	GridBagConstraints gbc_FailedButtons = new GridBagConstraints();
+   	gbc_FailedButtons.insets = new Insets(0, 0, 5, 0);
+   	gbc_FailedButtons.anchor = GridBagConstraints.SOUTH;
+   	gbc_FailedButtons.gridx = 2;
+   	gbc_FailedButtons.gridy = 8;
+   	frame.getContentPane().add(FailedButtons, gbc_FailedButtons);
+
+  */ 
 	   
    }
    
