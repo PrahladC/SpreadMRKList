@@ -50,7 +50,7 @@ public class SpreadMRKListController {
 
 	private SpreadMRKListModel Model;
 	private SpreadMRKListView View;
-	private SpreadMRKListSubMarks SubMarks = new SpreadMRKListSubMarks();
+//	private SpreadMRKListSubMarks SubMarks = new SpreadMRKListSubMarks();
 	private showstatistics Stats = new showstatistics();
 	private FailuresList fl = new FailuresList();
 //	private printRoutines prnRoutines = new printRoutines();
@@ -101,7 +101,7 @@ public class SpreadMRKListController {
     public int GetData2(JTable table, int row_index, int col_index) {  return (int) View.getTable().getValueAt(row_index, col_index); }
     
     
-    private ActionListener saveListener, loadListener, processListener, searchListener, ResultListener,
+    private ActionListener saveListener, loadListener, meritlistListener, searchListener, ResultListener,
 	                       setprinterListener, printCurrentListener, printAllListener, canselListener, 
 	                       UpdateListener, spreadsheetListener, printConsolidatedListener, failedNumbersListener ;
     
@@ -119,53 +119,52 @@ public class SpreadMRKListController {
 		    }
 		}                               */
 		
-		 SetPrinter sp=new SetPrinter();
-	        String printername=sp.LoadPreferences();
-	        Model.setPrinterName(printername);
-	        View.setPrinterLabel(printername);
-	        
-	        
-	        View.getTable().addKeyListener(new KeyListener() {				
-				@Override
-				public void keyTyped(KeyEvent arg0) {
-					// TODO Auto-generated method stub					
-				}				
-				@Override
-				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub	
-					  String RowNo = null;
-					  int column = 0;
-					  int row = View.getTable().getSelectedRow();         // To get the row number of JTable 
-					  String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
-					  int keyCode = e.getKeyCode();
-					    switch( keyCode ) { 
-					        case KeyEvent.VK_UP:				           
-					        SearchByRollNo(RollNo);
-					        break;
-					    
-					        case KeyEvent.VK_DOWN:
-					        SearchByRollNo(RollNo);
-					        break;					       
-					     }	
-				}				
-				@Override
-				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-								
-				}
-			});	           	
+	SetPrinter sp=new SetPrinter();
+	String printername=sp.LoadPreferences();
+	Model.setPrinterName(printername);
+	View.setPrinterLabel(printername);
 	        	        
-	        View.getTable().addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseClicked(MouseEvent evt) {
-//	            	boolean mouseclicked = true;  
-	            	String RollNo = null;
-	            	int Rows = View.getTable().getRowCount();
-	                int row = View.getTable().rowAtPoint(evt.getPoint());
-	                         RollNo = GetData1(View.getTable(), row, 1 );
-	                SearchByRollNo(RollNo);                  
-	            }	                
-	});	        
+	View.getTable().addKeyListener(new KeyListener() {				
+	  @Override
+	  public void keyTyped(KeyEvent arg0) {
+		 // TODO Auto-generated method stub					
+	  }				
+	    @Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	  String RowNo = null;
+	  int column = 0;
+	  int row = View.getTable().getSelectedRow();         // To get the row number of JTable 
+	  String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
+	  int keyCode = e.getKeyCode();
+			switch( keyCode ) { 
+			case KeyEvent.VK_UP:				           
+			SearchByRollNo(RollNo);
+			break;
+						    
+			case KeyEvent.VK_DOWN:
+			SearchByRollNo(RollNo);
+			break;					       
+		}	
+		}				
+		@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+								
+	}
+ });	           	
+	        	        
+     View.getTable().addMouseListener(new MouseAdapter() {
+         @Override
+    public void mouseClicked(MouseEvent evt) {
+//     	boolean mouseclicked = true;  
+	   	String RollNo = null;
+	   	int Rows = View.getTable().getRowCount();
+	    int row = View.getTable().rowAtPoint(evt.getPoint());
+	    RollNo = GetData1(View.getTable(), row, 1 );
+	    SearchByRollNo(RollNo);                  
+	}	                
+ });	        
 	        
 	canselListener = new ActionListener() {
 	public void actionPerformed(ActionEvent actionEvent) {
@@ -190,9 +189,9 @@ public class SpreadMRKListController {
 			            }
 			  };
 	  
-	processListener = new ActionListener() {
+	meritlistListener = new ActionListener() {
 	public void actionPerformed(ActionEvent actionEvent) {                  
-	                BtnProcess();
+	                BtnMeritList();
 	            }
 	  };
 	        
@@ -248,7 +247,7 @@ public class SpreadMRKListController {
 	View.getSaveButton().addActionListener(saveListener);
 	View.getLoadButton().addActionListener(loadListener);
 	View.getResultButton().addActionListener(ResultListener);
-	View.getProcessButton().addActionListener(processListener);
+	View.getMeritListButton().addActionListener(meritlistListener);
 	View.getFailedNums().addActionListener(failedNumbersListener);
 	View.getSearchButton().addActionListener(searchListener);
 	View.getSetPrinterButton().addActionListener(setprinterListener);
@@ -263,11 +262,36 @@ public class SpreadMRKListController {
 
 	
 	protected void BtnFailedNumbers() {
-		
-		fl.showScoreButtons();
-		
-		
-		
+//		fl.failList(5);
+	    for(int i = 0; i < 500; i++){
+	    	fl.SetData(i+1, i, 0);
+	    }
+
+		int row = 0, k = 0, failcounter = 0;
+		int NumofRows = 1468;
+		fl.failures();        
+		String result;
+			
+		for(row = 0; row < NumofRows; row++){
+			result = GetData1(View.getTable(),row ,31);	
+			String Roll = GetData1(View.getTable(), row, 1);
+    		String Div = GetData1(View.getTable(),  row, 2);
+   		    String Name = GetData1(View.getTable(), row, 3);
+			if(result == "Fail" || result.contains("Fail")){
+			   failcounter++;	
+			   for(int j = 0; j < 400; j++){	
+			     fl.SetData(result, j, 13);
+			     
+			   }
+			   fl.SetData(Roll, k, 1);
+			   fl.SetData(Div, k, 2);
+			   fl.SetData(Name, k, 3);			   
+			   if(k < 400) k++;
+			}
+			else continue;
+			
+		}                            
+		show(failcounter);      
 	}
 	
 	
@@ -275,7 +299,7 @@ public class SpreadMRKListController {
 //		System.exit(0);
 		
         final String[] TableItemC1 = {"Exam","Unit I","Term I","Unit II","TermII",
-                "Agg","Avg","Grace"};
+                                      "Agg","Avg","Grace"};
 		final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
 		final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
 		final String[] RowHeader = {"EVS", "PTE", "    Total"};
@@ -356,10 +380,10 @@ public class SpreadMRKListController {
         		if(m+pageNum*12 > Rows)continue;
         		String Roll = GetData1(View.getTable(), m+pageNum*12, 1);
         		String Div = GetData1(View.getTable(), m+pageNum*12, 2);
-       		    String Name = GetData1(View.getTable(), m+pageNum*12, 3);
-        		if(Name == null || Name.isEmpty()){ continue; }
+       		    String Name = GetData1(View.getTable(), m+pageNum*12, 3);        		
         		pg.drawString(Roll, 65+k*jump, y);                          //  Printing Roll Numbers
-        		pg.drawString(Div, 105+k*jump, y);                          //  Printing Divisions        		
+        		pg.drawString(Div, 105+k*jump, y);                          //  Printing Divisions     
+        		if(Name == null || Name.isEmpty()){ Name = ""; }
 	            if(Name.length() > 32) {pg.drawString(Name.substring(0, 32), 142+k*jump, y);}        //  Printing Names
 	            else pg.drawString(Name, 142+k*jump, y);
 	            if(m < 12) m++;
@@ -750,11 +774,14 @@ public class SpreadMRKListController {
 
 
 	
-	private void BtnProcess(){
+	private void BtnMeritList(){
 //	    	System.exit(0);
 		Stats.ShowStats();
-		rankingcom();
-		rankingsci();
+		rankCom();
+		rankSci();
+		resultCom();
+		resultSci();
+		OverAllResult();
 	}                    
 	    	    	    
 	private void BtnSearch(){
@@ -1200,114 +1227,212 @@ public class SpreadMRKListController {
 		  }                                     				
 	   }	
 
+  public void rankCom(){
+	  int[] arrayOfMarks; int ind = 0;
+	  int rowcount = View.getTable().getRowCount();
+	  arrayOfMarks = new int [rowcount];
+	  int length = arrayOfMarks.length;	  
+	  
+	  for(int row = 0; row < rowcount; row++){
+		  String RollNo = GetData(View.getTable(), row,1).toString().trim();
+	      String Stream = Streamfinder(String.valueOf(RollNo));
+	      if(Stream.contentEquals("SCIENCE")) continue;	     
+		  arrayOfMarks[ind] = AverageMarksSum(row);
+		  ind++;	    
+	  }	
+//	  show(ind);
+//	    show(arrayOfMarks[1468]);
+		int i;
+		int large[] = new int[10];
+		int max = 0, index;
+		for (int j = 0; j < 10; j++) {
+		     max = arrayOfMarks[0];
+		     index = 0;
+		  for (i = 1; i < arrayOfMarks.length; i++) {
+		    if (max < arrayOfMarks[i]) {
+		        max = arrayOfMarks[i];
+		        index = i;
+		       }
+		    }
+		  
+		large[j] = max;
+		arrayOfMarks[index] = Integer.MIN_VALUE;
+		String RollNo = GetData(View.getTable(), index,1).toString().trim();
+		String percent = Percent(Integer.valueOf(index));
+	    String Div =  GetData(View.getTable(), index,2).toString();
+	    String Name = GetData(View.getTable(), index,3).toString();
+
+	    Stats.SetData(Name.substring(0, 35), j, 2);
+		Stats.SetData("    "+RollNo, j, 3);
+		Stats.SetData("     "+Div, j, 4);
+		Stats.SetData("  "+String.valueOf(large[j]), j, 5);
+		Stats.SetData("    "+percent, j, 6);	
+		
+	    }	  
+  }
  	
-public void rankingcom(){
-	//   Swapping Total Scores in decreasing order --- Insertion Sorting  
-	
-	    int rowcount = View.getTable().getRowCount();
-	   	int array[];
-	   	array = new int [rowcount];
-	   	int length = array.length;	   	
-	   	for(int row = 0; row < 898; row++){
-	   	       String TotalMrks = GetData(View.getTable(),row,30).toString().trim();
-	   	       if(TotalMrks == null || TotalMrks.isEmpty()){ TotalMrks = "00"; }
-    	   	   array[row] = Integer.parseInt(TotalMrks); 
-	   	}
-	   	
-		   int i;
-		    int large[] = new int[10];
-		    int max = 0, index;
-		    for (int j = 0; j < 10; j++) {
-		        max = array[0];
-		        index = 0;
-		        for (i = 1; i < array.length; i++) {
-		            if (max < array[i]) {
-		                max = array[i];
-		                index = i;
-		            }
-		        }
-		        float[] AverageMrks = {Sub1(index), Sub2(index), Sub3(index), 
-	   		               Sub4(index), Sub5(index), Sub6(index)};
+  public void rankSci(){
+	  int[] arrayOfMarks; int ind = 0;
+	  int rowcount = View.getTable().getRowCount();
+	  arrayOfMarks = new int [rowcount];
+	  int length = arrayOfMarks.length;	  
+	  int[] arrayOfIndex = new int[rowcount];
+	  
+	  for(int row = 0; row < rowcount; row++){
+		  String RollNo = GetData(View.getTable(), row,1).toString().trim();
+	      String Stream = Streamfinder(String.valueOf(RollNo));
+	      if(Stream.contentEquals("COMMERCE")) continue;	     
+		  arrayOfMarks[ind] = AverageMarksSum(row);
+		  arrayOfIndex[ind] = row;
+		  ind++;	    
+	  }	
 
-		        int AvgSum = 0;
-		        for(i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
-		        int AvgTotal = AvgSum + EVSmarks(index);
+	  int i;
+		int large[] = new int[10];
+		int max = 0, index, temp= 0;
+		for (int j = 0; j < 10; j++) {
+		     max = arrayOfMarks[0];
+		     index = 0;
+		  for (i = 1; i < arrayOfMarks.length; i++) {
+		    if (max < arrayOfMarks[i]) {
+		        max = arrayOfMarks[i];
+		        index = i;          
+		        temp = arrayOfIndex[i];
+		       }
+		    }
+		  
+		large[j] = max;
+		arrayOfMarks[index] = Integer.MIN_VALUE;
+		String RollNo = GetData(View.getTable(), temp,1).toString().trim();
+		String percent = Percent(Integer.valueOf(temp));
+	    String Div =  GetData(View.getTable(), temp,2).toString();
+	    String Name = GetData(View.getTable(), temp,3).toString();
+	    Stats.SetData(Name.substring(0, 35), j+11, 2);
+		Stats.SetData("    "+RollNo, j+11, 3);
+		Stats.SetData("     "+Div, j+11, 4);
+		Stats.SetData("  "+String.valueOf(large[j]), j+11, 5);
+		Stats.SetData("    "+percent, j+11, 6);	    
+	    }	  
+  }
+ 	
+	public void resultCom(){
+		int[] arrayOfMarks; int ind = 0;
+		  int rowcount = View.getTable().getRowCount();
+		  arrayOfMarks = new int [rowcount];
+		  int[] arrayOfIndexC = new int [rowcount];
+		  int Numfailed = 0, Dist = 0, FC = 0,
+			  SC = 0, Passclass = 0, Promoted = 0, PassPercent = 0;
+		  String Percentage = null;
+		  
+		  for(int row = 0; row < rowcount; row++){
+			  String RollNo = GetData(View.getTable(), row,1).toString().trim();
+		      String Stream = Streamfinder(String.valueOf(RollNo));
+		      if(Stream.contentEquals("SCIENCE")) continue;	     
+			  arrayOfMarks[ind] = AverageMarksSum(row);
+			  arrayOfIndexC[ind] = row;			 
+			  String result = Mod(ind);
+			  if(result == "Fail") Numfailed++;
+			  if(result == "Promoted") Promoted++;
+			  if(result == "Pass Class") Passclass++;
+			  if(result == "Second Class")  SC++;
+			  if(result == "First Class")   FC++;
+			  if(result == "Distinction") Dist++;
+			  ind++;	    
+		  }	  
+		  
+		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
+		  Passpercent = (sum*100)/ind;
+		  Stats.SetData1("     "+ind, 22, 2);
+		  Stats.SetData1("     "+ind, 23, 2);
+		  Stats.SetData1("     "+(ind -Numfailed), 24, 2);
+		  Stats.SetData1("     "+Numfailed, 25, 2);
+		  Stats.SetData1("     "+Dist, 26, 2);
+		  Stats.SetData1("     "+FC, 27, 2);
+		  Stats.SetData1("     "+SC, 28, 2);
+		  Stats.SetData1("     "+Passclass, 29, 2);
+		  Stats.SetData1("     "+Promoted, 30, 2);
+		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 2);		  
+	}
+
+	public void resultSci(){
+		int[] arrayOfMarks; int ind = 0;
+		  int rowcount = View.getTable().getRowCount();
+		  arrayOfMarks = new int [rowcount];
+		  int length = arrayOfMarks.length;	
+		  int[] arrayOfIndexC = new int [rowcount];
+		  int Numfailed = 0, Dist = 0, FC = 0,
+			  SC = 0, Passclass = 0, Promoted = 0, PassPercent = 0;
+		  String Percentage = null;
+		  
+		  for(int row = 0; row < rowcount; row++){
+			  String RollNo = GetData(View.getTable(), row,1).toString().trim();
+		      String Stream = Streamfinder(String.valueOf(RollNo));
+		      if(Stream.contentEquals("COMMERCE")) continue;	     
+			  arrayOfMarks[ind] = AverageMarksSum(row);
+			  arrayOfIndexC[ind] = row;
+			 
+				  String result = Mod(ind);
+				  if(result == "Fail") Numfailed++;
+				  if(result == "Promoted") Promoted++;
+				  if(result == "Pass Class") Passclass++;
+				  if(result == "Second Class")  SC++;
+				  if(result == "First Class")   FC++;
+				  if(result == "Distinction") Dist++;
+				  ind++;	    
+		  }	  
+		  
+		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
+		  Passpercent = (sum*100)/ind;
+		  Stats.SetData1("     "+ind, 22, 3);
+		  Stats.SetData1("     "+ind, 23, 3);
+		  Stats.SetData1("     "+(ind -Numfailed), 24, 3);
+		  Stats.SetData1("     "+Numfailed, 25, 3);
+		  Stats.SetData1("     "+Dist, 26, 3);
+		  Stats.SetData1("     "+FC, 27, 3);
+		  Stats.SetData1("     "+SC, 28, 3);
+		  Stats.SetData1("     "+Passclass, 29, 3);
+		  Stats.SetData1("     "+Promoted, 30, 3);
+		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 3);		  
+
+	}
+
+	public void OverAllResult(){
+		int[] arrayOfMarks; int ind = 0;
+		  int rowcount = View.getTable().getRowCount();
+		  arrayOfMarks = new int [rowcount];
+		  int length = arrayOfMarks.length;	
+		  int[] arrayOfIndexC = new int [rowcount];
+		  int Numfailed = 0, Dist = 0, FC = 0,
+			  SC = 0, Passclass = 0, Promoted = 0, PassPercent = 0;
+		  String Percentage = null;
+		  
+		  for(int row = 0; row < rowcount; row++){
 		 
-		        int Score = 0;
-                String RollNo = GetData(View.getTable(), index,1).toString().trim();
-		        String Stream = Streamfinder(RollNo);
-		        String percent = Percent(Integer.valueOf(index));
-		        large[j] = max;
-		        array[index] = Integer.MIN_VALUE;
-//		        if(Stream == "SCIENCE") continue;
-//		        if(Stream == "COMMERCE" )
-		          { 
-	                String Name = GetData(View.getTable(), index,3).toString();
-	                String Div =  GetData(View.getTable(), index,2).toString();
-		        	Stats.SetData("  "+String.valueOf(AvgTotal), j, 5);
-	                Stats.SetData("    "+percent, j, 6);
-	                Stats.SetData("    "+RollNo, j, 3);
-	                Stats.SetData(Name.substring(0, 35), j, 2);
-	                Stats.SetData("     "+Div, j, 4);
-		          }
-                
-		    }
-}	 
-
-
-public void rankingsci(){
-	//   Swapping Total Scores in decreasing order --- Insertion Sorting  
-	    int rowcount = View.getTable().getRowCount();
-	   	int array[];
-	   	array = new int [rowcount];
-	   	int length = array.length;	   	
-	   	for(int row = 899; row < 1376; row++){
-	   	       String TotalMrks = GetData(View.getTable(),row,30).toString();
-	   	       if(TotalMrks == null || TotalMrks.isEmpty()){ TotalMrks = "00"; }
-    	   	   array[row] = Integer.parseInt(TotalMrks); 
-	   	}
-	   	
-		   int i;
-		    int large[] = new int[10];
-		    int max = 0, index;
-		    for (int j = 0; j < 10; j++) {
-		        max = array[0];
-		        index = 0;
-		        for (i = 1; i < array.length; i++) {
-		            if (max < array[i]) {
-		                max = array[i];
-		                index = i;
-		            }
-		        }
-		        float[] AverageMrks = {Sub1(index), Sub2(index), Sub3(index), 
-	   		               Sub4(index), Sub5(index), Sub6(index)};
-
-		        int AvgSum = 0;
-		        for(i = 0; i < 6; i++){	AvgSum += (int) Math.ceil(AverageMrks[i]/2); }
-		        int AvgTotal = AvgSum + EVSmarks(index);
-
-	               String RollNo = GetData(View.getTable(), index,1).toString().trim();
-			        String Stream = Streamfinder(RollNo);
-			        String percent = Percent(Integer.valueOf(index));
-			        large[j] = max;
-			        array[index] = Integer.MIN_VALUE;
-//			        if(Stream == "SCIENCE") continue;
-//			        if(Stream == "COMMERCE" )
-			          { 
-		                String Name = GetData(View.getTable(), index,3).toString();
-		                String Div =  GetData(View.getTable(), index,2).toString();
-			        	Stats.SetData("  "+String.valueOf(AvgTotal), j+11, 5);
-		                Stats.SetData("    "+percent, j+11, 6);
-		                Stats.SetData("    "+RollNo, j+11, 3);
-		                Stats.SetData(Name.substring(0, 35), j+11, 2);
-		                Stats.SetData("     "+Div, j+11, 4);
-		          }
-                
-                
-		    }
-}	 
-
-
+				  String result = Mod(row);
+				  if(result == "Fail") Numfailed++;
+				  if(result == "Promoted") Promoted++;
+				  if(result == "Pass Class") Passclass++;
+				  if(result == "Second Class")  SC++;
+				  if(result == "First Class")   FC++;
+				  if(result == "Distinction") Dist++;	    
+		  }	  
+		  
+		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
+		  Passpercent = (sum*100)/rowcount;
+		  Stats.SetData1("     "+rowcount, 22, 4);
+		  Stats.SetData1("     "+rowcount, 23, 4);
+		  Stats.SetData1("     "+(rowcount -Numfailed), 24, 4);
+		  Stats.SetData1("     "+Numfailed, 25, 4);
+		  Stats.SetData1("     "+Dist, 26, 4);
+		  Stats.SetData1("     "+FC, 27, 4);
+		  Stats.SetData1("     "+SC, 28, 4);
+		  Stats.SetData1("     "+Passclass, 29, 4);
+		  Stats.SetData1("     "+Promoted, 30, 4);
+		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 4);		  
+	
+		
+	}
+	
 	private void BtnSetPrinter(){
 //	        System.exit(0);
 			SetPrinter sp=new SetPrinter();
@@ -1497,12 +1622,25 @@ public void rankingsci(){
 		sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row); sub4 = Sub4(row); 
 		sub5 = Sub5(row); sub6 = Sub6(row);  evs =  EVSmarks(row);
 		GraceCount = 0;  GraceTotal = 0; GraceValue = 0;  
+		int FCCounter = 0;
 		
 		PTE = GetData1(View.getTable(), row, 29);
 		if(PTE == null || PTE.isEmpty()){ PTE = "00"; }					 
 		if(PTE.contentEquals("AB") || PTE.contentEquals("AB ")){ PTE = "00"; }	
 		pte = Integer.parseInt(PTE);
-
+		
+/*
+        for(int i= 0; i < 6; i++)
+ 	    	float[] AggMrks ={Sub1(m+pageNum*12), Sub2(m+pageNum*12), Sub3(m+pageNum*12),
+		                      Sub4(m+pageNum*12), Sub5(m+pageNum*12), Sub6(m+pageNum*12)};	
+			int EVSmrks = EVSmarks(m+pageNum*12);
+			int AvgSum = (int) Math.ceil(AggMrks[0]/2)+(int) Math.ceil(AggMrks[1]/2)+(int)Math.ceil(AggMrks[2]/2)+
+			   		     (int) Math.ceil(AggMrks[3]/2)+(int) Math.ceil(AggMrks[4]/2)+(int) Math.ceil(AggMrks[5]/2);
+			int AvgTotal = AvgSum+EVSmrks;
+ 
+  		
+ */
+		
 		int[] AverageMarks = { (int) Math.ceil(sub1/2), (int) Math.ceil(sub2/2), (int) Math.ceil(sub3/2),
 				               (int) Math.ceil(sub4/2), (int) Math.ceil(sub5/2), (int) Math.ceil(sub6/2) };
 		
@@ -1523,15 +1661,15 @@ public void rankingsci(){
 			
 			 if(GraceMrks[i] > 10) {GraceValue = GraceMrks[i];}
 		}
-		 int Class = (Total*100)/650;  //   show(Class);
+		 int Class = (Total*100)/650;  //   show(Class);  Class means First Class, Second Class , Pass Class etc.
 		
 		 if(GraceValue > 10 || pte < 1 || evs < 18){ return Result1;}
 		 else if(GraceCount > 3){ return Result1;}
 		 else if(GraceCount < 4 && GraceTotal > 16){return Result1;}
 		 else if(GraceCount < 4 && GraceTotal > 0 && GraceTotal < 16){return Result2;}
-		 else if(Class >= 50 && Class < 60) { return Result4; }
+		 else if(Class >= 50 && Class < 60) { FCCounter++;  /*show(FCCounter);*/ return Result4; }
 		 else if(Class >= 60 && Class < 70) { return Result5; }
-		 else if(Class >= 70) { return Result6; }
+		 else if(Class >= 70) { return Result6; }    
 		 else return Result3;
 		
 	}            
@@ -1675,7 +1813,16 @@ public void rankingsci(){
 		return EVSMarks;		
 	}
 
-	
+	public int AverageMarksSum(int rownum){
+//		int row = View.getTable().getSelectedRow();		
+	    int row = rownum, AvgSum = 0;
+		float[] AggMrks ={Sub1(row), Sub2(row), Sub3(row),Sub4(row), Sub5(row), Sub6(row)};	
+				int EVSmrks = EVSmarks(row);
+				AvgSum = (int) Math.ceil(AggMrks[0]/2)+(int) Math.ceil(AggMrks[1]/2)+(int)Math.ceil(AggMrks[2]/2)+
+						 (int) Math.ceil(AggMrks[3]/2)+(int) Math.ceil(AggMrks[4]/2)+(int) Math.ceil(AggMrks[5]/2);
+				int AvgTotal = AvgSum+EVSmrks;
+		return AvgTotal;		
+	}
 	
 	public void ENGMarks(){
 		  
@@ -2387,8 +2534,8 @@ public void rankingsci(){
 	     		  }
 	     	   }
 		 }
- //       show(View.Sub2.text);        
-		if(View.Sub2.text.equals("PHY")) {return Science;}
+//        show(View.Sub2.text);        
+		if(View.Sub2.text.equals("PHY")) return Science;
 		else return Commerce;		
 	}
 	

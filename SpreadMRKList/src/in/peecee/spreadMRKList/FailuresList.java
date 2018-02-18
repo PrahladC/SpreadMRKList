@@ -33,19 +33,24 @@ import java.awt.event.ActionEvent;
 import java.util.Vector;
 
 public class FailuresList {
-
+	
+	public JTable TABLE;
+	private SpreadMRKListView View;
 	JFrame frame = new JFrame();
+    public DefaultTableModel model;
+
 	public void show(String msg) {JOptionPane.showMessageDialog(null, msg);}   ///for debugging
 	
 	private JButton btnCansel;
-	private printRoutines prnRoutines = new printRoutines();
-	private JButton SSPrintButton;
-    public void SetData(Object obj, int row_index, int col_index){table.setValueAt(obj,row_index,col_index);}
-    private SpreadMRKListModel Model;
+	public void SetData(Object obj, int row_index, int col_index){TABLE.setValueAt(obj,row_index,col_index);}
+    public String GetData1(JTable table, int row_index, int col_index) { return (String) View.getTable().getValueAt(row_index, col_index); }
+    public Object GetData(JTable table, int row_index, int col_index)  { return View.getTable().getValueAt(row_index, col_index); }
 
-	public JTable table;
+//    private SpreadMRKListModel Model;
+
 	
-	public void showScoreButtons(){
+	
+	public void failures(){
 		frame.validate();                
 	    frame.setTitle("List of Failures");
 	    frame.setSize(1290, 700);
@@ -55,50 +60,47 @@ public class FailuresList {
 	    frame.setVisible(true);
 		
 	}
-	
+		
 	public FailuresList() {
 		
-		int n = 200;
-//		ResizeTable(table,n);
-
+		int n = 500;
 
 	    DefaultTableModel model = new DefaultTableModel();
 	    model.setDataVector(new Object[][]{
-	      {"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""}},
+	      {"","","","","","","","","","","","","",""}},
 	      
-	    new Object[]{"Sr.No","Roll No","Div","Name","U1","T1","U2","T2","U1","T1","U2","T2","U1","T1","U2","T2",
-	    		                        "U1","T1","U2","T2","U1","T1","U2","T2","U1","T1","U2","T2","EVS","PTE","Total",""});
-
-	    final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
+	    new Object[]{"Sr.No","Roll No","Div","Name","SUB1","SUB2","SUB3","SUB4","SUB5","SUB6","EVS","PTE","Total","Remarks"});
 	    
-	      table = new JTable( model ) {
-	        protected JTableHeader createDefaultTableHeader() {
+	      TABLE = new JTable( model ) {
+	        /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			protected JTableHeader createDefaultTableHeader() {
 	        return new GroupableTableHeader(columnModel);
 	      }
-	    };
+	    };                
 	     
-	    TableColumnModel cm = table.getColumnModel();
-	    table.setRowHeight(25);
-	    table.setFont(new Font("Times New Roman", Font.BOLD, 12));
+//	    TableColumnModel cm = TABLE.getColumnModel();
+	    TABLE.setRowHeight(25);
+	    TABLE.setFont(new Font("Times New Roman", Font.BOLD, 12));
 	    
 	    DefaultTableCellRenderer stringRenderer = (DefaultTableCellRenderer)
-	    table.getDefaultRenderer(String.class);
+	    TABLE.getDefaultRenderer(String.class);
 	    stringRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 	    
-	    table.getColumnModel().getColumn(0).setPreferredWidth(110);              //  serial Numbers
-	    table.getColumnModel().getColumn(1).setPreferredWidth(115);              //  Roll Numbers
-	    table.getColumnModel().getColumn(2).setPreferredWidth(50);               //  Division
-	    table.getColumnModel().getColumn(3).setPreferredWidth(850);              //  Names of students
-	    table.getColumnModel().getColumn(30).setPreferredWidth(90);
-	    table.getColumnModel().getColumn(31).setPreferredWidth(200);
-//	    table.getColumnModel().getColumn(31).setHeaderValue("<html>Remarks/<br>Signature");
-	    table.getColumnModel().getColumn(31).setHeaderValue("Result");
+	    TABLE.getColumnModel().getColumn(0).setPreferredWidth(80);              //  serial Numbers
+	    TABLE.getColumnModel().getColumn(1).setPreferredWidth(100);              //  Roll Numbers
+	    TABLE.getColumnModel().getColumn(2).setPreferredWidth(50);               //  Division
+	    TABLE.getColumnModel().getColumn(3).setPreferredWidth(500);              //  Names of students
+	    TABLE.getColumnModel().getColumn(13).setPreferredWidth(200);
 	    
-	    GroupableTableHeader header = (GroupableTableHeader)table.getTableHeader();    
-	    JScrollPane scroll = new JScrollPane( table );
+	    JScrollPane scroll = new JScrollPane( TABLE );
 	    frame.getContentPane().add( scroll );
+  
+		ResizeTable(TABLE,n);
 
-	     header.revalidate(); 
 	    
 	//////   N O R T H  P A N E L
 	    
@@ -177,7 +179,7 @@ public class FailuresList {
 	    btnCansel = new JButton("Cancel");
 	    btnCansel.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent arg0) {
-	    	      Window win = SwingUtilities.getWindowAncestor(table);
+	    	      Window win = SwingUtilities.getWindowAncestor(TABLE);
 	    	      if (win != null) {
 	    	         win.dispose();
 	    	      }
@@ -188,113 +190,28 @@ public class FailuresList {
 	    southPanel.add(btnCansel);
 	    
 	    frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
+	    
 		
-/*		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
-		
-		JLabel lblNewLabel = new JLabel("CLICK TO ..... ");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridwidth = 3;
-		gbc_lblNewLabel.insets = new Insets(10, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 2;
-		gbc_lblNewLabel.gridy = 1;
-		frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
-		
-		JButton currentPrintButton = new JButton("Print Current Marks Card");
-		currentPrintButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-//				prnRoutines.PrintCurrent();	
-				
-			}
-		});
-		currentPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		GridBagConstraints gbc_currentPrintButton = new GridBagConstraints();
-		gbc_currentPrintButton.anchor = GridBagConstraints.EAST;
-		gbc_currentPrintButton.insets = new Insets(10, 20, 5, 5);
-		gbc_currentPrintButton.gridx = 2;
-		gbc_currentPrintButton.gridy = 3;
-		frame.getContentPane().add(currentPrintButton, gbc_currentPrintButton);
-		
-		JButton allPrintButton = new JButton("Print All Marks Cards");
-		allPrintButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				prnRoutines.PrintAllMarksCards();
-				
-			}
-		});
-		allPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		GridBagConstraints gbc_allPrintButton = new GridBagConstraints();
-		gbc_allPrintButton.insets = new Insets(10, 10, 5, 5);
-		gbc_allPrintButton.gridx = 4;
-		gbc_allPrintButton.gridy = 3;
-		frame.getContentPane().add(allPrintButton, gbc_allPrintButton);
-		
-		SSPrintButton = new JButton("Print Spread Sheet");
-		SSPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		SSPrintButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				prnRoutines.SpreadSheet();
-				
-//				String temp = "I am Fine";
-//				show(temp);
-//				show("I am Fine, too");
-				
-			}		
-	    });                      
-		
-		GridBagConstraints gbc_SSPrintButton = new GridBagConstraints();
-		gbc_SSPrintButton.anchor = GridBagConstraints.WEST;
-		gbc_SSPrintButton.insets = new Insets(10, 45, 5, 5);
-		gbc_SSPrintButton.gridx = 2;
-		gbc_SSPrintButton.gridy = 5;
-		frame.getContentPane().add(SSPrintButton, gbc_SSPrintButton);
-		
-		final JButton cancellButton = new JButton("Cancell");
-		cancellButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Window win = SwingUtilities.getWindowAncestor(cancellButton);
-			      if (win != null) {
-			         win.dispose();
-			}
-		  }
-			      
-        });
-		cancellButton.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		GridBagConstraints gbc_cancellButton = new GridBagConstraints();
-		gbc_cancellButton.insets = new Insets(10, 10, 0, 5);
-		gbc_cancellButton.gridx = 4;
-		gbc_cancellButton.gridy = 5;
-		frame.getContentPane().add(cancellButton, gbc_cancellButton);
-		// TODO Auto-generated constructor stub
-	*/					
 	}
 
-	public void ResizeTable(JTable tablename,int numberofrows)
-	   { DefaultTableModel model=(DefaultTableModel) tablename.getModel();
-   int totalrows=tablename.getRowCount();
-   int difference=numberofrows-totalrows;
-   if(difference>0)
-    {
-       for(int i=0;i<difference;i++) model.addRow(new Object[]{" "});
-    }  
-if(difference<0)
-	   { difference=-difference;
-   for(int i=0;i<difference;i++) model.removeRow(0);	      
-	   }
-	 }
+  public void ResizeTable(JTable tablename,int numberofrows){ 
+	  DefaultTableModel model=(DefaultTableModel) tablename.getModel();
+      int totalrows=tablename.getRowCount();
+      int difference=numberofrows-totalrows;
+   if(difference>0){
+        for(int i=0;i<difference;i++) model.addRow(new Object[]{" "});
+      }  
+   if(difference<0){ 
+	   difference=-difference;
+       for(int i=0;i<difference;i++) model.removeRow(0);
+    }
+  }
 
-	  public class GroupableTableHeader extends JTableHeader {
-		  /**
-		 * 
-		 */
+
+	public class GroupableTableHeader extends JTableHeader {
 		private static final long serialVersionUID = 1L;
-		private static final String uiClassID = "GroupableTableHeaderUI";
-		  protected Vector columnGroups = null;
+//		private static final String uiClassID = "GroupableTableHeaderUI";
+//		  protected Vector columnGroups = null;
 
 		  public GroupableTableHeader(TableColumnModel model) {
 		    super(model);

@@ -49,7 +49,7 @@ public class showstatistics {
     String[] SerialNum = {" ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"};
     
     String[] Header1 = {"Rank", "          Name", "Roll", "Div", "Score", "Per",
-    		            "Subject", "Commerce", "Science"};
+    		            "Subject", "Commerce", "Science", "Over All"};
     
     String[] ComSubjects = {"English", "Hindi", "Marathi", "Tamil", "Economics", "Accountancy", "Org. of Commerce",
     		                "Secreterial Practice", "Mathematics", "Info. Technology"};
@@ -214,10 +214,19 @@ public class showstatistics {
 	    		{"  Computer Science", null, null, null, null},
 	    		{null, null, null, null, null},
 	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},	},
+	    		{null, "               R E P O R T", "   COMMERCE", "    SCIENCE", "Over All Result"},
+	    		{null, "Number of Students registered", null, null, null},
+	    		{null, "Number of students appeared", null, null, null},
+	    		{null, "Number of Students Passed", null, null, null},
+	    		{null, "Number of Students Failed", null, null, null},
+	    		{null, "Number of Distinctions", null, null, null},
+	    		{null, "Number of First Class", null, null, null},
+	    		{null, "Number of Second  Class", null, null, null},
+	    		{null, "Number of Pass Class", null, null, null},
+	    		{null, "Number of Students Promoted", null, null, null},
+	    		{null, "Result Pass Percentage", null, null, null},
+	    		{null, null, null, null, null}},
+	    		
    		new String[] {
    				"Subject", "Name", "Roll No.", "Division", "Score"
    		}
@@ -283,21 +292,23 @@ public class showstatistics {
 				}					
 			  }
 				  
-			pg.drawString("RESULT VIEW OF BOTH SCIENCE AND COMMERCE", 3*TopLeftX, TopLeftY+17*Height);	
+			pg.drawString("RESULT VIEW OF BOTH SCIENCE AND COMMERCE", TopLeftX, TopLeftY+17*Height);	
 
-			  for(int i =0; i < 3; i++){
+			  for(int i =0; i < 4; i++){
 				for(int j = 0; j < 15; j++){
-				  if(i == 0){ pg.drawRect(TopLeftX+Width, TopLeftY+j*Height+18*Height, (9*Width)/2, Height); }       
-				  if(i == 1) pg.drawRect(TopLeftX+(11*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height); 
-				  if(i == 2) pg.drawRect(TopLeftX+(15*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
-				  if(i == 0) pg.drawString(Header1[i+6], (15*TopLeftX)/4, TopLeftY+21*Height-45);
-				  if(i == 1) pg.drawString(Header1[i+6], (7*TopLeftX)-10, TopLeftY+21*Height-45);
-				  if(i == 2) pg.drawString(Header1[i+6], (9*TopLeftX), TopLeftY+21*Height-45);
+				  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+18*Height, (9*Width)/2, Height); }       
+                  if(i == 1) pg.drawRect(TopLeftX+(9*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height); 
+				  if(i == 2) pg.drawRect(TopLeftX+(13*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
+				  if(i == 3) pg.drawRect(TopLeftX+(17*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
+				  if(i == 0) pg.drawString("Particulars", (11*TopLeftX)/4, TopLeftY+21*Height-45);
+				  if(i == 1) pg.drawString(Header1[i+6], (6*TopLeftX)-10, TopLeftY+21*Height-45);
+				  if(i == 2) pg.drawString(Header1[i+6], (8*TopLeftX), TopLeftY+21*Height-45);
+				  if(i == 3) pg.drawString(Header1[i+6], (10*TopLeftX), TopLeftY+21*Height-45);
 				}					
 			  }
 			  
 			  for(int j = 0; j < Result.length; j++){
-				  pg.drawString(Result[j], TopLeftX+Width+5, (TopLeftY+20*Height-5)+(j*Height));				  				  
+				  pg.drawString(Result[j], TopLeftX+5, (TopLeftY+20*Height-5)+(j*Height));				  				  
 			  }
 			  			  
 			  

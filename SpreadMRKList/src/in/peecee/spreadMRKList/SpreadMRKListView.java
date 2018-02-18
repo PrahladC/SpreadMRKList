@@ -36,7 +36,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	    private JButton btnSave;
 	    private JButton btnLoad;
 	    private JButton btnResult;	
-	    private JButton btnProcess;
+	    private JButton btnMeritList;
 	    private JButton btnPrintAll;
 	    private JButton btnSpreadSheet;
 	    private JButton btnPrintConsolidated;
@@ -213,12 +213,12 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnResult.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnResult);
     
-    btnProcess = new JButton("Merit List");
-    btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    southPanel.add(btnProcess);    
+    btnMeritList = new JButton("Merit List");
+    btnMeritList.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    southPanel.add(btnMeritList);    
     
     btnFailedNumbers = new JButton("Failed Numbers");
-    btnProcess.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnFailedNumbers.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnFailedNumbers);
 
     btnSetPrinter = new JButton("Set Printer");
@@ -283,8 +283,8 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	        return btnSave;
 	}
 	    	    	
-	public JButton getProcessButton(){
-        return btnProcess;
+	public JButton getMeritListButton(){
+        return btnMeritList;
     }
 	
 	public JButton getFailedNums(){
