@@ -62,14 +62,15 @@ public class FailuresList {
 	}
 		
 	public FailuresList() {
-		
+//	   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
+
 		int n = 500;
 
 	    DefaultTableModel model = new DefaultTableModel();
 	    model.setDataVector(new Object[][]{
 	      {"","","","","","","","","","","","","",""}},
 	      
-	    new Object[]{"Sr.No","Roll No","Div","Name","SUB1","SUB2","SUB3","SUB4","SUB5","SUB6","EVS","PTE","Total","Remarks"});
+	    new Object[]{"Sr.No","Roll No","Div","Name","ENG","SL/VOC","ECO/BIO/VOC","BKE/PHY","OCM/CHE","MAT/SEP","EVS","PTE","Total","Remarks"});
 	    
 	      TABLE = new JTable( model ) {
 	        /**
@@ -93,7 +94,8 @@ public class FailuresList {
 	    TABLE.getColumnModel().getColumn(0).setPreferredWidth(80);              //  serial Numbers
 	    TABLE.getColumnModel().getColumn(1).setPreferredWidth(100);              //  Roll Numbers
 	    TABLE.getColumnModel().getColumn(2).setPreferredWidth(50);               //  Division
-	    TABLE.getColumnModel().getColumn(3).setPreferredWidth(500);              //  Names of students
+	    TABLE.getColumnModel().getColumn(3).setPreferredWidth(400);              //  Names of students
+	    TABLE.getColumnModel().getColumn(6).setPreferredWidth(100);
 	    TABLE.getColumnModel().getColumn(13).setPreferredWidth(200);
 	    
 	    JScrollPane scroll = new JScrollPane( TABLE );
@@ -126,9 +128,9 @@ public class FailuresList {
 		northPanel.add(Place);
 		
 		
-		JButton btnHelp = new JButton("HELP");
-		btnHelp.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		northPanel.add(btnHelp);
+//		JButton btnHelp = new JButton("HELP");
+//		btnHelp.setFont(new Font("Times New Roman", Font.BOLD, 14));
+//		northPanel.add(btnHelp);
 	    
 
 	    frame.getContentPane().add(northPanel, BorderLayout.NORTH);

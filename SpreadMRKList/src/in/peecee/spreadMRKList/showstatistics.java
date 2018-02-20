@@ -57,7 +57,7 @@ public class showstatistics {
     String[] SciSubjects = {"English", "Hindi", "Marathi", "Tamil", "Physics", "Chemistry", "Mathematics",
                             "Biology", "Electronics", "Computer Science", "Info. Technology"};
     
-    String[] Result = {"Number of Students registered", "Number of students appeared", "Number of Students Passed",
+    String[] Result = {"Number of students appeared", "Number of Students Passed",
     		           "Number of Students Failed", "Number of Distinctions", "Number of First Class",
     		           "Number of Second  Class", "Number of Pass Class", "Number of Students Promoted",
     		           "Result Pass Percentage"};
@@ -235,8 +235,8 @@ public class showstatistics {
     table_1.setRowHeight(25);    
     JTableHeader header2 = table_1.getTableHeader();
     header2.setPreferredSize(new Dimension(0,30));
-    header2.setFont(new Font("Dialog", Font.BOLD,16));   
-    table_1.setFont(new Font("Times New Roman", Font.BOLD, 17));
+    header2.setFont(new Font("Dialog", Font.BOLD,14));   
+    table_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
     table_1.getColumnModel().getColumn(0).setPreferredWidth(170);      // SUBJECT           
     table_1.getColumnModel().getColumn(1).setPreferredWidth(400);      // NAME
     table_1.getColumnModel().getColumn(2).setPreferredWidth(70);       // ROLL NUMBER  
@@ -266,6 +266,7 @@ public class showstatistics {
 			return Printable.NO_SUCH_PAGE;                            // ie., end of job
 			
 			pg.drawString("S T R E A M W I S E   R A N K S", 230, 40);	  
+			
 			pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
 			  for(int i =0; i < 6; i++){
 				for(int j = 0; j < 6; j++){
@@ -295,7 +296,7 @@ public class showstatistics {
 			pg.drawString("RESULT VIEW OF BOTH SCIENCE AND COMMERCE", TopLeftX, TopLeftY+17*Height);	
 
 			  for(int i =0; i < 4; i++){
-				for(int j = 0; j < 15; j++){
+				for(int j = 0; j < 11; j++){
 				  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+18*Height, (9*Width)/2, Height); }       
                   if(i == 1) pg.drawRect(TopLeftX+(9*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height); 
 				  if(i == 2) pg.drawRect(TopLeftX+(13*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
@@ -320,8 +321,15 @@ public class showstatistics {
 			      pg.drawString(GetData(table, i+11, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+11*Height-5);
 			  }
 		    }
-  				  
-											    				
+             int k =  0, m = 0;
+			for(int j = 2; j < 5; j++){  
+			  for(int i = 23; i < 32; i++){
+			      pg.drawString(GetData(table_1, i, j), (2*m*Width)+(23*TopLeftX)/4, TopLeftY+(k*Height+20*Height-5));
+				  k++; 
+				  if(i == 31){ m++; k=0;}
+				  }
+			    }  
+														    				
 			return Printable.PAGE_EXISTS;
 		}
 	});

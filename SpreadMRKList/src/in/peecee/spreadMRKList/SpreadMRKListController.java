@@ -261,37 +261,51 @@ public class SpreadMRKListController {
 	 }	
 
 	
-	protected void BtnFailedNumbers() {
+	public void BtnFailedNumbers() {
 //		fl.failList(5);
-	    for(int i = 0; i < 500; i++){
-	    	fl.SetData(i+1, i, 0);
-	    }
 
 		int row = 0, k = 0, failcounter = 0;
+		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0;
+		int evs = 0;  String pte = null;
 		int NumofRows = 1468;
 		fl.failures();        
-		String result;
+		String result = null;
 			
 		for(row = 0; row < NumofRows; row++){
-			result = GetData1(View.getTable(),row ,31);	
+//			result = GetData1(View.getTable(),row ,31);	
+			result = Mod(row);
 			String Roll = GetData1(View.getTable(), row, 1);
     		String Div = GetData1(View.getTable(),  row, 2);
    		    String Name = GetData1(View.getTable(), row, 3);
+   		    sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row);
+   		    sub4 = Sub4(row); sub5 = Sub5(row); sub6 = Sub6(row);
+   		    evs = EVSmarks(row);
+   		    pte = GetData1(View.getTable(), row, 29);
 			if(result == "Fail" || result.contains("Fail")){
 			   failcounter++;	
-			   for(int j = 0; j < 400; j++){	
-			     fl.SetData(result, j, 13);
-			     
-			   }
 			   fl.SetData(Roll, k, 1);
 			   fl.SetData(Div, k, 2);
-			   fl.SetData(Name, k, 3);			   
+			   fl.SetData(Name, k, 3);	
+			   fl.SetData(sub1, k, 4);
+			   fl.SetData(sub2, k, 5);
+               fl.SetData(sub3, k, 6);
+               fl.SetData(sub4, k, 7);
+               fl.SetData(sub5, k, 8);
+               fl.SetData(sub6, k, 9);
+               fl.SetData(evs, k, 10);
+               fl.SetData(pte, k, 11);
 			   if(k < 400) k++;
 			}
 			else continue;
 			
 		}                            
-		show(failcounter);      
+//		show(failcounter);   
+	    for(int i = 0; i < failcounter; i++){
+		    fl.SetData(result, i, 13);
+	    	fl.SetData(i+1, i, 0);
+	    }
+
+		
 	}
 	
 	
@@ -1330,7 +1344,9 @@ public class SpreadMRKListController {
 		      if(Stream.contentEquals("SCIENCE")) continue;	     
 			  arrayOfMarks[ind] = AverageMarksSum(row);
 			  arrayOfIndexC[ind] = row;			 
-			  String result = Mod(ind);
+//			  show(RollNo + " : " + row);
+			  
+			  String result = Mod(row);
 			  if(result == "Fail") Numfailed++;
 			  if(result == "Promoted") Promoted++;
 			  if(result == "Pass Class") Passclass++;
@@ -1370,8 +1386,9 @@ public class SpreadMRKListController {
 		      if(Stream.contentEquals("COMMERCE")) continue;	     
 			  arrayOfMarks[ind] = AverageMarksSum(row);
 			  arrayOfIndexC[ind] = row;
-			 
-				  String result = Mod(ind);
+//			  show(RollNo + " : " + row);
+
+				  String result = Mod(row);
 				  if(result == "Fail") Numfailed++;
 				  if(result == "Promoted") Promoted++;
 				  if(result == "Pass Class") Passclass++;
@@ -1428,9 +1445,7 @@ public class SpreadMRKListController {
 		  Stats.SetData1("     "+SC, 28, 4);
 		  Stats.SetData1("     "+Passclass, 29, 4);
 		  Stats.SetData1("     "+Promoted, 30, 4);
-		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 4);		  
-	
-		
+		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 4);		  		
 	}
 	
 	private void BtnSetPrinter(){
