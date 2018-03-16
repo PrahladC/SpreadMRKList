@@ -70,7 +70,7 @@ public class FailuresList {
 	    model.setDataVector(new Object[][]{
 	      {"","","","","","","","","","","","","",""}},
 	      
-	    new Object[]{"Sr.No","Roll No","Div","Name","ENG","SL/VOC","ECO/BIO/VOC","BKE/PHY","OCM/CHE","MAT/SEP","EVS","PTE","Total","Remarks"});
+	    new Object[]{"Sr.No","Roll No","Div","Name","ENG","SL/IT/VOC","ECO/BIO/VOC","BKE/PHY","OCM/CHE","MAT/SEP","EVS","PTE","Result","Remarks"});
 	    
 	      TABLE = new JTable( model ) {
 	        /**
@@ -126,12 +126,6 @@ public class FailuresList {
 		Place.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		Place.setColumns(15);
 		northPanel.add(Place);
-		
-		
-//		JButton btnHelp = new JButton("HELP");
-//		btnHelp.setFont(new Font("Times New Roman", Font.BOLD, 14));
-//		northPanel.add(btnHelp);
-	    
 
 	    frame.getContentPane().add(northPanel, BorderLayout.NORTH);
 	    
@@ -139,16 +133,7 @@ public class FailuresList {
 	    
 	    JPanel southPanel = new JPanel();  
 	    southPanel.setLayout(new GridLayout(1, 8));        
-	   
-		JButton btnSearch = new JButton("Search");        
-		btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		southPanel.add(btnSearch);
-		
-		JTextField search = new JTextField("");
-		search.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		search.setColumns(8);
-		southPanel.add(search);
-	    
+
 	    JButton btnLoad = new JButton("Load");
 	    btnLoad.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(btnLoad);   
@@ -157,11 +142,6 @@ public class FailuresList {
 	    btnSave.setToolTipText("Save");
 	    btnSave.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(btnSave);    
-
-	    JButton printList = new JButton("Print List");    
-	    printList.setToolTipText("Update");
-	    printList.setFont(new Font("Times New Roman", Font.BOLD, 14));
-	    southPanel.add(printList);
 	    
 	    JButton btnSetPrinter = new JButton("Set Printer");
 	    btnSetPrinter.addActionListener(new ActionListener() {
@@ -170,6 +150,7 @@ public class FailuresList {
 	    		
 	    	}
 	    });
+	    
 	    btnSetPrinter.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	  //  btnSetPrinter.setPreferredSize(new Dimension(115, 25));
 	    southPanel.add(btnSetPrinter);
@@ -177,6 +158,11 @@ public class FailuresList {
 	    JLabel lblPrinter = new JLabel("Printer Name ");
 	    lblPrinter.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(lblPrinter);
+
+	    JButton printList = new JButton("Print List");    
+	    printList.setToolTipText("Update");
+	    printList.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	    southPanel.add(printList);
 	    
 	    btnCansel = new JButton("Cancel");
 	    btnCansel.addActionListener(new ActionListener() {
@@ -192,22 +178,21 @@ public class FailuresList {
 	    southPanel.add(btnCansel);
 	    
 	    frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
-	    
-		
-	}
+	    		
+	    }
 
-  public void ResizeTable(JTable tablename,int numberofrows){ 
-	  DefaultTableModel model=(DefaultTableModel) tablename.getModel();
-      int totalrows=tablename.getRowCount();
-      int difference=numberofrows-totalrows;
-   if(difference>0){
-        for(int i=0;i<difference;i++) model.addRow(new Object[]{" "});
-      }  
-   if(difference<0){ 
-	   difference=-difference;
-       for(int i=0;i<difference;i++) model.removeRow(0);
-    }
-  }
+	  public void ResizeTable(JTable tablename,int numberofrows){ 
+		  DefaultTableModel model=(DefaultTableModel) tablename.getModel();
+	      int totalrows=tablename.getRowCount();
+	      int difference=numberofrows-totalrows;
+	   if(difference>0){
+	        for(int i=0;i<difference;i++) model.addRow(new Object[]{" "});
+	      }  
+	   if(difference<0){ 
+		   difference=-difference;
+	       for(int i=0;i<difference;i++) model.removeRow(0);
+	    }
+	  }
 
 
 	public class GroupableTableHeader extends JTableHeader {

@@ -424,14 +424,11 @@ public class showstatistics {
 			}
 				catch (PrinterException pe) {
 				pe.printStackTrace();
-			  }                                     						
-
-		
+			  }                                     								
 		}
 		      
     });
-
-   	
+  	
    	JButton btnOK = new JButton("OK");
    	btnOK.addActionListener(new ActionListener() {
    		public void actionPerformed(ActionEvent arg0) {

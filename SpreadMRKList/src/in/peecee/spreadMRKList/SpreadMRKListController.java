@@ -53,6 +53,7 @@ public class SpreadMRKListController {
 //	private SpreadMRKListSubMarks SubMarks = new SpreadMRKListSubMarks();
 	private showstatistics Stats = new showstatistics();
 	private FailuresList fl = new FailuresList();
+	private subjecToppers SubTop = new subjecToppers();
 //	private printRoutines prnRoutines = new printRoutines();
 	
 	public  ArrayList<String> strArray = new ArrayList<String>();
@@ -284,7 +285,7 @@ public class SpreadMRKListController {
 			if(result == "Fail" || result.contains("Fail")){
 			   failcounter++;	
 			   fl.SetData(Roll, k, 1);
-			   fl.SetData(Div, k, 2);
+			   fl.SetData(Div,  k, 2);
 			   fl.SetData(Name, k, 3);	
 			   fl.SetData(sub1, k, 4);
 			   fl.SetData(sub2, k, 5);
@@ -301,13 +302,10 @@ public class SpreadMRKListController {
 		}                            
 //		show(failcounter);   
 	    for(int i = 0; i < failcounter; i++){
-		    fl.SetData(result, i, 13);
+		    fl.SetData(result, i, 12);
 	    	fl.SetData(i+1, i, 0);
-	    }
-
-		
+	    }		
 	}
-	
 	
 	protected void BtnPrintConsolidated() {
 //		System.exit(0);
@@ -418,7 +416,7 @@ public class SpreadMRKListController {
 		      if(PTE == null || PTE.isEmpty()){ PTE = "00"; }
 		      String RollNo = View.getTable().getModel().getValueAt(m+pageNum*12, 1).toString();
 		      if(RollNo == null || RollNo.isEmpty()){ continue; }
-		      subjectName = collheaderfinder(RollNo);        
+		      subjectName = columnHeaderfinder(RollNo);        
 				for(int i = 0; i< subjectName.size(); i++){ 
 				  pg.drawString(subjectName.get(i), (106+i*20)+k*jump, y1);                   	 // Subjects				
 				}
@@ -796,6 +794,10 @@ public class SpreadMRKListController {
 		resultCom();
 		resultSci();
 		OverAllResult();
+		int row = 0;
+		int L = SubTop.SUB1Topper(View,  Model );
+		
+		Stats.SetData1("     "+L, 0, 4);
 	}                    
 	    	    	    
 	private void BtnSearch(){
@@ -946,7 +948,7 @@ public class SpreadMRKListController {
 	   	
 		  final String RollNo = View.getTable().getModel().getValueAt(row, 1).toString();
 //		  ArrayList<String> subject;		  
-		  subject = collheaderfinder(RollNo);
+		  subject = columnHeaderfinder(RollNo);
 		  String EVS = GetData1(View.getTable(),row,28);
 		  
 	 try {
@@ -1132,7 +1134,7 @@ public class SpreadMRKListController {
 				for(int i = 0; i < 8; i++){pg.drawString(TableItemC3[i], 182, 315+i*20);}
 				
 				String RollNo = View.getTable().getModel().getValueAt(pageNum, 1).toString();
-				subjectName = collheaderfinder(RollNo);
+				subjectName = columnHeaderfinder(RollNo);
 				for(int i = 0; i< subjectName.size(); i++){ pg.drawString(subjectName.get(i), 214+i*35, 315);}	 // Subjects
 
 				for(int j = 0; j < 6; j++){
@@ -1240,7 +1242,38 @@ public class SpreadMRKListController {
 		    pe.printStackTrace();
 		  }                                     				
 	   }	
-
+/*
+	public void SUB1Topper(){
+		int ind = 0;
+		int rowcount = View.getTable().getRowCount();
+        int[] sub1Total;
+        String RollNo;
+		sub1Total = new int [rowcount];
+  	  for(int row = 0; row < rowcount; row++){
+		  RollNo = GetData(View.getTable(), row,1).toString().trim();
+	      String Stream = Streamfinder(String.valueOf(RollNo));
+	      if(Stream.contentEquals("SCIENCE")) continue;	     
+	      sub1Total[ind] = Sub1(row);
+		  ind++;
+	  }	
+		int i;
+		int large = 0;
+		int max = 0, index;
+		     max = sub1Total[0];
+		     index = 0; 
+		  for (i = 1; i < sub1Total.length; i++) {
+		    if (max < sub1Total[i]) {
+		        max = sub1Total[i];
+		        index = i;
+		       }
+		    }
+			large = max;
+			sub1Total[index] = Integer.MIN_VALUE;
+			RollNo = GetData(View.getTable(), index,1).toString().trim();
+		Show("Roll Nimber : "+RollNo+" has got Highest marks "+large);
+	}
+   */  
+ 	 	
   public void rankCom(){
 	  int[] arrayOfMarks; int ind = 0;
 	  int rowcount = View.getTable().getRowCount();
@@ -1461,7 +1494,14 @@ public class SpreadMRKListController {
 	    }
 	    
 	private void BtnUpdate(){
-		TotalScore();
+//	   SubTop.SUB1Topper(View, Model); 
+//	   Object large = "137"; 
+//	   Stats.SetData(large, 2, 2); 
+//		TotalScore();
+		
+//		SubTop.ComToppers(View, Model);
+		SubTop.SciToppers(View, Model);
+
 	}
 	
 	public void TotalScore(){
@@ -2481,7 +2521,7 @@ public class SpreadMRKListController {
 	    }
      }
 
-	public ArrayList<String> collheaderfinder(String RollNo){
+	public ArrayList<String> columnHeaderfinder(String RollNo){
 		
 		String plate[];
       	String rollno;

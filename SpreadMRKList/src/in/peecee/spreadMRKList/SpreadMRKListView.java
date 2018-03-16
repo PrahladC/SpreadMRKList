@@ -256,7 +256,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnCansel = new JButton("Cancel");
     btnCansel.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent arg0) {
-    		System.exit(0);
+//    		System.exit(0);
     	}
     });
     btnCansel.setFont(new Font("Times New Roman", Font.BOLD, 14));
