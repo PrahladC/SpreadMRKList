@@ -10,6 +10,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -38,6 +39,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -54,6 +56,7 @@ public class SpreadMRKListController {
 	private showstatistics Stats = new showstatistics();
 	private FailuresList fl = new FailuresList();
 	private subjecToppers SubTop = new subjecToppers();
+	private OverAllResult OAR = new OverAllResult();
 //	private printRoutines prnRoutines = new printRoutines();
 	
 	public  ArrayList<String> strArray = new ArrayList<String>();
@@ -103,8 +106,9 @@ public class SpreadMRKListController {
     
     
     private ActionListener saveListener, loadListener, meritlistListener, searchListener, ResultListener,
-	                       setprinterListener, printCurrentListener, printAllListener, canselListener, 
-	                       UpdateListener, spreadsheetListener, printConsolidatedListener, failedNumbersListener ;
+	                       setprinterListener, printCurrentListener, printAllListener,
+	                       canselListener, overallresultListener,   UpdateListener, spreadsheetListener
+	                       , printConsolidatedListener, failedNumbersListener ;
     
     int TotalMarklists=0;
 	
@@ -237,7 +241,13 @@ public class SpreadMRKListController {
 			BtnPrintSpreadSheet();
         }
     }; 
-    
+  
+    overallresultListener = new ActionListener() {
+		public void actionPerformed(ActionEvent actionEvent) {                  
+			BtnOveralllResult();
+        }
+    }; 
+      
     printConsolidatedListener = new ActionListener() {
 		public void actionPerformed(ActionEvent actionEvent) {                  
 			BtnPrintConsolidated();
@@ -258,10 +268,49 @@ public class SpreadMRKListController {
 	View.getUpdateButton().addActionListener(UpdateListener);
 	View.getSpreadSheetButton().addActionListener(spreadsheetListener);
 	View.getPrintConsolidatedButton().addActionListener(printConsolidatedListener);
+	View.getOverallResultButton().addActionListener(overallresultListener);
 
 	 }	
 
+	  protected void BtnOveralllResult() {
+
+	OAR.overallresult();
+	resultCom();
+    resultSci();
+    OverAllResult();
+  }
 	
+	private void BtnMeritList(){
+//    	System.exit(0);
+	Stats.ShowStats();
+	rankCom();
+	rankSci();
+
+	SubTop.ScEngTopper(View, Model, Stats);
+	SubTop.ScIteTopper(View, Model, Stats);
+	SubTop.ScHinTopper(View, Model, Stats);
+	SubTop.ScMarTopper(View, Model, Stats);
+	SubTop.ScTamTopper(View, Model, Stats);
+	SubTop.ScEcoTopper(View, Model, Stats);
+	SubTop.ScBioTopper(View, Model, Stats);
+	SubTop.ScPhyTopper(View, Model, Stats);
+	SubTop.ScCheTopper(View, Model, Stats);
+	SubTop.ScMatTopper(View, Model, Stats);
+	SubTop.ComEngTopper(View, Model, Stats);
+	SubTop.ComIteTopper(View, Model, Stats);
+	SubTop.ComHinTopper(View, Model, Stats);
+	SubTop.ComMarTopper(View, Model, Stats);
+	SubTop.ComTamTopper(View, Model, Stats);
+	SubTop.ComEcoTopper(View, Model, Stats);
+	SubTop.ComBkeTopper(View, Model, Stats);
+	SubTop.ComOcmTopper(View, Model, Stats);
+	SubTop.ComSepTopper(View, Model, Stats);
+	SubTop.ComMatTopper(View, Model, Stats);
+	
+//	SubTop.ComToppers(View, Model, Stats);
+//	SubTop.SciToppers(View, Model, Stats);
+  }                    
+
 	public void BtnFailedNumbers() {
 //		fl.failList(5);
 
@@ -783,22 +832,6 @@ public class SpreadMRKListController {
        TotalScore(); 
  //      Result();
   }
-
-
-	
-	private void BtnMeritList(){
-//	    	System.exit(0);
-		Stats.ShowStats();
-		rankCom();
-		rankSci();
-		resultCom();
-		resultSci();
-		OverAllResult();
-		int row = 0;
-		int L = SubTop.SUB1Topper(View,  Model );
-		
-		Stats.SetData1("     "+L, 0, 4);
-	}                    
 	    	    	    
 	private void BtnSearch(){
 //	        System.exit(0);
@@ -1242,37 +1275,6 @@ public class SpreadMRKListController {
 		    pe.printStackTrace();
 		  }                                     				
 	   }	
-/*
-	public void SUB1Topper(){
-		int ind = 0;
-		int rowcount = View.getTable().getRowCount();
-        int[] sub1Total;
-        String RollNo;
-		sub1Total = new int [rowcount];
-  	  for(int row = 0; row < rowcount; row++){
-		  RollNo = GetData(View.getTable(), row,1).toString().trim();
-	      String Stream = Streamfinder(String.valueOf(RollNo));
-	      if(Stream.contentEquals("SCIENCE")) continue;	     
-	      sub1Total[ind] = Sub1(row);
-		  ind++;
-	  }	
-		int i;
-		int large = 0;
-		int max = 0, index;
-		     max = sub1Total[0];
-		     index = 0; 
-		  for (i = 1; i < sub1Total.length; i++) {
-		    if (max < sub1Total[i]) {
-		        max = sub1Total[i];
-		        index = i;
-		       }
-		    }
-			large = max;
-			sub1Total[index] = Integer.MIN_VALUE;
-			RollNo = GetData(View.getTable(), index,1).toString().trim();
-		Show("Roll Nimber : "+RollNo+" has got Highest marks "+large);
-	}
-   */  
  	 	
   public void rankCom(){
 	  int[] arrayOfMarks; int ind = 0;
@@ -1391,16 +1393,15 @@ public class SpreadMRKListController {
 		  
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/ind;
-		  Stats.SetData1("     "+ind, 22, 2);
-		  Stats.SetData1("     "+ind, 23, 2);
-		  Stats.SetData1("     "+(ind -Numfailed), 24, 2);
-		  Stats.SetData1("     "+Numfailed, 25, 2);
-		  Stats.SetData1("     "+Dist, 26, 2);
-		  Stats.SetData1("     "+FC, 27, 2);
-		  Stats.SetData1("     "+SC, 28, 2);
-		  Stats.SetData1("     "+Passclass, 29, 2);
-		  Stats.SetData1("     "+Promoted, 30, 2);
-		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 2);		  
+		  OAR.SetData("     "+ind, 0, 2);
+		  OAR.SetData("     "+(ind-Numfailed), 1, 2);
+		  OAR.SetData("     "+Numfailed, 2, 2);
+		  OAR.SetData("     "+Dist, 3, 2);
+		  OAR.SetData("     "+FC, 4, 2);
+		  OAR.SetData("     "+SC, 5, 2);
+		  OAR.SetData("     "+Passclass, 6, 2);
+		  OAR.SetData("     "+Promoted, 7, 2);
+		  OAR.SetData("     "+Percentage.format("%.2f", Passpercent), 8, 2);		  
 	}
 
 	public void resultSci(){
@@ -1433,21 +1434,20 @@ public class SpreadMRKListController {
 		  
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/ind;
-		  Stats.SetData1("     "+ind, 22, 3);
-		  Stats.SetData1("     "+ind, 23, 3);
-		  Stats.SetData1("     "+(ind -Numfailed), 24, 3);
-		  Stats.SetData1("     "+Numfailed, 25, 3);
-		  Stats.SetData1("     "+Dist, 26, 3);
-		  Stats.SetData1("     "+FC, 27, 3);
-		  Stats.SetData1("     "+SC, 28, 3);
-		  Stats.SetData1("     "+Passclass, 29, 3);
-		  Stats.SetData1("     "+Promoted, 30, 3);
-		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 3);		  
+		  OAR.SetData("     "+ind, 0, 3);
+		  OAR.SetData("     "+(ind-Numfailed), 1, 3);
+		  OAR.SetData("     "+Numfailed, 2, 3);
+		  OAR.SetData("     "+Dist, 3, 3);
+		  OAR.SetData("     "+FC, 4, 3);
+		  OAR.SetData("     "+SC, 5, 3);
+		  OAR.SetData("     "+Passclass, 6, 3);
+		  OAR.SetData("     "+Promoted, 7, 3);
+		  OAR.SetData("     "+Percentage.format("%.2f", Passpercent), 8, 3);		  
 
 	}
 
 	public void OverAllResult(){
-		int[] arrayOfMarks; int ind = 0;
+		  int[] arrayOfMarks; int ind = 0;
 		  int rowcount = View.getTable().getRowCount();
 		  arrayOfMarks = new int [rowcount];
 		  int length = arrayOfMarks.length;	
@@ -1469,16 +1469,15 @@ public class SpreadMRKListController {
 		  
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/rowcount;
-		  Stats.SetData1("     "+rowcount, 22, 4);
-		  Stats.SetData1("     "+rowcount, 23, 4);
-		  Stats.SetData1("     "+(rowcount -Numfailed), 24, 4);
-		  Stats.SetData1("     "+Numfailed, 25, 4);
-		  Stats.SetData1("     "+Dist, 26, 4);
-		  Stats.SetData1("     "+FC, 27, 4);
-		  Stats.SetData1("     "+SC, 28, 4);
-		  Stats.SetData1("     "+Passclass, 29, 4);
-		  Stats.SetData1("     "+Promoted, 30, 4);
-		  Stats.SetData1("     "+Percentage.format("%.2f", Passpercent), 31, 4);		  		
+		  OAR.SetData("     "+rowcount, 0, 4);
+		  OAR.SetData("     "+(rowcount -Numfailed), 1, 4);
+		  OAR.SetData("     "+Numfailed, 2, 4);
+		  OAR.SetData("     "+Dist, 3, 4);
+		  OAR.SetData("     "+FC, 4, 4);
+		  OAR.SetData("     "+SC, 5, 4);
+		  OAR.SetData("     "+Passclass, 6, 4);
+		  OAR.SetData("     "+Promoted, 7, 4);
+		  OAR.SetData("     "+Percentage.format("%.2f", Passpercent), 8, 4);		  		
 	}
 	
 	private void BtnSetPrinter(){
@@ -1494,14 +1493,33 @@ public class SpreadMRKListController {
 	    }
 	    
 	private void BtnUpdate(){
-//	   SubTop.SUB1Topper(View, Model); 
-//	   Object large = "137"; 
-//	   Stats.SetData(large, 2, 2); 
-//		TotalScore();
-		
-//		SubTop.ComToppers(View, Model);
-		SubTop.SciToppers(View, Model);
 
+		TotalScore();
+//		SubTop.ComToppers(View, Model, Stats);
+//		SubTop.iteTopper(View, Model, Stats);
+//		SubTop.SciToppers(View, Model, Stats);
+//		SubTop.ScEngTopper(View, Model, Stats);
+//		SubTop.ScIteTopper(View, Model, Stats);
+//		SubTop.ScHinTopper(View, Model, Stats);
+//		SubTop.ScMarTopper(View, Model, Stats);
+//		SubTop.ScTamTopper(View, Model, Stats);
+//		SubTop.ScEcoTopper(View, Model, Stats);
+//		SubTop.ScBioTopper(View, Model, Stats);
+//		SubTop.ScPhyTopper(View, Model, Stats);
+//		SubTop.ScCheTopper(View, Model, Stats);
+//		SubTop.ScMatTopper(View, Model, Stats);
+//		SubTop.ComEngTopper(View, Model, Stats);
+//		SubTop.ComIteTopper(View, Model, Stats);
+//		SubTop.ComHinTopper(View, Model, Stats);
+//		SubTop.ComMarTopper(View, Model, Stats);
+//		SubTop.ComTamTopper(View, Model, Stats);
+//		SubTop.ComEcoTopper(View, Model, Stats);
+//		SubTop.ComBkeTopper(View, Model, Stats);
+//		SubTop.ComOcmTopper(View, Model, Stats);
+//		SubTop.ComSepTopper(View, Model, Stats);
+//		SubTop.ComMatTopper(View, Model, Stats);
+//		SubTop.SubCounters(View, Model);
+		
 	}
 	
 	public void TotalScore(){

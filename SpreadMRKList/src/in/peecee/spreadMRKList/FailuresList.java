@@ -92,7 +92,7 @@ public class FailuresList {
 	    stringRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 	    
 	    TABLE.getColumnModel().getColumn(0).setPreferredWidth(80);              //  serial Numbers
-	    TABLE.getColumnModel().getColumn(1).setPreferredWidth(100);              //  Roll Numbers
+	    TABLE.getColumnModel().getColumn(1).setPreferredWidth(80);              //  Roll Numbers
 	    TABLE.getColumnModel().getColumn(2).setPreferredWidth(50);               //  Division
 	    TABLE.getColumnModel().getColumn(3).setPreferredWidth(400);              //  Names of students
 	    TABLE.getColumnModel().getColumn(6).setPreferredWidth(100);
@@ -134,7 +134,7 @@ public class FailuresList {
 	    JPanel southPanel = new JPanel();  
 	    southPanel.setLayout(new GridLayout(1, 8));        
 
-	    JButton btnLoad = new JButton("Load");
+/*	    JButton btnLoad = new JButton("Load");
 	    btnLoad.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(btnLoad);   
 	       
@@ -142,7 +142,7 @@ public class FailuresList {
 	    btnSave.setToolTipText("Save");
 	    btnSave.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(btnSave);    
-	    
+	*/    
 	    JButton btnSetPrinter = new JButton("Set Printer");
 	    btnSetPrinter.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent arg0) {

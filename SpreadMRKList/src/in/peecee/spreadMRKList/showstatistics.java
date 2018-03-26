@@ -193,38 +193,30 @@ public class showstatistics {
    	table_1.setBorder(new LineBorder(new Color(0, 0, 20)));
    	table_1.setModel(new DefaultTableModel(
    		new Object[][] {
-   				{"  English (Com)", null, null, null, null},
-	    		{"  Hindi (Com)", null, null, null, null},
-	    		{"  Marathi (Com)", null, null, null, null},
-	    		{"  Tamil (Com)", null, null, null, null},
-	    		{"  Economics", null, null, null, null},
-	    		{"  Accountancy - BK", null, null, null, null},	    		
-	    		{"  Org. of Commerece", null, null, null, null},
-	    		{"  Secreterial Practice", null, null, null, null},
-	    		{"  Mathematics (Com)", null, null, null, null},
-	    		{"  English (Sci)", null, null, null, null},
-	    		{"  Hindi (Sci)", null, null, null, null},
-	    		{"  Marathi (Sci)", null, null, null, null},
-	    		{"  Tamil (Sci)", null, null, null, null},
-	    		{"  Physics", null, null, null, null},
-	    		{"  Chemistry", null, null, null, null},
-	    		{"  Mathematics Sci", null, null, null, null},
-	    		{"  Biology", null, null, null, null},
-	    		{"  Electronics", null, null, null, null},
-	    		{"  Computer Science", null, null, null, null},
+   				{"(01) English (Com)", null, null, null, null},
+   				{"(02) Information Technology (Com)", null, null, null, null},
+	    		{"(03) Hindi (Com)", null, null, null, null},
+	    		{"(04) Marathi (Com)", null, null, null, null},
+	    		{"(05) Tamil (Com)", null, null, null, null},
+	    		{"(06) Economics", null, null, null, null},
+	    		{"(07) Accountancy - BK", null, null, null, null},	    		
+	    		{"(08) Organization of Commerece", null, null, null, null},
+	    		{"(09) Secreterial Practice", null, null, null, null},
+	    		{"(10) Mathematics (Com)", null, null, null, null},
 	    		{null, null, null, null, null},
+	    		{"(01) English (Sci)", null, null, null, null},
+	    		{"(02) Information Tecnology (Sci)", null, null, null, null},
+	    		{"(03) Hindi (Sci)", null, null, null, null},
+	    		{"(04) Marathi (Sci)", null, null, null, null},
+	    		{"(05) Tamil (Sci)", null, null, null, null},
+	    		{"(06) Economics (Sci)", null, null, null, null},
+	    		{"(07) Biology", null, null, null, null},	    		
+	    		{"(08) Physics", null, null, null, null},
+	    		{"(09) Chemistry", null, null, null, null},
+	    		{"(10) Mathematics Sci", null, null, null, null},
+	    		{"(11) Electronics", null, null, null, null},
+	    		{"(12) Computer Science", null, null, null, null},
 	    		{null, null, null, null, null},
-	    		{null, "               R E P O R T", "   COMMERCE", "    SCIENCE", "Over All Result"},
-	    		{null, "Number of Students registered", null, null, null},
-	    		{null, "Number of students appeared", null, null, null},
-	    		{null, "Number of Students Passed", null, null, null},
-	    		{null, "Number of Students Failed", null, null, null},
-	    		{null, "Number of Distinctions", null, null, null},
-	    		{null, "Number of First Class", null, null, null},
-	    		{null, "Number of Second  Class", null, null, null},
-	    		{null, "Number of Pass Class", null, null, null},
-	    		{null, "Number of Students Promoted", null, null, null},
-	    		{null, "Result Pass Percentage", null, null, null},
 	    		{null, null, null, null, null}},
 	    		
    		new String[] {
@@ -237,7 +229,7 @@ public class showstatistics {
     header2.setPreferredSize(new Dimension(0,30));
     header2.setFont(new Font("Dialog", Font.BOLD,14));   
     table_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    table_1.getColumnModel().getColumn(0).setPreferredWidth(170);      // SUBJECT           
+    table_1.getColumnModel().getColumn(0).setPreferredWidth(190);      // SUBJECT           
     table_1.getColumnModel().getColumn(1).setPreferredWidth(400);      // NAME
     table_1.getColumnModel().getColumn(2).setPreferredWidth(70);       // ROLL NUMBER  
     table_1.getColumnModel().getColumn(3).setPreferredWidth(30);       // DIVISION

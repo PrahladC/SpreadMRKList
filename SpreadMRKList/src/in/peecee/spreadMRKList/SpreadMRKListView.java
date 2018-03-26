@@ -41,6 +41,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 	    private JButton btnSpreadSheet;
 	    private JButton btnPrintConsolidated;
 	    private JButton btnFailedNumbers;
+	    private JButton btnOvereAllResult;
 	    
 	    private JTable table;
 	    ColumnGroup Eng, SL, Sub1, Sub2, Sub3, Sub4 ;
@@ -245,13 +246,17 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     btnPrintAll.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnPrintAll);
     
-    btnSpreadSheet = new JButton("Spread sheet");
+    btnSpreadSheet = new JButton("Pr.Spread sheet");
     btnSpreadSheet.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnSpreadSheet);
     
     btnPrintConsolidated = new JButton("Pr.Consolidated");
     btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
     southPanel.add(btnPrintConsolidated);
+    
+    btnOvereAllResult = new JButton("Over All Result");
+    btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    southPanel.add(btnOvereAllResult);
    
     btnCansel = new JButton("Cancel");
     btnCansel.addActionListener(new ActionListener() {
@@ -259,6 +264,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
 //    		System.exit(0);
     	}
     });
+    
     btnCansel.setFont(new Font("Times New Roman", Font.BOLD, 14));
   //  btnCansel.setPreferredSize(new Dimension(115, 25));
     southPanel.add(btnCansel);
@@ -327,10 +333,14 @@ public class SpreadMRKListView extends javax.swing.JFrame {
         return btnPrintConsolidated;
     }
 	
+	public JButton getOverallResultButton(){
+        return btnOvereAllResult;
+    }	    	    	    
+
 	public JButton getSpreadSheetButton(){
         return btnSpreadSheet;
     }	    	    	    
-	    
+
 	public JTextField getCollName(){
         return CollName;
     }
