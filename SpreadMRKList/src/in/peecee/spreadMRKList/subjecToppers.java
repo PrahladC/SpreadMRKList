@@ -815,6 +815,45 @@ public class subjecToppers {
 //   show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+maxMat +" Subject is "+subject);		
 	}
 
+
+	public void MatTopper(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
+		View = view;   Model = model;   Stats = stats;
+		int rows = View.getTable().getRowCount();                         
+		String rollNo  = null, name  = null, div  = null, stream = null;
+		int index = 0, maxMat = 0; int matMrk[] = new int [1000];   int rowArray[] = new int[1000];		
+		String RollNo, subject = null;
+		ArrayList<String> Subject = null;
+        for(int row = 0; row < rows; row++){ 
+			RollNo = GetData(View.getTable(), row, 1).toString().trim();
+        }        
+        for(int row = 0; row < rows; row++){
+			RollNo = GetData(View.getTable(), row, 1).toString().trim();
+			Subject = columnHeaderfinder(RollNo);
+			stream = Streamfinder(RollNo); 							
+			if(stream.contains("COMMERCE") && Subject.get(5).contains("MAT")){ 
+				matMrk[index] = Sub6(row);
+				rowArray[index] = row;
+				index++;	
+				maxMat = matMrk[0];
+				for(int i = 0; i < matMrk.length; i++){
+					if(maxMat < matMrk[i]){ maxMat = matMrk[i]; 
+					                     rollNo = GetData(View.getTable(), rowArray[i], 1).toString().trim();
+				                         name = GetData(View.getTable(), rowArray[i], 3).toString().trim();
+				                         div = GetData(View.getTable(), rowArray[i], 2).toString().trim();
+				                         subject = Subject.get(5);  
+				                        }
+					      }	
+			     }					
+        }       
+		Stats.SetData1("  "+ name, 9, 1);
+        Stats.SetData1("  "+ rollNo, 9, 2);
+        Stats.SetData1("  "+ div, 9, 3);
+        Stats.SetData1("  "+ maxMat, 9, 4);
+   show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+maxMat +" Subject is "+subject);	
+   
+	}
+
+	
 	
 	public void SciToppers(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
 		

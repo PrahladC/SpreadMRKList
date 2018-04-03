@@ -57,6 +57,8 @@ public class SpreadMRKListController {
 	private FailuresList fl = new FailuresList();
 	private subjecToppers SubTop = new subjecToppers();
 	private OverAllResult OAR = new OverAllResult();
+	private progressBar pb = new progressBar();
+	
 //	private printRoutines prnRoutines = new printRoutines();
 	
 	public  ArrayList<String> strArray = new ArrayList<String>();
@@ -317,7 +319,7 @@ public class SpreadMRKListController {
 		int row = 0, k = 0, failcounter = 0;
 		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0;
 		int evs = 0;  String pte = null;
-		int NumofRows = 1468;
+		int NumofRows = View.getTable().getRowCount()-1;
 		fl.failures();        
 		String result = null;
 			
@@ -1494,10 +1496,13 @@ public class SpreadMRKListController {
 	    
 	private void BtnUpdate(){
 
-		TotalScore();
+//		TotalScore();
+	pb.progressBar(View);	
+//	SubTop.MatTopper(View, Model, Stats);
+	
 //		SubTop.ComToppers(View, Model, Stats);
-//		SubTop.iteTopper(View, Model, Stats);
-//		SubTop.SciToppers(View, Model, Stats);
+//		SubTop.iteTopper(View,   Model, Stats);
+//		SubTop.SciToppers(View,  Model, Stats);
 //		SubTop.ScEngTopper(View, Model, Stats);
 //		SubTop.ScIteTopper(View, Model, Stats);
 //		SubTop.ScHinTopper(View, Model, Stats);
