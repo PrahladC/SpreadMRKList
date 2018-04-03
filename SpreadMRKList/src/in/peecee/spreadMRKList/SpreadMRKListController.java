@@ -797,8 +797,8 @@ public class SpreadMRKListController {
 		   		 plate=Model.strArray.get(i).split("#");
 			     rollno = plate[0];
 			     if(plate[1].length()<=12){ 
-			     	rollno = plate[0];
-			     	div = plate[2].substring(0,1);
+			     	rollno = plate[0];         //   show(plate);  show(plate[0]); show(plate[1]);   show(plate[2]);    
+			     	div = plate[1].substring(0,1);
 			     	SetData(rollno,i-1,1);
 				    SetData(div, i-1, 2);
 		     	  }
@@ -806,7 +806,7 @@ public class SpreadMRKListController {
 		     	  names = plate[1].substring(0, 60);
 //		     	  str = str.replaceAll("\\s+"," ");                // REGEX replacing method - Removes all white spaces
 		     	  names = names.replaceAll("\\s{2}", "").toUpperCase();          // Keeps one white space and removes extra white spaces
-		     	  div = plate[2].substring(0,1);
+		     	  div = plate[1].substring(0,1);
 		     	  SetData(rollno,i-1,1);
 		     	  SetData(div, i-1, 2);
 		     	  SetData(names,i-1,3);
