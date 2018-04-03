@@ -346,7 +346,7 @@ public class SpreadMRKListController {
                fl.SetData(sub6, k, 9);
                fl.SetData(evs, k, 10);
                fl.SetData(pte, k, 11);
-			   if(k < 400) k++;
+			   if(k < NumofRows) k++;
 			}
 			else continue;
 			
@@ -806,7 +806,7 @@ public class SpreadMRKListController {
 		     	  names = plate[1].substring(0, 60);
 //		     	  str = str.replaceAll("\\s+"," ");                // REGEX replacing method - Removes all white spaces
 		     	  names = names.replaceAll("\\s{2}", "").toUpperCase();          // Keeps one white space and removes extra white spaces
-		     	  div = plate[1].substring(0,1);
+		     	  div = plate[2].substring(0,1);
 		     	  SetData(rollno,i-1,1);
 		     	  SetData(div, i-1, 2);
 		     	  SetData(names,i-1,3);
@@ -2711,7 +2711,20 @@ public class SpreadMRKListController {
 			  }
 		  }        
 	   }
-	
+
+	 public void ClearFailureTable()
+	   {  int Rows = fl.TABLE.getRowCount();  show(Rows);
+		  int cols = fl.TABLE.getColumnCount();       show(cols);
+		 for (int i = 0; i < Rows; i++)
+		  {
+		    for (int j = 1; j < cols; j++)
+		      {
+				SetData("",i,j);
+			  }
+		  }        
+	   }
+	 
+	 
 	public void ResizeTable(JTable tablename,int numberofrows)
 		   { DefaultTableModel model=(DefaultTableModel) tablename.getModel();
 	      int totalrows=tablename.getRowCount();
