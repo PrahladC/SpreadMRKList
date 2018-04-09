@@ -186,40 +186,40 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     southPanel.setLayout(new GridLayout(2, 8));        
    
 	btnSearch = new JButton("Search");        
-	btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 13));
 	southPanel.add(btnSearch);
 	
 	search = new JTextField("");
-	search.setFont(new Font("Times New Roman", Font.BOLD, 14));
+	search.setFont(new Font("Times New Roman", Font.BOLD, 13));
 	search.setColumns(8);
 	southPanel.add(search);
     
     btnLoad = new JButton("Load");
-    btnLoad.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnLoad.setFont(new Font("Times New Roman", Font.BOLD, 13));
   //  btnLoad.setPreferredSize(new Dimension(115, 25));
     southPanel.add(btnLoad);   
        
     btnSave = new JButton("Save");    
     btnSave.setToolTipText("Save");
-    btnSave.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnSave.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnSave);    
 
     btnUpdate = new JButton("Update");    
     btnUpdate.setToolTipText("Update");
-    btnUpdate.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnUpdate.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnUpdate);
     
     btnResult = new JButton("Result");    
     btnResult.setToolTipText("Result");
-    btnResult.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnResult.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnResult);
     
     btnMeritList = new JButton("Merit List");
-    btnMeritList.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnMeritList.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnMeritList);    
     
     btnFailedNumbers = new JButton("Failed Numbers");
-    btnFailedNumbers.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnFailedNumbers.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnFailedNumbers);
 
     btnSetPrinter = new JButton("Set Printer");
@@ -229,33 +229,33 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     		
     	}
     });
-    btnSetPrinter.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnSetPrinter.setFont(new Font("Times New Roman", Font.BOLD, 13));
   //  btnSetPrinter.setPreferredSize(new Dimension(115, 25));
     southPanel.add(btnSetPrinter);
     
     lblPrinter = new JLabel("Printer Name ");
-    lblPrinter.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    lblPrinter.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(lblPrinter);
     
     btnPrintCurrent = new JButton("Print Current");
-    btnPrintCurrent.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnPrintCurrent.setFont(new Font("Times New Roman", Font.BOLD, 13));
   //  btnPrint.setPreferredSize(new Dimension(115, 25));
     southPanel.add(btnPrintCurrent);
     
     btnPrintAll = new JButton("Print All");
-    btnPrintAll.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnPrintAll.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnPrintAll);
     
     btnSpreadSheet = new JButton("Pr.Spread sheet");
-    btnSpreadSheet.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnSpreadSheet.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnSpreadSheet);
     
     btnPrintConsolidated = new JButton("Pr.Consolidated");
-    btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnPrintConsolidated);
     
     btnOvereAllResult = new JButton("Over All Result");
-    btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnPrintConsolidated.setFont(new Font("Times New Roman", Font.BOLD, 13));
     southPanel.add(btnOvereAllResult);
    
     btnCansel = new JButton("Cancel");
@@ -265,7 +265,7 @@ public class SpreadMRKListView extends javax.swing.JFrame {
     	}
     });
     
-    btnCansel.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    btnCansel.setFont(new Font("Times New Roman", Font.BOLD, 13));
   //  btnCansel.setPreferredSize(new Dimension(115, 25));
     southPanel.add(btnCansel);
     

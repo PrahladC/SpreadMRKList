@@ -61,7 +61,7 @@ public class SpreadMRKListModel {
 	        chooser.setFileFilter(filter);
 	        chooser.setCurrentDirectory(new File("E:/Eclipse/Prahlad/Test Entries"));
 	        chooser.setCurrentDirectory(new File("/home/prahallad/Test Entries"));
-	        chooser.setCurrentDirectory(new File("/home/siws/Blank Entries"));   
+	        chooser.setCurrentDirectory(new File("/home/student/Test Entries"));   
 	       
 	        int option = chooser.showOpenDialog(null);
 	        

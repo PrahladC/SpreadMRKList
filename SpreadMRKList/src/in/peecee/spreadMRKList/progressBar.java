@@ -19,7 +19,7 @@ public void Show(int num) {JOptionPane.showMessageDialog(null, num);}   ///for d
  
     int min = 0;   int max = 100;
     int rows= View.getTable().getRowCount();
-    Show(rows);
+//    Show(rows);
     String[] message = new String[2];
     message[0] = "Performing Iterations.";
     message[1] = "Wait for completion…….";
@@ -30,8 +30,9 @@ public void Show(int num) {JOptionPane.showMessageDialog(null, num);}   ///for d
              {
                int rows= View.getTable().getRowCount();
                int sleepTime = 100;
-               for(int i = 1; i < 100; i++)    
+               for(int i = 1; i < rows; i++)    
                {
+            	   
                  try  
                  {
                    monitor.setNote("Iteration " + i);
@@ -57,7 +58,7 @@ public void Show(int num) {JOptionPane.showMessageDialog(null, num);}   ///for d
          } ;
  
     frame.setSize(200,200);
-    frame.setLocationRelativeTo(null);
+//    frame.setLocationRelativeTo(null);
     frame.setVisible(false);
     
     

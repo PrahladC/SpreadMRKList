@@ -41,6 +41,9 @@ public class showstatistics {
     public JTable table;
     private JTable table_1;
 //    private MeritListButtons MLButtons = new MeritListButtons();
+    private SpreadMRKListController SMRKC;
+    private OverAllResult OAR;
+    
 	public JButton MLSCPrintButton;
 	public JButton STPrintButton;
 	public JButton FailedButtons;
@@ -257,6 +260,8 @@ public class showstatistics {
 			if (pageNum > totalpages)                                 // we only print one page
 			return Printable.NO_SUCH_PAGE;                            // ie., end of job
 			
+			
+			
 			pg.drawString("S T R E A M W I S E   R A N K S", 230, 40);	  
 			
 			pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
@@ -271,7 +276,23 @@ public class showstatistics {
 				  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+15);
 				}					
 			  }
+			for(int i = 0; i < 5; i++){     //  COMMERCE
+               pg.drawString(GetData(table, i, 6), TopLeftX+(9*Width), TopLeftY+(7*Height)/4+(i*Height));    // Percentage
+               pg.drawString(GetData(table, i, 5), TopLeftX+(25*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Score
+               pg.drawString(GetData(table, i, 4), TopLeftX+(22*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Division
+               pg.drawString(GetData(table, i, 3), TopLeftX+(19*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Roll No.
+               pg.drawString(GetData(table, i, 2), TopLeftX+Width-5,      TopLeftY+(7*Height)/4+(i*Height));      // Name              
+			}
+			
+			for(int i = 0; i < 5; i++){    //   SCIENCE
+	           pg.drawString(GetData(table, i+11, 6), TopLeftX+(9*Width), TopLeftY+(43*Height)/4+(i*Height));// Percentage
+               pg.drawString(GetData(table, i+11, 5), TopLeftX+(25*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Score
+               pg.drawString(GetData(table, i+11, 4), TopLeftX+(22*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Division
+               pg.drawString(GetData(table, i+11, 3), TopLeftX+(19*Width)/3-10, TopLeftY+(43*Height)/4+(i*Height)); // Roll No.
+               pg.drawString(GetData(table, i+11, 2), TopLeftX+Width-5,      TopLeftY+(43*Height)/4+(i*Height)); // Name              
 
+			}
+			
 			pg.drawString("S C I E N C E", TopLeftX, TopLeftY+8*Height);					  
 			  for(int i =0; i < 6; i++){
 				for(int j = 0; j < 6; j++){
@@ -307,16 +328,16 @@ public class showstatistics {
 			  
 			for(int j = 0; j < 4; j++){  
 			  for(int i = 0; i < 5; i++){
-				  pg.drawString(GetData(table, i, 2), TopLeftX+Width-10, TopLeftY+i*Height+2*Height-5);            //  Names
-			      pg.drawString(GetData(table, i, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+2*Height-5); //  Roll No, Div, Score n Percentage
-			      pg.drawString(GetData(table, i+11, 2), TopLeftX+Width-10, TopLeftY+i*Height+11*Height-5);            //  Names
-			      pg.drawString(GetData(table, i+11, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+11*Height-5);
+//				  pg.drawString(GetData(table, i, 2), TopLeftX+Width-10, TopLeftY+i*Height+2*Height-5);            //  Names
+//			      pg.drawString(GetData(table, i, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+2*Height-5); //  Roll No, Div, Score n Percentage
+//			      pg.drawString(GetData(table, i+11, 2), TopLeftX+Width-10, TopLeftY+i*Height+11*Height-5);            //  Names
+//			      pg.drawString(GetData(table, i+11, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+11*Height-5);
 			  }
 		    }
              int k =  0, m = 0;
 			for(int j = 2; j < 5; j++){  
 			  for(int i = 23; i < 32; i++){
-			      pg.drawString(GetData(table_1, i, j), (2*m*Width)+(23*TopLeftX)/4, TopLeftY+(k*Height+20*Height-5));
+//			      pg.drawString(GetData(table_1, i, j), (2*m*Width)+(23*TopLeftX)/4, TopLeftY+(k*Height+20*Height-5));
 				  k++; 
 				  if(i == 31){ m++; k=0;}
 				  }

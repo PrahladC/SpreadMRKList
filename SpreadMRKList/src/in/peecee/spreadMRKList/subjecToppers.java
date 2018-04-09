@@ -17,6 +17,7 @@ public class subjecToppers {
 	public  ArrayList<String> tempArray = new ArrayList<String>();
 
 	public void Show(int num) {JOptionPane.showMessageDialog(null, num);}   ///for debugging
+	public void Show(int[] totalMarks) {JOptionPane.showMessageDialog(null, totalMarks);}   ///for debugging
 	public void show(ArrayList<String> msg) {JOptionPane.showMessageDialog(null, msg);}   ///for debugging
 	public void show(String msg) {JOptionPane.showMessageDialog(null, msg);}   ///for debugging
 	public void show1(String[] msg) {JOptionPane.showMessageDialog(null, msg);}   ///for debugging
@@ -32,14 +33,15 @@ public class subjecToppers {
 	    SengCounter = 0, SmarCounter = 0, ShinCounter = 0, StamCounter = 0, SiteCounter = 0, SecoCounter = 0, 
 		bkeCounter = 0,  ocmCounter = 0,  SmatCounter = 0, sepCounter = 0;
 	
-	 
+	public void setViewModel(SpreadMRKListView view, SpreadMRKListModel model){
+		this.View = view;
+		this.Model = model;
+	}
+	
 	public void SubCounters(SpreadMRKListView view, SpreadMRKListModel model){
 		View = view;
 		Model = model;
 		int rows = View.getTable().getRowCount();                     //    100;    
-		String rollNo = null, name = null, div = null;
-		String rollNo1 = null, name1 = null, div1 = null;
-//		int rows = View.getTable().getRowCount();                     //    100;        
 		String RollNo;
 		String stream = null;
 		ArrayList<String> Subject = null;
@@ -78,13 +80,13 @@ public class subjecToppers {
 			if(stream.contains("SCIENCE") && Subject.get(5).contains("MAT")){SmatCounter++; }
 
         }
-		show("ENG-C = " + CengCounter + " , MAR-C = "+CmarCounter+ " , ITE-C = "+CiteCounter+ " , HIN-C = "+ChinCounter
+/*		show("ENG-C = " + CengCounter + " , MAR-C = "+CmarCounter+ " , ITE-C = "+CiteCounter+ " , HIN-C = "+ChinCounter
 				+ " , TAM-C = "+CtamCounter+ " , ECO-C = "+CecoCounter+ " , BKE-C = "+bkeCounter
 				+ " , OCM-C = "+ocmCounter+ " , SEP-C = "+sepCounter+ " , MAT-C = "+CmatCounter+"\n\n"
 				+"ENG-S = "+SengCounter + " , MAR-S = "+SmarCounter + " , ITE-S = "+SiteCounter + " , HIN-S = "+ShinCounter
 				+ " , TAM-S = "+StamCounter+ " , EL1-S = "+el1Counter+ " , CS1-S = "+cs1Counter
 				+ " , BIO-S = "+bioCounter+ " , ECO-S = "+SecoCounter+ " , PHY-S = "+phyCounter+" ,"+"\n\n"
-				+ "CHE-S = "+cheCounter+ " , MAT-S = "+SmatCounter);
+				+ "CHE-S = "+cheCounter+ " , MAT-S = "+SmatCounter);                  */
 	}
 
 	public void ScEngTopper(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
@@ -816,9 +818,9 @@ public class subjecToppers {
 	}
 
 
-	public void MatTopper(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
+	public void MatTopper(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats, int rows){
 		View = view;   Model = model;   Stats = stats;
-		int rows = View.getTable().getRowCount();                         
+		rows = View.getTable().getRowCount();                         
 		String rollNo  = null, name  = null, div  = null, stream = null;
 		int index = 0, maxMat = 0; int matMrk[] = new int [1000];   int rowArray[] = new int[1000];		
 		String RollNo, subject = null;
@@ -853,6 +855,10 @@ public class subjecToppers {
    
 	}
 
+	public void pass(int row){
+		
+		
+	}
 	
 	
 	public void SciToppers(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
@@ -1290,11 +1296,29 @@ public class subjecToppers {
 	     		  }
 	     	   }
 		 }
+		 
 		 headerArray.removeAll(headerArray);
 		 headerArray.add(View.Eng.text);headerArray.add(View.SL.text);headerArray.add(View.Sub1.text);
 		 headerArray.add(View.Sub2.text);headerArray.add(View.Sub3.text);headerArray.add(View.Sub4.text);
 		return headerArray;
 		
+	}
+	
+	public void Rearrange(SpreadMRKListView view, SpreadMRKListModel model){
+		  View = view; Model = model;
+		  int[] TotalMarks; int ind = 0;
+		  int rowcount = 50;                       //      View.getTable().getRowCount();
+		  TotalMarks = new int [rowcount];
+		  int length = TotalMarks.length;	  
+
+		  for(int row = 0; row < rowcount; row++){
+			  String finalTotal = (String) GetData(View.getTable(), row,30);
+			  TotalMarks[ind] = Integer.parseInt(finalTotal);
+			  ind++;	    
+		  }	
+              Show(TotalMarks[9]);
+              
+             
 	}
 
 }

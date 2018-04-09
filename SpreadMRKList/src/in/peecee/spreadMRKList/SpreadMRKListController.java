@@ -288,7 +288,7 @@ public class SpreadMRKListController {
 	rankCom();
 	rankSci();
 
-	SubTop.ScEngTopper(View, Model, Stats);
+/*	SubTop.ScEngTopper(View, Model, Stats);
 	SubTop.ScIteTopper(View, Model, Stats);
 	SubTop.ScHinTopper(View, Model, Stats);
 	SubTop.ScMarTopper(View, Model, Stats);
@@ -308,7 +308,7 @@ public class SpreadMRKListController {
 	SubTop.ComOcmTopper(View, Model, Stats);
 	SubTop.ComSepTopper(View, Model, Stats);
 	SubTop.ComMatTopper(View, Model, Stats);
-	
+	*/
 //	SubTop.ComToppers(View, Model, Stats);
 //	SubTop.SciToppers(View, Model, Stats);
   }                    
@@ -346,7 +346,7 @@ public class SpreadMRKListController {
                fl.SetData(sub6, k, 9);
                fl.SetData(evs, k, 10);
                fl.SetData(pte, k, 11);
-			   if(k < NumofRows) k++;
+			   if(k < NumofRows) k++;	
 			}
 			else continue;
 			
@@ -1461,18 +1461,18 @@ public class SpreadMRKListController {
 		  for(int row = 0; row < rowcount; row++){
 		 
 				  String result = Mod(row);
-				  if(result == "Fail") Numfailed++;
-				  if(result == "Promoted") Promoted++;
-				  if(result == "Pass Class") Passclass++;
-				  if(result == "Second Class")  SC++;
-				  if(result == "First Class")   FC++;
-				  if(result == "Distinction") Dist++;	    
+				  if(result == "Fail" || result.contains("Fail")) Numfailed++;
+				  if(result == "Promoted" || result.contains("Promoted")) Promoted++;
+				  if(result == "Pass Class" || result.contains("Pass Class")) Passclass++;
+				  if(result == "Second Class" || result.contains("Second Class"))  SC++;
+				  if(result == "First Class" || result.contains("First Class"))   FC++;
+				  if(result == "Distinction" || result.contains("Distinction")) Dist++;	    
 		  }	  
 		  
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/rowcount;
 		  OAR.SetData("     "+rowcount, 0, 4);
-		  OAR.SetData("     "+(rowcount -Numfailed), 1, 4);
+		  OAR.SetData("     "+(rowcount-Numfailed), 1, 4);
 		  OAR.SetData("     "+Numfailed, 2, 4);
 		  OAR.SetData("     "+Dist, 3, 4);
 		  OAR.SetData("     "+FC, 4, 4);
@@ -1497,8 +1497,10 @@ public class SpreadMRKListController {
 	private void BtnUpdate(){
 
 //		TotalScore();
-	pb.progressBar(View);	
-//	SubTop.MatTopper(View, Model, Stats);
+		SubTop.Rearrange(View, Model);
+//	pb.progressBar(View);	
+//	int rows = 0; 
+//	SubTop.MatTopper(View, Model, Stats, rows);
 	
 //		SubTop.ComToppers(View, Model, Stats);
 //		SubTop.iteTopper(View,   Model, Stats);
