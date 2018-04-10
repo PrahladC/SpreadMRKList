@@ -41,7 +41,7 @@ public class showstatistics {
     public JTable table;
     private JTable table_1;
 //    private MeritListButtons MLButtons = new MeritListButtons();
-    private SpreadMRKListController SMRKC;
+    private SpreadMRKListController SMRKLC;
     private OverAllResult OAR;
     
 	public JButton MLSCPrintButton;
@@ -67,6 +67,7 @@ public class showstatistics {
 
 
     String[] Header2 = {"Subject", "Name", "Roll", "Div", "Score"};
+    private JTable table_2;
     
     public void show(String msg) {JOptionPane.showMessageDialog(null, msg);}   ///for debugging
    
@@ -84,6 +85,7 @@ public class showstatistics {
 
    public void SetData(Object obj, int row_index, int col_index){table.getModel().setValueAt(obj,row_index,col_index);  }
    public void SetData1(Object obj, int row_index, int col_index){table_1.getModel().setValueAt(obj,row_index,col_index);  }
+   public void SetData2(Object obj, int row_index, int col_index){table_2.getModel().setValueAt(obj,row_index,col_index);  }   
    public Object GetData1 (JTable table, int row_index, int col_index) {  return table.getValueAt(row_index, col_index); }
    public String GetData(JTable table, int row_index, int col_index) {  return (String) table.getValueAt(row_index, col_index); }
    
@@ -92,33 +94,24 @@ public class showstatistics {
    	   	 
    	GridBagLayout gridBagLayout = new GridBagLayout();
    	gridBagLayout.columnWidths = new int[]{0, 483, 0};
-   	gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-   	gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-   	gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+   	gridBagLayout.rowHeights = new int[]{0, 0, 112, 0, 14, 3, 86, 0, 0, 106, 0, 0, 0};
+   	gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+   	gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
    	frame.getContentPane().setLayout(gridBagLayout);
-   	
-   	JLabel lblNewLabel = new JLabel("MERIT LIST - OVER ALL RANKINGS AND SUBJECT TOPPERS");
-   	lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
-   	GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-   	gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-   	gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-   	gbc_lblNewLabel.gridx = 1;
-   	gbc_lblNewLabel.gridy = 0;
-   	frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
    	
    	JLabel label = new JLabel(" OVER ALL RANKINGS");
    	label.setFont(new Font("Times New Roman", Font.BOLD, 18));
    	GridBagConstraints gbc_label = new GridBagConstraints();
    	gbc_label.insets = new Insets(0, 0, 5, 5);
    	gbc_label.gridx = 0;
-   	gbc_label.gridy = 1;
+   	gbc_label.gridy = 0;
    	frame.getContentPane().add(label, gbc_label);
    	
    	JScrollPane scrollPane = new JScrollPane();
    	GridBagConstraints gbc_scrollPane = new GridBagConstraints();
    	gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
    	gbc_scrollPane.fill = GridBagConstraints.BOTH;
-   	gbc_scrollPane.gridwidth = 2;
+   	gbc_scrollPane.gridwidth = 3;
    	gbc_scrollPane.gridx = 0;
    	gbc_scrollPane.gridy = 2;
    	frame.getContentPane().add(scrollPane, gbc_scrollPane);
@@ -178,17 +171,17 @@ public class showstatistics {
    	GridBagConstraints gbc_lblSubjectToppers = new GridBagConstraints();
    	gbc_lblSubjectToppers.insets = new Insets(0, 0, 5, 5);
    	gbc_lblSubjectToppers.gridx = 0;
-   	gbc_lblSubjectToppers.gridy = 4;
+   	gbc_lblSubjectToppers.gridy = 3;
    	frame.getContentPane().add(lblSubjectToppers, gbc_lblSubjectToppers);
    	
    	JScrollPane scrollPane_1 = new JScrollPane();
    	GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-   	gbc_scrollPane_1.gridheight = 2;
+   	gbc_scrollPane_1.gridheight = 4;
    	gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
    	gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
    	gbc_scrollPane_1.gridwidth = 3;
    	gbc_scrollPane_1.gridx = 0;
-   	gbc_scrollPane_1.gridy = 5;
+   	gbc_scrollPane_1.gridy = 4;
    	frame.getContentPane().add(scrollPane_1, gbc_scrollPane_1);
    	
    	table_1 = new JTable();
@@ -237,242 +230,272 @@ public class showstatistics {
     table_1.getColumnModel().getColumn(2).setPreferredWidth(70);       // ROLL NUMBER  
     table_1.getColumnModel().getColumn(3).setPreferredWidth(30);       // DIVISION
     table_1.getColumnModel().getColumn(4).setPreferredWidth(50);       // SCORE   
+   	
+   	JLabel lblOverAllResult = new JLabel("OVER ALL RESULT");
+   	lblOverAllResult.setFont(new Font("Times New Roman", Font.BOLD, 18));
+   	GridBagConstraints gbc_lblOverAllResult = new GridBagConstraints();
+   	gbc_lblOverAllResult.insets = new Insets(0, 0, 5, 5);
+   	gbc_lblOverAllResult.gridx = 0;
+   	gbc_lblOverAllResult.gridy = 8;
+   	frame.getContentPane().add(lblOverAllResult, gbc_lblOverAllResult);
+   	
+   	
+   	JScrollPane scrollPane_2 = new JScrollPane();
+   	GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+   	gbc_scrollPane_2.gridheight = 4;
+   	gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
+   	gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+   	gbc_scrollPane_2.gridwidth = 3;
+   	gbc_scrollPane_2.gridx = 0;
+   	gbc_scrollPane_2.gridy = 9;
+   	frame.getContentPane().add(scrollPane_2, gbc_scrollPane_2);
+   	
+   	table_2 = new JTable();
+   	scrollPane_2.setViewportView(table_2);
+   	table_2.setBorder(new LineBorder(new Color(0, 0, 20)));
+   	table_2.setModel(new DefaultTableModel(
+   		new Object[][] {
+   				{"(01)", null, null, null, null},
+   				{"(02)", null, null, null, null},
+	    		{"(03)", null, null, null, null},
+	    		{"(04)", null, null, null, null},
+	    		{"(05)", null, null, null, null},
+	    		{"(06)", null, null, null, null},
+	    		{"(07)", null, null, null, null},	    		
+	    		{"(08)", null, null, null, null},
+	    		{"(09)", null, null, null, null},
+	    		{"(10)", null, null, null, null},
+	    		{null,null, null, null, null}},
+	    		
+   		new String[] {
+   				"Sr,No.", "PARTICULARS", "COMMERCE", "SCIENCE", "OVER ALL RESULT"
+   		}
+   	));
+   	
+    table_2.setRowHeight(25);    
+    JTableHeader header3 = table_2.getTableHeader();
+    header3.setPreferredSize(new Dimension(0,30));
+    header3.setFont(new Font("Dialog", Font.BOLD,14));   
+    table_2.setFont(new Font("Times New Roman", Font.BOLD, 14));
+    table_2.getColumnModel().getColumn(0).setPreferredWidth(20);        // Serial Nuber           
+    table_2.getColumnModel().getColumn(1).setPreferredWidth(300);       // Particulars
+    table_2.getColumnModel().getColumn(2).setPreferredWidth(200);       // Commerce   
+    table_2.getColumnModel().getColumn(3).setPreferredWidth(200);       // Science
+    table_2.getColumnModel().getColumn(4).setPreferredWidth(200);       // Over all Result
     
-	MLSCPrintButton = new JButton("Merit List Science / Commerce");       //  MLSC = Merit List Science Commerce
-	MLSCPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
-	GridBagConstraints gbc_MLSCPrintButton = new GridBagConstraints();
-	gbc_MLSCPrintButton.anchor = GridBagConstraints.EAST;
-	gbc_MLSCPrintButton.insets = new Insets(10, 20, 5, 5);
-	gbc_MLSCPrintButton.gridx = 0;
-	gbc_MLSCPrintButton.gridy = 8;
-	frame.getContentPane().add(MLSCPrintButton, gbc_MLSCPrintButton);
-	MLSCPrintButton.addActionListener(new ActionListener() {
-	public void actionPerformed(ActionEvent arg0) {
+	  for(int j = 0; j < Result.length; j++){
+		  SetData2("  "+Result[j], j, 1);				  				  
+	  }
+   		
+   		MLSCPrintButton = new JButton("Merit List Science / Commerce");       //  MLSC = Merit List Science Commerce
+   		MLSCPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
+   		GridBagConstraints gbc_MLSCPrintButton = new GridBagConstraints();
+   		gbc_MLSCPrintButton.anchor = GridBagConstraints.NORTHEAST;
+   		gbc_MLSCPrintButton.insets = new Insets(10, 20, 5, 5);
+   		gbc_MLSCPrintButton.gridx = 1;
+   		gbc_MLSCPrintButton.gridy = 0;
+   		frame.getContentPane().add(MLSCPrintButton, gbc_MLSCPrintButton);
+   		MLSCPrintButton.addActionListener(new ActionListener() {
+   		public void actionPerformed(ActionEvent arg0) {
         				 					  
-		try {
-				 
-		  PrinterJob pjob = PrinterJob.getPrinterJob();
-		  pjob.setJobName("MERRIT LIST");
-		  pjob.setCopies(1);
-		  pjob.setPrintable(new Printable() {
-		  public int print(Graphics pg, PageFormat pf, int pageNum) {
-		    int totalpages = 0;
-			if (pageNum > totalpages)                                 // we only print one page
-			return Printable.NO_SUCH_PAGE;                            // ie., end of job
-			
-			
-			
-			pg.drawString("S T R E A M W I S E   R A N K S", 230, 40);	  
-			
-			pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
-			  for(int i =0; i < 6; i++){
-				for(int j = 0; j < 6; j++){
-				  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+15);	
-				  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height, 3*Width/4, Height); }       
-				  if(i == 1){ pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height, 11*Width/2, Height); }
+   			try {
+   					 
+   			  PrinterJob pjob = PrinterJob.getPrinterJob();
+   			  pjob.setJobName("MERRIT LIST");
+   			  pjob.setCopies(1);
+   			  pjob.setPrintable(new Printable() {
+   			  public int print(Graphics pg, PageFormat pf, int pageNum) {
+   			    int totalpages = 0;
+   				if (pageNum > totalpages)                                 // we only print one page
+   				return Printable.NO_SUCH_PAGE;                            // ie., end of job
+   				
+   				
+   				
+   				pg.drawString("S T R E A M W I S E   R A N K S", 230, 40);	  
+   				
+   				pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
+   				  for(int i =0; i < 6; i++){
+   					for(int j = 0; j < 6; j++){
+   					  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+15);	
+   					  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height, 3*Width/4, Height); }       
+   					  if(i == 1){ pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height, 11*Width/2, Height); }
 //				  pg.drawString("KHATRI MOINUDDIN mOHMD AREEF QAMAR J", TopLeftX+28, TopLeftY+15);
-				  if(i > 1) { pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height, Width, Height); } 
-				  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+i*100, TopLeftY+15);
-				  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+15);
-				}					
-			  }
-			for(int i = 0; i < 5; i++){     //  COMMERCE
+   					  if(i > 1) { pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height, Width, Height); } 
+   					  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+i*100, TopLeftY+15);
+   					  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+15);
+   					}					
+   				  }
+   				for(int i = 0; i < 5; i++){     //  COMMERCE
                pg.drawString(GetData(table, i, 6), TopLeftX+(9*Width), TopLeftY+(7*Height)/4+(i*Height));    // Percentage
                pg.drawString(GetData(table, i, 5), TopLeftX+(25*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Score
                pg.drawString(GetData(table, i, 4), TopLeftX+(22*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Division
                pg.drawString(GetData(table, i, 3), TopLeftX+(19*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Roll No.
                pg.drawString(GetData(table, i, 2), TopLeftX+Width-5,      TopLeftY+(7*Height)/4+(i*Height));      // Name              
-			}
-			
-			for(int i = 0; i < 5; i++){    //   SCIENCE
-	           pg.drawString(GetData(table, i+11, 6), TopLeftX+(9*Width), TopLeftY+(43*Height)/4+(i*Height));// Percentage
+   				}
+   				
+   				for(int i = 0; i < 5; i++){    //   SCIENCE
+   		           pg.drawString(GetData(table, i+11, 6), TopLeftX+(9*Width), TopLeftY+(43*Height)/4+(i*Height));// Percentage
                pg.drawString(GetData(table, i+11, 5), TopLeftX+(25*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Score
                pg.drawString(GetData(table, i+11, 4), TopLeftX+(22*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Division
                pg.drawString(GetData(table, i+11, 3), TopLeftX+(19*Width)/3-10, TopLeftY+(43*Height)/4+(i*Height)); // Roll No.
                pg.drawString(GetData(table, i+11, 2), TopLeftX+Width-5,      TopLeftY+(43*Height)/4+(i*Height)); // Name              
 
-			}
-			
-			pg.drawString("S C I E N C E", TopLeftX, TopLeftY+8*Height);					  
-			  for(int i =0; i < 6; i++){
-				for(int j = 0; j < 6; j++){
-				  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+9*Height+15);	
-				  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height+9*Height, 3*Width/4, Height); }       
-				  if(i == 1) pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height+9*Height, 11*Width/2, Height);
-				  if(i > 1) pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height+9*Height, Width, Height);
-				  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+(i*100), TopLeftY+11*Height-25);
-				  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+11*Height-25);
+   				}
+   				
+   				pg.drawString("S C I E N C E", TopLeftX, TopLeftY+8*Height);					  
+   				  for(int i =0; i < 6; i++){
+   					for(int j = 0; j < 6; j++){
+   					  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+9*Height+15);	
+   					  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height+9*Height, 3*Width/4, Height); }       
+   					  if(i == 1) pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height+9*Height, 11*Width/2, Height);
+   					  if(i > 1) pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height+9*Height, Width, Height);
+   					  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+(i*100), TopLeftY+11*Height-25);
+   					  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+11*Height-25);
 
-				}					
-			  }
-				  
-			pg.drawString("RESULT VIEW OF BOTH SCIENCE AND COMMERCE", TopLeftX, TopLeftY+17*Height);	
+   					}					
+   				  }
+   					  
+   				pg.drawString("RESULT VIEW OF BOTH SCIENCE AND COMMERCE", TopLeftX, TopLeftY+17*Height);	
 
-			  for(int i =0; i < 4; i++){
-				for(int j = 0; j < 11; j++){
-				  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+18*Height, (9*Width)/2, Height); }       
+   				  for(int i =0; i < 4; i++){
+   					for(int j = 0; j < 11; j++){
+   					  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+18*Height, (9*Width)/2, Height); }       
                   if(i == 1) pg.drawRect(TopLeftX+(9*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height); 
-				  if(i == 2) pg.drawRect(TopLeftX+(13*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
-				  if(i == 3) pg.drawRect(TopLeftX+(17*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
-				  if(i == 0) pg.drawString("Particulars", (11*TopLeftX)/4, TopLeftY+21*Height-45);
-				  if(i == 1) pg.drawString(Header1[i+6], (6*TopLeftX)-10, TopLeftY+21*Height-45);
-				  if(i == 2) pg.drawString(Header1[i+6], (8*TopLeftX), TopLeftY+21*Height-45);
-				  if(i == 3) pg.drawString(Header1[i+6], (10*TopLeftX), TopLeftY+21*Height-45);
-				}					
-			  }
-			  
-			  for(int j = 0; j < Result.length; j++){
-				  pg.drawString(Result[j], TopLeftX+5, (TopLeftY+20*Height-5)+(j*Height));				  				  
-			  }
-			  			  
-			  
-			for(int j = 0; j < 4; j++){  
-			  for(int i = 0; i < 5; i++){
-//				  pg.drawString(GetData(table, i, 2), TopLeftX+Width-10, TopLeftY+i*Height+2*Height-5);            //  Names
-//			      pg.drawString(GetData(table, i, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+2*Height-5); //  Roll No, Div, Score n Percentage
-//			      pg.drawString(GetData(table, i+11, 2), TopLeftX+Width-10, TopLeftY+i*Height+11*Height-5);            //  Names
-//			      pg.drawString(GetData(table, i+11, j+3), TopLeftX+6*Width+10+j*Width, TopLeftY+i*Height+11*Height-5);
-			  }
-		    }
+   					  if(i == 2) pg.drawRect(TopLeftX+(13*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
+   					  if(i == 3) pg.drawRect(TopLeftX+(17*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
+   					  if(i == 0) pg.drawString("Particulars", (11*TopLeftX)/4, TopLeftY+21*Height-45);
+   					  if(i == 1) pg.drawString(Header1[i+6], (6*TopLeftX)-10, TopLeftY+21*Height-45);
+   					  if(i == 2) pg.drawString(Header1[i+6], (8*TopLeftX), TopLeftY+21*Height-45);
+   					  if(i == 3) pg.drawString(Header1[i+6], (10*TopLeftX), TopLeftY+21*Height-45);
+   					}					
+   				  }
+   				  
+   				  for(int j = 0; j < Result.length; j++){
+   					  pg.drawString(Result[j], TopLeftX+5, (TopLeftY+20*Height-5)+(j*Height));				  				  
+   				  }
+   				  			  
              int k =  0, m = 0;
-			for(int j = 2; j < 5; j++){  
-			  for(int i = 23; i < 32; i++){
+   				for(int j = 2; j < 5; j++){  
+   				  for(int i = 23; i < 32; i++){
 //			      pg.drawString(GetData(table_1, i, j), (2*m*Width)+(23*TopLeftX)/4, TopLeftY+(k*Height+20*Height-5));
-				  k++; 
-				  if(i == 31){ m++; k=0;}
-				  }
-			    }  
-														    				
-			return Printable.PAGE_EXISTS;
-		}
-	});
+   					  k++; 
+   					  if(i == 31){ m++; k=0;}
+   					  }
+   				    }  
+   															    				
+   				return Printable.PAGE_EXISTS;
+   			}
+   		});
 
-			if (pjob.printDialog() == false) // choose printer
-			return; 
-				     
-			HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
-			pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
-			pjob.print(pattribs); 
-		}
-			catch (PrinterException pe) {
-			pe.printStackTrace();
-		  }                                     						
-		
-	}
-	      
+   				if (pjob.printDialog() == false) // choose printer
+   				return; 
+   					     
+   				HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
+   				pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
+   				pjob.print(pattribs); 
+   			}
+   				catch (PrinterException pe) {
+   				pe.printStackTrace();
+   			  }                                     						
+   			
+   		}
+   		      
    });
-
-	STPrintButton = new JButton("Subject Toppers");        //  ST = Subject Topper
-	STPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
-	GridBagConstraints gbc_STPrintButton = new GridBagConstraints();
-	gbc_STPrintButton.anchor = GridBagConstraints.WEST;
-	gbc_STPrintButton.insets = new Insets(10, 30, 5, 5);
-	gbc_STPrintButton.gridx = 1;
-	gbc_STPrintButton.gridy = 8;
-	frame.getContentPane().add(STPrintButton, gbc_STPrintButton);
-	STPrintButton.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			 try {
-				 
-			      PrinterJob pjob = PrinterJob.getPrinterJob();
-				  pjob.setJobName("SUBJECT TOPPERS");
-				  pjob.setCopies(1);
-				  pjob.setPrintable(new Printable() {
-				  public int print(Graphics pg, PageFormat pf, int pageNum) {
-				  int totalpages = 0;
-				  if (pageNum > totalpages)                                 // we only print one page
-				  return Printable.NO_SUCH_PAGE;                            // ie., end of job
+   		
+   			STPrintButton = new JButton("Print Subject Toppers");        //  ST = Subject Topper
+   			STPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
+   			GridBagConstraints gbc_STPrintButton = new GridBagConstraints();
+   			gbc_STPrintButton.anchor = GridBagConstraints.NORTHWEST;
+   			gbc_STPrintButton.insets = new Insets(10, 30, 5, 5);
+   			gbc_STPrintButton.gridx = 2;
+   			gbc_STPrintButton.gridy = 0;
+   			frame.getContentPane().add(STPrintButton, gbc_STPrintButton);
+   			STPrintButton.addActionListener(new ActionListener() {
+   				public void actionPerformed(ActionEvent arg0) {
+   					 try {
+   						 
+   					      PrinterJob pjob = PrinterJob.getPrinterJob();
+   						  pjob.setJobName("SUBJECT TOPPERS");
+   						  pjob.setCopies(1);
+   						  pjob.setPrintable(new Printable() {
+   						  public int print(Graphics pg, PageFormat pf, int pageNum) {
+   						  int totalpages = 0;
+   						  if (pageNum > totalpages)                                 // we only print one page
+   						  return Printable.NO_SUCH_PAGE;                            // ie., end of job
 //				  Font newFont;		          
 //				  newFont = new Font("Liberation Serif", Font.PLAIN, 13);
 
-				  pg.drawString("SUBJECT TOPPERS FROM BOTH THE STREAMS", 150, 30);
-				  
-				  pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
-				  for(int i =0; i < 5; i++){
-					for(int j = 0; j < 11; j++){
-					  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height, (5*Width)/2, Height); } //  Subject
-					  if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height, (9*Width)/2, Height);   //  Name
-					  if(j < 10)pg.drawString(ComSubjects[j], TopLeftX+5, TopLeftY+j*Height+35 );
+   						  pg.drawString("SUBJECT TOPPERS FROM BOTH THE STREAMS", 150, 30);
+   						  
+   						  pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
+   						  for(int i =0; i < 5; i++){
+   							for(int j = 0; j < 11; j++){
+   							  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height, (5*Width)/2, Height); } //  Subject
+   							  if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height, (9*Width)/2, Height);   //  Name
+   							  if(j < 10)pg.drawString(ComSubjects[j], TopLeftX+5, TopLeftY+j*Height+35 );
 //					  pg.drawString("KHATRI MOINUDDIN MOHMD AREEF", 178, TopLeftY+15);
-					  if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height, Width, Height); 
-					}					
-				  }
+   							  if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height, Width, Height); 
+   							}					
+   						  }
 
-				 for(int i = 0 ; i < 5; i++){
-					 if(i == 0){ pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+15);
-					             pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+335); }
-					 if(i == 1){ pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+15);
-		                         pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+335); }
-					 if(i > 1) { pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+15);
-					             pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+335); }
-				 }
-				  
-				  pg.drawString("S C I E N C E", TopLeftX, TopLeftY+15*Height);	
-				  
-				  for(int i =0; i < 5; i++){
-					for(int j = 0; j < 11; j++){
-					  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+16*Height, (5*Width)/2, Height); } //  Subject
-					  if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height+16*Height, (9*Width)/2, Height);   //  Name
-					  if(j < 10)pg.drawString(SciSubjects[j], TopLeftX+5, TopLeftY+j*Height+355 );
+   						 for(int i = 0 ; i < 5; i++){
+   							 if(i == 0){ pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+15);
+   							             pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+335); }
+   							 if(i == 1){ pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+15);
+   				                         pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+335); }
+   							 if(i > 1) { pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+15);
+   							             pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+335); }
+   						 }
+   						  
+   						  pg.drawString("S C I E N C E", TopLeftX, TopLeftY+15*Height);	
+   						  
+   						  for(int i =0; i < 5; i++){
+   							for(int j = 0; j < 11; j++){
+   							  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+16*Height, (5*Width)/2, Height); } //  Subject
+   							  if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height+16*Height, (9*Width)/2, Height);   //  Name
+   							  if(j < 10)pg.drawString(SciSubjects[j], TopLeftX+5, TopLeftY+j*Height+355 );
 //					  pg.drawString("KHATRI MOINUDDIN MOHMD AREEF", 178, TopLeftY+15);
-					  if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height+16*Height, Width, Height); 
-					}					
-				  }
-				  
-				  
+   							  if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height+16*Height, Width, Height); 
+   							}					
+   						  }
+   						  
+   						  
 //				pg.drawString("( FOR OFFICE USE ONLY )", 230, 750);
-				
-				
-					    				
-				return Printable.PAGE_EXISTS;
-			  }
-		   });
+   						
+   						
+   							    				
+   						return Printable.PAGE_EXISTS;
+   					  }
+   				   });
 
-				if (pjob.printDialog() == false) // choose printer
-				return; 
-						     
-				HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
-				pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
-				pjob.print(pattribs); 
-			}
-				catch (PrinterException pe) {
-				pe.printStackTrace();
-			  }                                     								
-		}
-		      
+   						if (pjob.printDialog() == false) // choose printer
+   						return; 
+   								     
+   						HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
+   						pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
+   						pjob.print(pattribs); 
+   					}
+   						catch (PrinterException pe) {
+   						pe.printStackTrace();
+   					  }                                     								
+   				}
+   				      
     });
-  	
-   	JButton btnOK = new JButton("OK");
-   	btnOK.addActionListener(new ActionListener() {
-   		public void actionPerformed(ActionEvent arg0) {
-   			
-   		 okButtonAction();
-   		}
-   	});
-   	GridBagConstraints gbc_btnOK = new GridBagConstraints();
-   	gbc_btnOK.insets = new Insets(0, 0, 5, 0);
-   	gbc_btnOK.anchor = GridBagConstraints.WEST;
-   	gbc_btnOK.gridx = 3;
-   	gbc_btnOK.gridy = 8;
-   	frame.getContentPane().add(btnOK, gbc_btnOK);
-
-   	
-/*   	FailedButtons = new JButton("Failure List");
-   	btnOK.addActionListener(new ActionListener() {
-   		public void actionPerformed(ActionEvent arg0) {
-   			
    		
-   		}
-   	});
-   	GridBagConstraints gbc_FailedButtons = new GridBagConstraints();
-   	gbc_FailedButtons.insets = new Insets(0, 0, 5, 0);
-   	gbc_FailedButtons.anchor = GridBagConstraints.SOUTH;
-   	gbc_FailedButtons.gridx = 2;
-   	gbc_FailedButtons.gridy = 8;
-   	frame.getContentPane().add(FailedButtons, gbc_FailedButtons);
+   		JButton btnOK = new JButton("EXIT");
+   		btnOK.addActionListener(new ActionListener() {
+   			public void actionPerformed(ActionEvent arg0) {
+   				
+   			 okButtonAction();
+   			}
+   		});
+   		GridBagConstraints gbc_btnOK = new GridBagConstraints();
+   		gbc_btnOK.insets = new Insets(0, 0, 5, 0);
+   		gbc_btnOK.anchor = GridBagConstraints.NORTHWEST;
+   		gbc_btnOK.gridx = 4;
+   		gbc_btnOK.gridy = 10;
+   		frame.getContentPane().add(btnOK, gbc_btnOK);
 
-  */ 
-	   
    }
    
    public JTable Table(){

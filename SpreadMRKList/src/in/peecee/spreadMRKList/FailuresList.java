@@ -159,8 +159,18 @@ public class FailuresList {
 	    lblPrinter.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(lblPrinter);
 
-	    JButton printList = new JButton("Print List");    
-	    printList.setToolTipText("Update");
+	    JButton printList = new JButton("Print List");   
+	    printList.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				
+			}
+	    	
+	    });
+	    
+	    
+	    printList.setToolTipText("Print List of Failures");
 	    printList.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(printList);
 	    
@@ -180,6 +190,11 @@ public class FailuresList {
 	    frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
 	    		
 	    }
+	
+	   public JTable Table(){
+	       return TABLE;
+	   }
+
 
 	  public void ResizeTable(JTable tablename,int numberofrows){ 
 		  DefaultTableModel model=(DefaultTableModel) tablename.getModel();
