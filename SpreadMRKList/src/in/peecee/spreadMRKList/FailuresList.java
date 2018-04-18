@@ -77,9 +77,9 @@ public class FailuresList {
 
 	    DefaultTableModel model = new DefaultTableModel();
 	    model.setDataVector(new Object[][]{
-	      {"","","","","","","","","","","","","",""}},
+	      {"","","","","","","","","","","","",""}},
 	      
-	    new Object[]{"Sr.No","Roll No","Div","Name","ENG","SL/IT/VOC","ECO/BIO/VOC","BKE/PHY","OCM/CHE","MAT/SEP","EVS","PTE","Result","Remarks"});
+	    new Object[]{"Sr.No","Roll No","Div","Name","ENG","SL/IT/VOC","ECO/BIO/VOC","BKE/PHY","OCM/CHE","MAT/SEP","EVS","PTE", "Remarks"});
 	    
 	      TABLE = new JTable( model ) {
 	        /**
@@ -105,7 +105,7 @@ public class FailuresList {
 	    TABLE.getColumnModel().getColumn(2).setPreferredWidth(50);               //  Division
 	    TABLE.getColumnModel().getColumn(3).setPreferredWidth(400);              //  Names of students
 	    TABLE.getColumnModel().getColumn(6).setPreferredWidth(100);
-	    TABLE.getColumnModel().getColumn(13).setPreferredWidth(200);
+	    TABLE.getColumnModel().getColumn(12).setPreferredWidth(300);
 	    
 	    JScrollPane scroll = new JScrollPane( TABLE );
 	    frame.getContentPane().add( scroll );
@@ -175,7 +175,7 @@ public class FailuresList {
 	 		   int TMrg = 748, BMrg = 8, Center = 0,  x = 7, StringPosition = 0;  // TMrg = Top Margin, BMrg = Bottom Margin.
 			   Center = (TMrg - BMrg)/2;
 			   final String[] Exams = {"U1", "T1", "U2", "T2"};
-			   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
+			   final String[] HeadereSubjects = {"S1", "S2", "S3", "S4", "S5", "S6", "EV", "PT"};
 					
 		  try {
 			  
@@ -205,14 +205,25 @@ public class FailuresList {
 //					pg.drawString("AB",580,10);
 //					pg.drawString("AC",10,780);
 //					pg.drawString("AD",580,780);   
-					pg.drawString("599",LTopX+2,LTopY+15);     pg.drawString("5999", LTopX+Width/2+5, LTopY+15);		
+					   Font font = new Font("Liberation Serif", Font.PLAIN, 11); 
+					   pg.setFont(font);
+
+					pg.drawString("SR",LTopX+2,LTopY+15);
+					pg.drawString("ROLL", LTopX+Width/2+5, LTopY+15);
+					pg.drawString("DIV", LTopX+3*Width/2-6, LTopY+15);
+					pg.drawString("NAME", LTopX+(7*Width)/2, LTopY+15);
+					pg.drawString("REMARK", LTopX+(9*Width), LTopY+15);
 					
-					pg.drawRect(LTopX, LTopY, Width/2+2, Height);           //  Serial Number
-					pg.drawRect(LTopX+Width/2+2, LTopY, Width-10, Height);  //  Roll Number
-					pg.drawRect(LTopX+3*Width/2-8, LTopY, Width/2, Height);
-					pg.drawRect(LTopX+2*Width-8, LTopY, 4*Width, Height);
-					pg.drawRect(LTopX+6*Width-8, LTopY, Width/3, Height);
-																					
+						pg.drawRect(LTopX, LTopY, Width/2+2, Height);           //   Serial Number
+						pg.drawRect(LTopX+Width/2+2, LTopY, Width-10, Height);  //   Roll Number
+						pg.drawRect(LTopX+3*Width/2-8, LTopY, Width/2, Height); //   Division
+						pg.drawRect(LTopX+2*Width-8, LTopY, 4*Width, Height);   //   Name
+						for(int i = 0; i < 8; i++){
+						   pg.drawRect((LTopX+6*Width-8)+(i*Width)/3, LTopY, Width/3, Height);   //  Eight Subjects
+						   pg.drawString(HeadereSubjects[i], (LTopX+6*Width-8)+(i*Width)/3+1, LTopY+15);
+						}									
+						pg.drawRect((LTopX+6*Width-8)+(8*Width)/3, LTopY, (5*Width)/2, Height);  //  Remark
+										
 					return Printable.PAGE_EXISTS;
 					}
 					

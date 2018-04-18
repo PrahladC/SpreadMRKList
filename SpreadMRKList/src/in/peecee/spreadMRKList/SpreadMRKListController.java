@@ -331,7 +331,7 @@ public class SpreadMRKListController {
 		int evs = 0;  String pte = null;
 		int NumofRows = View.getTable().getRowCount()-1;
 		fl.failures();        
-		String result = null;
+		String result = null, remark = null;
 			
 		for(row = 0; row < NumofRows; row++){
 //			result = GetData1(View.getTable(),row ,31);	
@@ -360,12 +360,17 @@ public class SpreadMRKListController {
 			}
 			else continue;
 			
-		}                            
-//		show(failcounter);   
+		}               
+		
+	//	if(sub1>69 && sub2>69 && sub3>69 && sub4>69 && sub5>69 && 
+	//	     sub6>69 && evs > 17 && ( Integer.parseInt(pte)<1 || pte.isEmpty() || pte.contains(null) || pte.contains(""))) {
+	//		 remark = "Failed only in PTE"; 
+	//		}
+		
 	    for(int i = 0; i < failcounter; i++){
-		    fl.SetData(result, i, 12);
+		    fl.SetData(remark, i, 12);
 	    	fl.SetData(i+1, i, 0);
-	    }		
+	    }		 
 	}
 	
 	protected void BtnPrintConsolidated() {
