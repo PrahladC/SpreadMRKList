@@ -3,6 +3,8 @@ package in.peecee.spreadMRKList;
 
 import java.awt.Color;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaPrintableArea;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,6 +21,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Window;
 
@@ -30,6 +33,11 @@ import javax.swing.table.TableColumnModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.Vector;
 
 public class FailuresList {
@@ -38,6 +46,7 @@ public class FailuresList {
 	private SpreadMRKListView View;
 	JFrame frame = new JFrame();
     public DefaultTableModel model;
+    public JButton printList;
 
 	public void show(String msg) {JOptionPane.showMessageDialog(null, msg);}   ///for debugging
 	
@@ -159,15 +168,72 @@ public class FailuresList {
 	    lblPrinter.setFont(new Font("Times New Roman", Font.BOLD, 14));
 	    southPanel.add(lblPrinter);
 
-	    JButton printList = new JButton("Print List");   
+	    printList = new JButton("Print List");   
 	    printList.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
+	       	public void actionPerformed(ActionEvent arg0) {
+				  
+	 		   int TMrg = 748, BMrg = 8, Center = 0,  x = 7, StringPosition = 0;  // TMrg = Top Margin, BMrg = Bottom Margin.
+			   Center = (TMrg - BMrg)/2;
+			   final String[] Exams = {"U1", "T1", "U2", "T2"};
+			   final String[] HeadereSubjects = {"ENGLISH", "SL / VOC", "ECO/BIO/VOC", "BKE / PHY", "OCM / CHE", "MAT / SEP"};
+					
+		  try {
+			  
+			   PrinterJob pjob = PrinterJob.getPrinterJob();
+			   pjob.setJobName("Failure List Print");
+			   pjob.setCopies(1);
+			   pjob.setPrintable(new Printable() {
+			   public int print(Graphics pg, PageFormat pf, int pageNum) {
+//			   int Rows = View.getTable().getRowCount()-1;   
+			   int totalpages = 1;
+//			   int TotalPages = Rows/28;
+//			   int Remainder = Rows%28;
+//			   if(Remainder == 0){ totalpages = TotalPages;}
+//			   else totalpages = TotalPages+1;
+				if (pageNum < totalpages) 
+				{	
+				  Font newFont;		          
+				  newFont = new Font("Liberation Serif", Font.BOLD, 13);
+//				  int TMrg = 748, BMrg = 8, Center = 0,  x = 7, StringPosition = 0;  // TMrg = Top Margin, BMrg = Bottom Margin.
+                  int LTopX = 30, LTopY = 50, Width = 50, Height = 20;
+				  FontMetrics metrics = pg.getFontMetrics(newFont);
+
+//					pg.drawString("( FOR OFFICE USE ONLY )", 200, 20);
+					pg.drawString("L  I  S  T     O  F    F  A  I  L  E  D     S  T  U  D  E  N  T  S", 150, 40); 
+//					pg.drawString("( FOR OFFICE USE ONLY )", 200, 785);							
+//					pg.drawString("AA",10,10);
+//					pg.drawString("AB",580,10);
+//					pg.drawString("AC",10,780);
+//					pg.drawString("AD",580,780);   
+					pg.drawString("599",LTopX+2,LTopY+15);     pg.drawString("5999", LTopX+Width/2+5, LTopY+15);		
+					
+					pg.drawRect(LTopX, LTopY, Width/2+2, Height);           //  Serial Number
+					pg.drawRect(LTopX+Width/2+2, LTopY, Width-10, Height);  //  Roll Number
+					pg.drawRect(LTopX+3*Width/2-8, LTopY, Width/2, Height);
+					pg.drawRect(LTopX+2*Width-8, LTopY, 4*Width, Height);
+					pg.drawRect(LTopX+6*Width-8, LTopY, Width/3, Height);
+																					
+					return Printable.PAGE_EXISTS;
+					}
+					
+				    else
+					{
+					 return Printable.NO_SUCH_PAGE;
+					}   				
+			    }
+		   });
 				
+					if (pjob.printDialog() == false) // choose printer
+					return; 
 				
-				
+					HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
+					pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
+					pjob.print(pattribs); 
 			}
-	    	
-	    });
+					catch (PrinterException pe) { pe.printStackTrace(); }                                     				
+		}
+	         	  
+  });
 	    
 	    
 	    printList.setToolTipText("Print List of Failures");

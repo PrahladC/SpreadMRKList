@@ -15,6 +15,8 @@ public class subjecToppers {
 	
 	public  ArrayList<String> headerArray = new ArrayList<String>();
 	public  ArrayList<String> tempArray = new ArrayList<String>();
+	public  ArrayList<String> subjectName = new ArrayList<String>();
+
 
 	public void Show(int num) {JOptionPane.showMessageDialog(null, num);}   ///for debugging
 	public void Show(int[] totalMarks) {JOptionPane.showMessageDialog(null, totalMarks);}   ///for debugging
@@ -453,10 +455,83 @@ public class subjecToppers {
         Stats.SetData1("  "+ rollNo, 20, 2);
         Stats.SetData1("  "+ div, 20, 3);
         Stats.SetData1("  "+ maxMat, 20, 4);
-//   show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+maxMat +" Subject is "+subject);		
+//   show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+maxMat +" Subject is "+subject);
 	}
 
 	
+	public void ElectronicsTopper(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
+		View = view;   Model = model;   Stats = stats;		
+	    int rows = View.getTable().getRowCount(); 
+		int rowcount = View.getTable().getRowCount();
+		String rollNo  = null, name  = null, div  = null, stream = null;
+		int index = 0, maxElectronics = 0; int electronicsMrk[] = new int [1000];   int rowArray[] = new int[1000];		
+		String RollNo, subject = null;
+		ArrayList<String> Subject = null;
+
+		for(int row = 0; row < rowcount; row++){
+		   RollNo = GetData1(View.getTable(), row, 1);
+		   subjectName = columnHeaderfinder(RollNo);
+		   if(!subjectName.contains("EL1") || !subjectName.contains("EL2")) continue;
+		      electronicsMrk[index] = ElectronicSum(row);
+			  rowArray[index] = row;
+		      index++;	
+			  maxElectronics = electronicsMrk[0];
+				for(int i = 0; i < electronicsMrk.length; i++){
+					if(maxElectronics < electronicsMrk[i]){
+						maxElectronics = electronicsMrk[i]; 
+						rollNo = GetData(View.getTable(), rowArray[i], 1).toString().trim();
+						name = GetData(View.getTable(), rowArray[i], 3).toString().trim();
+						div = GetData(View.getTable(), rowArray[i], 2).toString().trim();
+//						subject = Subject.get(1);  
+					}
+				}	
+		  }	
+		
+		Stats.SetData1("  "+ name, 21, 1);
+        Stats.SetData1("  "+ rollNo, 21, 2);
+        Stats.SetData1("  "+ div, 21, 3);
+        Stats.SetData1("  "+ maxElectronics, 21, 4);
+
+//  show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+maxElectronics +" Subject is "+subject);
+	}
+
+
+	public void ComputerTopper(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
+		View = view;   Model = model;   Stats = stats;		
+	    int rows = View.getTable().getRowCount(); 
+		int rowcount = View.getTable().getRowCount();
+		String rollNo  = null, name  = null, div  = null, stream = null;
+		int index = 0, maxComputer = 0; int computerMrk[] = new int [1000];   int rowArray[] = new int[1000];		
+		String RollNo, subject = null;
+		ArrayList<String> Subject = null;
+
+		for(int row = 0; row < rowcount; row++){
+		   RollNo = GetData1(View.getTable(), row, 1);
+		   subjectName = columnHeaderfinder(RollNo);
+		   if(!subjectName.contains("CS1") || !subjectName.contains("CS2")) continue;
+		      computerMrk[index] = ComputerSum(row);
+			  rowArray[index] = row;
+		      index++;	
+			  maxComputer = computerMrk[0];
+				for(int i = 0; i < computerMrk.length; i++){
+					if(maxComputer < computerMrk[i]){
+						maxComputer = computerMrk[i]; 
+						rollNo = GetData(View.getTable(), rowArray[i], 1).toString().trim();
+						name = GetData(View.getTable(), rowArray[i], 3).toString().trim();
+						div = GetData(View.getTable(), rowArray[i], 2).toString().trim();
+//						subject = Subject.get(1);  
+					}
+				}	
+		  }	
+		
+		Stats.SetData1("  "+ name, 22, 1);
+        Stats.SetData1("  "+ rollNo, 22, 2);
+        Stats.SetData1("  "+ div, 22, 3);
+        Stats.SetData1("  "+ maxComputer, 22, 4);
+
+//  show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+maxComputer +" Subject is "+subject);
+	}
+
 	public void ComEngTopper(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
 		View = view;   Model = model;   Stats = stats;
 		int rows = View.getTable().getRowCount();                         
@@ -855,283 +930,6 @@ public class subjecToppers {
    
 	}
 
-	public void pass(int row){
-		
-		
-	}
-	
-	
-	public void SciToppers(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
-		
-		View = view;
-		Model = model;
-		Stats = stats;
-		
-		int rows = View.getTable().getRowCount();                     //    100;    
-		String rollNo  = null, name  = null, div  = null;
-		String rollNo1 = null, name1 = null, div1 = null;   String rollNo2 = null, name2 = null, div2 = null;
-		String rollNo3 = null, name3 = null, div3 = null;   String rollNo4 = null, name4 = null, div4 = null;
-		String rollNo5 = null, name5 = null, div5 = null;   String rollNo6 = null, name6 = null, div6 = null;
-		
-		int index = 0, maxEng = 0, maxIte = 0, maxMar = 0, maxHin = 0, maxTam = 0, maxBio = 0;
-		
-		int engMrk[] = new int[1000];  int iteMrk[] = new int [1000]; int marMrk[] = new int [1000]; 
-		int hinMrk[] = new int[1000];  int tamMrk[] = new int[ 1000]; int ecoMrk[] = new int [1000];
-		int bioMrk[] = new int[1000];  int phyMrk[] = new int[ 1000]; int cheMrk[] = new int [1000];
-		
-		
-		int rowArray[] = new int[1000];
-		
-		String RollNo;
-		String stream = null;
-		ArrayList<String> Subject = null;
-
-        for(int row = 0; row < rows; row++){
-			RollNo = GetData(View.getTable(), row, 1).toString().trim();
-        }
-		
-        for(int row = 0; row < rows; row++){
-			RollNo = GetData(View.getTable(), row, 1).toString().trim();
-			Subject = columnHeaderfinder(RollNo);
-			stream = Streamfinder(RollNo); 
-							
-			if(stream.contains("SCIENCE") && Subject.get(0).contains("ENG")){ 
-				engMrk[index] = Sub1(row);
-				rowArray[index] = row;
-				index++;	
-				maxEng = engMrk[0];
-				for(int i = 0; i < engMrk.length; i++){
-					if(maxEng < engMrk[i]){ maxEng = engMrk[i]; 
-					                     rollNo = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-				                         name = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-				                         div = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-				                        }
-					      }	
-			     }		
-			
-		Stats.SetData1("  "+ name, 11, 1);
-        Stats.SetData1("  "+ rollNo, 11, 2);
-        Stats.SetData1("  "+ div, 11, 3);
-        Stats.SetData1("  "+ maxEng, 11, 4);
-//          show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+max);		
-			
-		if(stream.contains("SCIENCE") && Subject.get(1).contains("ITE")){  
-			iteMrk[index] = Sub2(row);
-			rowArray[index] = row;
-			index++;	
-			maxIte = iteMrk[0];
-			for(int i = 0; i < iteMrk.length; i++){
-				if(maxIte < iteMrk[i]){ maxIte = iteMrk[i]; 
-				                     rollNo1 = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-			                         name1 = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-			                         div1 = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-			                        }
-			      }	
-		     }			
-		
-           Stats.SetData1("  "+ name1, 12, 1);
-           Stats.SetData1("  "+ rollNo1, 12, 2);
-           Stats.SetData1("  "+ div1, 12, 3);
-           Stats.SetData1("  "+ maxIte, 12, 4);
-//            show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+max);		
-
-		   if(stream.contains("SCIENCE") && Subject.get(1).contains("HIN")){
-				hinMrk[index] = Sub2(row);
-				rowArray[index] = row;
-				index++;	
-				maxHin = hinMrk[0];
-				for(int i = 0; i < hinMrk.length; i++){
-					if(maxHin < hinMrk[i]){ maxHin = hinMrk[i]; 
-					                     rollNo3 = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-				                         name3 = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-				                         div3 = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-				                        }
-				      }	
-			     }			
-			
-	           Stats.SetData1("  "+ name3, 13, 1);
-	           Stats.SetData1("  "+ rollNo3, 13, 2);
-	           Stats.SetData1("  "+ div3, 13, 3);
-	           Stats.SetData1("  "+ maxHin, 13, 4);
-			
-        
-           
-			if(stream.contains("SCIENCE") && Subject.get(1).contains("MAR")){ 
-				marMrk[index] = Sub2(row);
-				rowArray[index] = row;
-				index++;	
-				maxMar = marMrk[0];
-				for(int i = 0; i < iteMrk.length; i++){
-				 if(maxMar < marMrk[i]){ maxMar = marMrk[i]; 
-					                     rollNo2 = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-				                         name2 = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-				                         div2 = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-				                        }
-				      }	
-			     }			
-			
-	           Stats.SetData1("  "+ name2, 14, 1);
-	           Stats.SetData1("  "+ rollNo2, 14, 2);
-	           Stats.SetData1("  "+ div2, 14, 3);
-	           Stats.SetData1("  "+ maxMar, 14, 4);
-				
-		           if(stream.contains("SCIENCE") && Subject.get(1).contains("TAM")){ 
-						tamMrk[index] = Sub2(row);
-						rowArray[index] = row;
-						index++;	
-						maxTam = tamMrk[0];
-						for(int i = 0; i < tamMrk.length; i++){
-						 if(maxTam < tamMrk[i]){ maxTam = tamMrk[i]; 
-							                     rollNo4 = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-						                         name4 = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-						                         div4 = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-						                        }
-						      }	
-  		        	   
-		           }
-		       Stats.SetData1("  "+ name4, 15, 1);
-		       Stats.SetData1("  "+ rollNo4, 15, 2);
-		       Stats.SetData1("  "+ div4, 15, 3);
-		       Stats.SetData1("  "+ maxTam, 15, 4);
-		       
-		       show("Name is "+name4+" Whose Roll no is" +rollNo4+" Division is "+div4 +" Score is "+maxTam +
-		        		" Subject is "+Subject.get(1));
-               show(Subject);             
-                                   
-/*			if(stream.contains("SCIENCE") && Subject.get(2).contains("ECO")){ 
-				ecoMrk[index] = Sub3(row);
-				rowArray[index] = row;
-				index++;	
-				maxEco = ecoMrk[0];
-				for(int i = 0; i < ecoMrk.length; i++){
-					if(maxEco < ecoMrk[i]){ maxEco = ecoMrk[i]; 
-					                     rollNo5 = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-				                         name5 = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-				                         div5 = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-				                        }
-				      }	
-		           show("Name is "+name5+" Whose Roll no is" +rollNo5+" Division is "+div5 +" Score is "+maxEco +
-		        		" Subject si "+Subject.get(2));
-	   
-           }
-		           Stats.SetData1("  "+ name5, 16, 1);
-		           Stats.SetData1("  "+ rollNo5, 16, 2);
-		           Stats.SetData1("  "+ div5, 16, 3);
-		           Stats.SetData1("  "+ maxEco, 16, 4);              
- */
-			
-		           if(Subject.get(2).contains("BIO")){ 
-						bioMrk[index] = Sub3(row);
-						rowArray[index] = row;
-						index++;	
-						maxBio = bioMrk[0];
-						for(int i = 0; i < bioMrk.length; i++){
-						 if(maxBio < bioMrk[i]){ maxBio = bioMrk[i]; 
-							                     rollNo6 = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-						                         name6 = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-						                         div6 = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-						                        }
-						      }	
-			   
-		           }
-				     Stats.SetData1("  "+ name6, 17, 1);
-				     Stats.SetData1("  "+ rollNo6, 17, 2);
-				     Stats.SetData1("  "+ div6, 17, 3);
-				     Stats.SetData1("  "+ maxBio, 17, 4);
-		           
-			}  show("Name is "+name6+" Whose Roll no is" +rollNo6+" Division is "+div6 +" Score is "+maxBio +
-	        		" Subject is "+Subject.get(2));
-
-	        
-/*			if(Subject.get(1).contains("EL1")){ el1Counter++;}
-			if(Subject.get(1).contains("CS1")){ cs1Counter++;}			
-			if(Subject.get(3).contains("PHY")){ phyCounter++;}
-			if(Subject.get(4).contains("CHE")){ cheCounter++;}
-			if(stream.contains("SCIENCE") && Subject.get(5).contains("MAT")){ matCounter++;}          */
-
-        }
-
-	public void ComToppers(SpreadMRKListView view, SpreadMRKListModel model, showstatistics stats){
-		
-		View = view;
-		Model = model;
-		Stats= stats;
-		
-		int rows = View.getTable().getRowCount();                     //    100;    
-		String rollNo = null, name = null, div = null;
-		String rollNo1 = null, name1 = null, div1 = null;
-		int iteMrk[] = new int [1000], index = 0, max = 0, max1 = 0;
-		int engMrk[] = new int [1000];
-		int rowArray[] = new int[1000];
-		String RollNo;
-		String stream = null;
-		ArrayList<String> Subject = null;
-
-        for(int row = 0; row < rows; row++){
-			RollNo = GetData(View.getTable(), row, 1).toString().trim();
-        }
-        
-        for(int row = 0; row < rows; row++){
-			RollNo = GetData(View.getTable(), row, 1).toString().trim();
-			Subject = columnHeaderfinder(RollNo);
-			stream = Streamfinder(RollNo); 
-			
-			if(stream.contains("COMMERCE") && Subject.get(0).contains("ENG")){ 
-				engMrk[index] = Sub1(row);
-				rowArray[index] = row;
-				index++;	
-				max = engMrk[0];
-				for(int i = 0; i < engMrk.length; i++){
-					if(max < engMrk[i]){ max = engMrk[i]; 
-					                     rollNo = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-				                         name = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-				                         div = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-				                        }
-				    }				
-			 }
-       
-		Stats.SetData1("  "+ name, 0, 1);
-        Stats.SetData1("  "+ rollNo, 0, 2);
-        Stats.SetData1("  "+ div, 0, 3);
-        Stats.SetData1("  "+ max, 0, 4);
-
-//		 show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+max);
-
-			if(stream.contains("COMMERCE") && Subject.get(1).contains("ITE")){ 
-				engMrk[index] = Sub2(row);
-				rowArray[index] = row;
-				index++;	
-				max = iteMrk[0];
-				for(int i = 0; i < iteMrk.length; i++){
-					if(max1 < iteMrk[i]){ max1 = iteMrk[i]; 
-					                     rollNo1 = GetData(View.getTable(), rowArray[i], 1).toString().trim();
-				                         name1 = GetData(View.getTable(), rowArray[i], 3).toString().trim();
-				                         div1 = GetData(View.getTable(), rowArray[i], 2).toString().trim();
-				                        }
-				      }	
-	
-
-			}		
-				
-		}
-		Stats.SetData1("  "+ name, 1, 1);
-        Stats.SetData1("  "+ rollNo, 1, 2);
-        Stats.SetData1("  "+ div, 1, 3);
-        Stats.SetData1("  "+ max1, 1, 4);
-        show("Name is "+name+" Whose Roll no is" +rollNo+" Division is "+div +" Score is "+max1);
-
-/*			if(stream.contains("COMMERCE") && Subject.get(1).contains("MAR")){ marCounter++;}
-			if(stream.contains("COMMERCE") && Subject.get(1).contains("HIN")){ hinCounter++;}
-			if(stream.contains("COMMERCE") && Subject.get(1).contains("TAM")){ tamCounter++;}
-			if(stream.contains("COMMERCE") && Subject.get(2).contains("ECO")){ ecoCounter++;}
-			if(stream.contains("COMMERCE") && Subject.get(3).contains("BKE")){ bkeCounter++;}
-			if(stream.contains("COMMERCE") && Subject.get(4).contains("OCM")){ ocmCounter++;}
-			if(stream.contains("COMMERCE") && Subject.get(5).contains("MAT")){ matCounter++;}
-			if(stream.contains("COMMERCE") && Subject.get(5).contains("SEP")){ sepCounter++;}
-*/
-        
-	}
-
 
 	public int Sub1(int row) {
 //		row = View.getTable().getSelectedRow();
@@ -1230,6 +1028,43 @@ public class subjecToppers {
 		return TotalOfMatSep;		
 	}
 	
+	public int ElectronicSum(int row){
+		String RollNo = View.getTable().getModel().getValueAt(row, 1).toString(); 
+		subjectName = columnHeaderfinder(RollNo);
+//		row = View.getTable().getSelectedRow();
+	    String marks;
+		int Marks = 0, SumElectronicsMarks = 0;   
+		  if(subjectName.contains("EL1") || subjectName.contains("EL2")){
+			 for(int j = 0; j < 8; j++){
+				marks = GetData1(View.getTable(),row, 8+j);                    //  show("marks = "+marks);
+				if(marks == null || marks.isEmpty()){ marks = "00"; }					 
+				if(marks.contentEquals("AB") || marks.contentEquals("AB ")){ marks = "00"; }					 
+				Marks = Integer.parseInt(marks);                               //  show("Marks = "+Marks);
+				SumElectronicsMarks = SumElectronicsMarks + Marks;             //  show(TotalMarks);			 
+			  }
+		  }
+		return SumElectronicsMarks;							
+	}
+
+	
+	public int ComputerSum(int row){
+		String RollNo = View.getTable().getModel().getValueAt(row, 1).toString(); 
+		subjectName = columnHeaderfinder(RollNo);
+//		row = View.getTable().getSelectedRow();
+	    String marks;
+		int Marks = 0, SumComputerMarks = 0;   
+		  if(subjectName.contains("CS1") || subjectName.contains("CS2")){
+			 for(int j = 0; j < 8; j++){
+				marks = GetData1(View.getTable(),row, 8+j);                                   //  show("marks = "+marks);
+				if(marks == null || marks.isEmpty()){ marks = "00"; }					 
+				if(marks.contentEquals("AB") || marks.contentEquals("AB ")){ marks = "00"; }					 
+				Marks = Integer.parseInt(marks);                                              //  show("Marks = "+Marks);
+				SumComputerMarks = SumComputerMarks + Marks;                                  //  show(TotalMarks);			 
+			  }
+		  }
+		return SumComputerMarks;							
+	}
+
 	private String Streamfinder(String Rollno) {
 		String Science = "SCIENCE", Commerce = "COMMERCE";
 		String plate[];
@@ -1253,8 +1088,7 @@ public class subjecToppers {
 	}
 	
 	
-	public ArrayList<String> columnHeaderfinder(String RollNo){
-		
+	public ArrayList<String> columnHeaderfinder(String RollNo){		
 		String plate[];
       	String rollno;
       	boolean found = false;

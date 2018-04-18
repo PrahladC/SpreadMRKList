@@ -275,29 +275,28 @@ public class SpreadMRKListController {
 	 }	
 
 	  protected void BtnOveralllResult() {
-
-	OAR.overallresult();
-	resultCom();
-    resultSci();
-    OverAllResult();
+	  
+//	  SubTop.ComputerTopper(View, Model, Stats);
+//      SubTop.ElectronicsTopper(View, Model, Stats);	  
+	  
+/*	    int rows = View.getTable().getRowCount(); 
+		int rowcount = View.getTable().getRowCount();
+		for(int row = 0; row < rowcount; row++){
+				String RollNo = GetData1(View.getTable(), row, 1);
+				subjectName = columnHeaderfinder(RollNo);
+		      if(!subjectName.contains("EL1") || !subjectName.contains("EL2")) continue;
+			  show("Row number is :  "+ (row + 1) + " , And Sum is : " + ElectronicSum(row));
+		  }	                */
   }
 	
 	private void BtnMeritList(){
-//    	System.exit(0);
+
 	Stats.ShowStats();
 	rankCom();
 	rankSci();
-
-/*	SubTop.ScEngTopper(View, Model, Stats);
-	SubTop.ScIteTopper(View, Model, Stats);
-	SubTop.ScHinTopper(View, Model, Stats);
-	SubTop.ScMarTopper(View, Model, Stats);
-	SubTop.ScTamTopper(View, Model, Stats);
-	SubTop.ScEcoTopper(View, Model, Stats);
-	SubTop.ScBioTopper(View, Model, Stats);
-	SubTop.ScPhyTopper(View, Model, Stats);
-	SubTop.ScCheTopper(View, Model, Stats);
-	SubTop.ScMatTopper(View, Model, Stats);
+	resultCom();
+	resultSci();
+    OverAllResult();
 	SubTop.ComEngTopper(View, Model, Stats);
 	SubTop.ComIteTopper(View, Model, Stats);
 	SubTop.ComHinTopper(View, Model, Stats);
@@ -308,10 +307,21 @@ public class SpreadMRKListController {
 	SubTop.ComOcmTopper(View, Model, Stats);
 	SubTop.ComSepTopper(View, Model, Stats);
 	SubTop.ComMatTopper(View, Model, Stats);
-	*/
-//	SubTop.ComToppers(View, Model, Stats);
-//	SubTop.SciToppers(View, Model, Stats);
-  }                    
+
+	SubTop.ScEngTopper(View, Model, Stats);
+	SubTop.ScIteTopper(View, Model, Stats);
+	SubTop.ScHinTopper(View, Model, Stats);
+	SubTop.ScMarTopper(View, Model, Stats);
+	SubTop.ScTamTopper(View, Model, Stats);
+	SubTop.ScEcoTopper(View, Model, Stats);
+	SubTop.ScBioTopper(View, Model, Stats);
+	SubTop.ScPhyTopper(View, Model, Stats);
+	SubTop.ScCheTopper(View, Model, Stats);
+	SubTop.ScMatTopper(View, Model, Stats);
+	SubTop.ElectronicsTopper(View, Model, Stats);	  
+	SubTop.ComputerTopper(View, Model, Stats);
+
+	}                    
 
 	public void BtnFailedNumbers() {
 //		fl.failList(5);
@@ -467,7 +477,7 @@ public class SpreadMRKListController {
 		      if(PTE == null || PTE.isEmpty()){ PTE = "00"; }
 		      String RollNo = View.getTable().getModel().getValueAt(m+pageNum*12, 1).toString();
 		      if(RollNo == null || RollNo.isEmpty()){ continue; }
-		      subjectName = columnHeaderfinder(RollNo);        
+		      subjectName = columnHeaderfinder(RollNo);   //     Show(subjectName);
 				for(int i = 0; i< subjectName.size(); i++){ 
 				  pg.drawString(subjectName.get(i), (106+i*20)+k*jump, y1);                   	 // Subjects				
 				}
@@ -730,7 +740,7 @@ public class SpreadMRKListController {
 				HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
 				pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
 				pjob.print(pattribs); 
-				}
+		}
 				catch (PrinterException pe) { pe.printStackTrace(); }                                     				
 	}
 	
@@ -1294,9 +1304,9 @@ public class SpreadMRKListController {
 //	  show(ind);
 //	    show(arrayOfMarks[1468]);
 		int i;
-		int large[] = new int[10];
+		int large[] = new int[5];
 		int max = 0, index;
-		for (int j = 0; j < 10; j++) {
+		for (int j = 0; j < 5; j++) {
 		     max = arrayOfMarks[0];
 		     index = 0;
 		  for (i = 1; i < arrayOfMarks.length; i++) {
@@ -1339,9 +1349,9 @@ public class SpreadMRKListController {
 	  }	
 
 	  int i;
-		int large[] = new int[10];
+		int large[] = new int[5];
 		int max = 0, index, temp= 0;
-		for (int j = 0; j < 10; j++) {
+		for (int j = 0; j < 5; j++) {
 		     max = arrayOfMarks[0];
 		     index = 0;
 		  for (i = 1; i < arrayOfMarks.length; i++) {
@@ -1358,11 +1368,11 @@ public class SpreadMRKListController {
 		String percent = Percent(Integer.valueOf(temp));
 	    String Div =  GetData(View.getTable(), temp,2).toString();
 	    String Name = GetData(View.getTable(), temp,3).toString();
-	    Stats.SetData(Name.substring(0, 35), j+11, 2);
-		Stats.SetData("    "+RollNo, j+11, 3);
-		Stats.SetData("     "+Div, j+11, 4);
-		Stats.SetData("  "+String.valueOf(large[j]), j+11, 5);
-		Stats.SetData("    "+percent, j+11, 6);	    
+	    Stats.SetData(Name.substring(0, 35), j+5, 2);
+		Stats.SetData("    "+RollNo, j+5, 3);
+		Stats.SetData("     "+Div, j+5, 4);
+		Stats.SetData("  "+String.valueOf(large[j]), j+5, 5);
+		Stats.SetData("    "+percent, j+5, 6);	    
 	    }	  
   }
  	
@@ -1395,15 +1405,15 @@ public class SpreadMRKListController {
 		  
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/ind;
-		  OAR.SetData("     "+ind, 0, 2);
-		  OAR.SetData("     "+(ind-Numfailed), 1, 2);
-		  OAR.SetData("     "+Numfailed, 2, 2);
-		  OAR.SetData("     "+Dist, 3, 2);
-		  OAR.SetData("     "+FC, 4, 2);
-		  OAR.SetData("     "+SC, 5, 2);
-		  OAR.SetData("     "+Passclass, 6, 2);
-		  OAR.SetData("     "+Promoted, 7, 2);
-		  OAR.SetData("     "+Percentage.format("%.2f", Passpercent), 8, 2);		  
+		  Stats.SetData2("     "+ind, 0, 2);
+		  Stats.SetData2("     "+(ind-Numfailed), 1, 2);
+		  Stats.SetData2("     "+Numfailed, 2, 2);
+		  Stats.SetData2("     "+Dist, 3, 2);
+		  Stats.SetData2("     "+FC, 4, 2);
+		  Stats.SetData2("     "+SC, 5, 2);
+		  Stats.SetData2("     "+Passclass, 6, 2);
+		  Stats.SetData2("     "+Promoted, 7, 2);
+		  Stats.SetData2("     "+Percentage.format("%.2f", Passpercent), 8, 2);		  
 	}
 
 	public void resultSci(){
@@ -1436,15 +1446,15 @@ public class SpreadMRKListController {
 		  
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/ind;
-		  OAR.SetData("     "+ind, 0, 3);
-		  OAR.SetData("     "+(ind-Numfailed), 1, 3);
-		  OAR.SetData("     "+Numfailed, 2, 3);
-		  OAR.SetData("     "+Dist, 3, 3);
-		  OAR.SetData("     "+FC, 4, 3);
-		  OAR.SetData("     "+SC, 5, 3);
-		  OAR.SetData("     "+Passclass, 6, 3);
-		  OAR.SetData("     "+Promoted, 7, 3);
-		  OAR.SetData("     "+Percentage.format("%.2f", Passpercent), 8, 3);		  
+		  Stats.SetData2("     "+ind, 0, 3);
+		  Stats.SetData2("     "+(ind-Numfailed), 1, 3);
+		  Stats.SetData2("     "+Numfailed, 2, 3);
+		  Stats.SetData2("     "+Dist, 3, 3);
+		  Stats.SetData2("     "+FC, 4, 3);
+		  Stats.SetData2("     "+SC, 5, 3);
+		  Stats.SetData2("     "+Passclass, 6, 3);
+		  Stats.SetData2("     "+Promoted, 7, 3);
+		  Stats.SetData2("     "+Percentage.format("%.2f", Passpercent), 8, 3);		  
 
 	}
 
@@ -1471,15 +1481,15 @@ public class SpreadMRKListController {
 		  
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/rowcount;
-		  OAR.SetData("     "+rowcount, 0, 4);
-		  OAR.SetData("     "+(rowcount-Numfailed), 1, 4);
-		  OAR.SetData("     "+Numfailed, 2, 4);
-		  OAR.SetData("     "+Dist, 3, 4);
-		  OAR.SetData("     "+FC, 4, 4);
-		  OAR.SetData("     "+SC, 5, 4);
-		  OAR.SetData("     "+Passclass, 6, 4);
-		  OAR.SetData("     "+Promoted, 7, 4);
-		  OAR.SetData("     "+Percentage.format("%.2f", Passpercent), 8, 4);		  		
+		  Stats.SetData2("     "+rowcount, 0, 4);
+		  Stats.SetData2("     "+(rowcount-Numfailed), 1, 4);
+		  Stats.SetData2("     "+Numfailed, 2, 4);
+		  Stats.SetData2("     "+Dist, 3, 4);
+		  Stats.SetData2("     "+FC, 4, 4);
+		  Stats.SetData2("     "+SC, 5, 4);
+		  Stats.SetData2("     "+Passclass, 6, 4);
+		  Stats.SetData2("     "+Promoted, 7, 4);
+		  Stats.SetData2("     "+Percentage.format("%.2f", Passpercent), 8, 4);		  		
 	}
 	
 	private void BtnSetPrinter(){
@@ -1499,33 +1509,6 @@ public class SpreadMRKListController {
 //		TotalScore();
 		SubTop.Rearrange(View, Model);
 //	pb.progressBar(View);	
-//	int rows = 0; 
-//	SubTop.MatTopper(View, Model, Stats, rows);
-	
-//		SubTop.ComToppers(View, Model, Stats);
-//		SubTop.iteTopper(View,   Model, Stats);
-//		SubTop.SciToppers(View,  Model, Stats);
-//		SubTop.ScEngTopper(View, Model, Stats);
-//		SubTop.ScIteTopper(View, Model, Stats);
-//		SubTop.ScHinTopper(View, Model, Stats);
-//		SubTop.ScMarTopper(View, Model, Stats);
-//		SubTop.ScTamTopper(View, Model, Stats);
-//		SubTop.ScEcoTopper(View, Model, Stats);
-//		SubTop.ScBioTopper(View, Model, Stats);
-//		SubTop.ScPhyTopper(View, Model, Stats);
-//		SubTop.ScCheTopper(View, Model, Stats);
-//		SubTop.ScMatTopper(View, Model, Stats);
-//		SubTop.ComEngTopper(View, Model, Stats);
-//		SubTop.ComIteTopper(View, Model, Stats);
-//		SubTop.ComHinTopper(View, Model, Stats);
-//		SubTop.ComMarTopper(View, Model, Stats);
-//		SubTop.ComTamTopper(View, Model, Stats);
-//		SubTop.ComEcoTopper(View, Model, Stats);
-//		SubTop.ComBkeTopper(View, Model, Stats);
-//		SubTop.ComOcmTopper(View, Model, Stats);
-//		SubTop.ComSepTopper(View, Model, Stats);
-//		SubTop.ComMatTopper(View, Model, Stats);
-//		SubTop.SubCounters(View, Model);
 		
 	}
 	
@@ -1591,6 +1574,26 @@ public class SpreadMRKListController {
 		return SumOfU2Marks;							
 	}
 
+	public int ElectronicSum(int row){
+		String RollNo = View.getTable().getModel().getValueAt(row, 1).toString(); 
+		subjectName = columnHeaderfinder(RollNo);
+//		row = View.getTable().getSelectedRow();
+	    String marks;
+		int Marks = 0, SumElectronicsMarks = 0;   
+		  if(subjectName.contains("EL1") || subjectName.contains("EL2")){
+			 for(int j = 0; j < 8; j++){
+				marks = GetData1(View.getTable(),row, 8+j);                    //  show("marks = "+marks);
+				if(marks == null || marks.isEmpty()){ marks = "00"; }					 
+				if(marks.contentEquals("AB") || marks.contentEquals("AB ")){ marks = "00"; }					 
+				Marks = Integer.parseInt(marks);                               //  show("Marks = "+Marks);
+				SumElectronicsMarks = SumElectronicsMarks + Marks;             //  show(TotalMarks);			 
+			  }
+		  }
+		return SumElectronicsMarks;							
+	}
+
+	
+	
 	public int SumT2andEVSScore(int pageNum){
 		int row = View.getTable().getSelectedRow();
 		row = pageNum;

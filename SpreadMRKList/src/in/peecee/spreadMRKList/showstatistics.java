@@ -34,6 +34,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.ArrayList;
 
 public class showstatistics {
 	
@@ -47,6 +48,8 @@ public class showstatistics {
 	public JButton MLSCPrintButton;
 	public JButton STPrintButton;
 	public JButton FailedButtons;
+	public  ArrayList<String> subjectName = new ArrayList<String>();
+	
 	int TopLeftX = 50, TopLeftY = 80, Height = 20, Width = 50;
 	
     String[] SerialNum = {" ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"};
@@ -54,11 +57,11 @@ public class showstatistics {
     String[] Header1 = {"Rank", "          Name", "Roll", "Div", "Score", "Per",
     		            "Subject", "Commerce", "Science", "Over All"};
     
-    String[] ComSubjects = {"English", "Hindi", "Marathi", "Tamil", "Economics", "Accountancy", "Org. of Commerce",
-    		                "Secreterial Practice", "Mathematics", "Info. Technology"};
+    String[] ComSubjects = {"English", "Info. Technology", "Hindi", "Marathi", "Tamil", "Economics", "Accountancy", "Org. of Commerce",
+    		                "Secreterial Practice", "Mathematics"};
 
-    String[] SciSubjects = {"English", "Hindi", "Marathi", "Tamil", "Physics", "Chemistry", "Mathematics",
-                            "Biology", "Electronics", "Computer Science", "Info. Technology"};
+    String[] SciSubjects = {"English", "Info. Technology", "Hindi", "Marathi", "Tamil", "Economics", "Biology", "Physics",
+    		                "Chemistry", "Mathematics", "Electronics", "Computer Science"};
     
     String[] Result = {"Number of students appeared", "Number of Students Passed",
     		           "Number of Students Failed", "Number of Distinctions", "Number of First Class",
@@ -72,8 +75,7 @@ public class showstatistics {
     public void show(String msg) {JOptionPane.showMessageDialog(null, msg);}   ///for debugging
    
     
-    public void ShowStats(){
-		 
+    public void ShowStats(){		 
 	    frame.validate();                
 	    frame.setTitle("MERIT LIST - OVER ALL RANKINGS AND SUBJECT TOPPERS");
 	    frame.setSize(1290, 700);
@@ -89,6 +91,11 @@ public class showstatistics {
    public Object GetData1 (JTable table, int row_index, int col_index) {  return table.getValueAt(row_index, col_index); }
    public String GetData(JTable table, int row_index, int col_index) {  return (String) table.getValueAt(row_index, col_index); }
    
+   public void setDetails (String[] SerialNum, String[] Header1, String[] ComSubjects, String[] Result, String[] Header2)
+   {
+	   this.SerialNum = SerialNum; this.Header1 = Header1; this.ComSubjects = ComSubjects; 
+	   this.Result = Result; this.Header2 = Header2;
+   }
    
    public showstatistics(){	   
    	   	 
@@ -125,25 +132,13 @@ public class showstatistics {
 	    		{null, "2", null, null, null, null, null},
 	    		{null, "3", null, null, null, null, null},
 	    		{null, "4", null, null, null, null, null},
-	    		{null, "5", null, null, null, null, null},
-	    		{null, "6", null, null, null, null, null},
-	    		{null, "7", null, null, null, null, null},
-	    		{null, "8", null, null, null, null, null},
-	    		{null, "9", null, null, null, null, null},
-	    		{null, "10", null, null, null, null, null},
-	    		{null, null, null, null, null, null, null},
+	    		{null, "5", null, null, null, null, null},	    		
 	    		{" Science", "1", null, null, null, null, null},
 	    		{null, "2", null, null, null, null, null},
 	    		{null, "3", null, null, null, null, null},
 	    		{null, "4", null, null, null, null, null},
-	    		{null, "5", null, null, null, null, null},
-	    		{null, "6", null, null, null, null, null},
-	    		{null, "7", null, null, null, null, null},
-	    		{null, "8", null, null, null, null, null},
-	    		{null, "9", null, null, null, null, null},
-	    		{null, "10", null, null, null, null, null},
-	    		{null, null, null, null, null, null, null},
-   		},
+	    		{null, "5", null, null, null, null, null}},
+	    		
    		new String[] {
    				"Stream", "Rank", "Name", "Roll No.", "Division", "Score", "Percent"
    		}
@@ -154,7 +149,7 @@ public class showstatistics {
     header1.setFont(new Font("Dialog", Font.BOLD,16));   
     table.setBorder(new LineBorder(new Color(0, 0, 0)));
     table.setFont(new Font("Times New Roman", Font.BOLD, 14));
-    table.getColumnModel().getColumn(0).setPreferredWidth(100);       // Stream           
+    table.getColumnModel().getColumn(0).setPreferredWidth(100);      // Stream           
     table.getColumnModel().getColumn(1).setPreferredWidth(30);       // Rank
     table.getColumnModel().getColumn(2).setPreferredWidth(410);      // Name  
     table.getColumnModel().getColumn(3).setPreferredWidth(65);       // Roll Number
@@ -209,7 +204,7 @@ public class showstatistics {
 	    		{"(07) Biology", null, null, null, null},	    		
 	    		{"(08) Physics", null, null, null, null},
 	    		{"(09) Chemistry", null, null, null, null},
-	    		{"(10) Mathematics Sci", null, null, null, null},
+	    		{"(10) Mathematics (Sci)", null, null, null, null},
 	    		{"(11) Electronics", null, null, null, null},
 	    		{"(12) Computer Science", null, null, null, null},
 	    		{null, null, null, null, null},
@@ -282,205 +277,228 @@ public class showstatistics {
     table_2.getColumnModel().getColumn(2).setPreferredWidth(200);       // Commerce   
     table_2.getColumnModel().getColumn(3).setPreferredWidth(200);       // Science
     table_2.getColumnModel().getColumn(4).setPreferredWidth(200);       // Over all Result
+//    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    table_2.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+    table_2.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
+    table_2.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
+    table_2.getColumnModel().getColumn(4).setCellRenderer( centerRenderer );
     
 	  for(int j = 0; j < Result.length; j++){
 		  SetData2("  "+Result[j], j, 1);				  				  
 	  }
    		
-   		MLSCPrintButton = new JButton("Merit List Science / Commerce");       //  MLSC = Merit List Science Commerce
-   		MLSCPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
-   		GridBagConstraints gbc_MLSCPrintButton = new GridBagConstraints();
-   		gbc_MLSCPrintButton.anchor = GridBagConstraints.NORTHEAST;
-   		gbc_MLSCPrintButton.insets = new Insets(10, 20, 5, 5);
-   		gbc_MLSCPrintButton.gridx = 1;
-   		gbc_MLSCPrintButton.gridy = 0;
-   		frame.getContentPane().add(MLSCPrintButton, gbc_MLSCPrintButton);
-   		MLSCPrintButton.addActionListener(new ActionListener() {
-   		public void actionPerformed(ActionEvent arg0) {
+   	MLSCPrintButton = new JButton("Merit List Science / Commerce");       //  MLSC = Merit List Science Commerce
+   	MLSCPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
+   	GridBagConstraints gbc_MLSCPrintButton = new GridBagConstraints();
+   	gbc_MLSCPrintButton.anchor = GridBagConstraints.NORTHEAST;
+   	gbc_MLSCPrintButton.insets = new Insets(10, 20, 5, 5);
+   	gbc_MLSCPrintButton.gridx = 1;
+   	gbc_MLSCPrintButton.gridy = 0;
+   	frame.getContentPane().add(MLSCPrintButton, gbc_MLSCPrintButton);
+   	
+   	MLSCPrintButton.addActionListener(new ActionListener() {
+   	public void actionPerformed(ActionEvent arg0) {
         				 					  
-   			try {
-   					 
-   			  PrinterJob pjob = PrinterJob.getPrinterJob();
-   			  pjob.setJobName("MERRIT LIST");
-   			  pjob.setCopies(1);
-   			  pjob.setPrintable(new Printable() {
-   			  public int print(Graphics pg, PageFormat pf, int pageNum) {
-   			    int totalpages = 0;
-   				if (pageNum > totalpages)                                 // we only print one page
-   				return Printable.NO_SUCH_PAGE;                            // ie., end of job
+   	  try {   					 
+   			PrinterJob pjob = PrinterJob.getPrinterJob();
+   			pjob.setJobName("MERRIT LIST");
+   			pjob.setCopies(1);
+   			pjob.setPrintable(new Printable() {
+   			public int print(Graphics pg, PageFormat pf, int pageNum) {
+   			  int totalpages = 0;
+   			if (pageNum > totalpages)                                 // we only print one page
+   			return Printable.NO_SUCH_PAGE;                            // ie., end of job
    				
-   				
-   				
-   				pg.drawString("S T R E A M W I S E   R A N K S", 230, 40);	  
-   				
-   				pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
-   				  for(int i =0; i < 6; i++){
-   					for(int j = 0; j < 6; j++){
-   					  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+15);	
-   					  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height, 3*Width/4, Height); }       
-   					  if(i == 1){ pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height, 11*Width/2, Height); }
+			pg.drawString("S T R E A M W I S E   R A N K S", 230, 40);
+			pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
+			  for(int i =0; i < 6; i++){
+				for(int j = 0; j < 6; j++){
+				  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+15);	
+				  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height, 3*Width/4, Height); }       
+				  if(i == 1){ pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height, 11*Width/2, Height); }
 //				  pg.drawString("KHATRI MOINUDDIN mOHMD AREEF QAMAR J", TopLeftX+28, TopLeftY+15);
-   					  if(i > 1) { pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height, Width, Height); } 
-   					  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+i*100, TopLeftY+15);
-   					  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+15);
-   					}					
-   				  }
-   				for(int i = 0; i < 5; i++){     //  COMMERCE
-               pg.drawString(GetData(table, i, 6), TopLeftX+(9*Width), TopLeftY+(7*Height)/4+(i*Height));    // Percentage
-               pg.drawString(GetData(table, i, 5), TopLeftX+(25*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Score
-               pg.drawString(GetData(table, i, 4), TopLeftX+(22*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Division
-               pg.drawString(GetData(table, i, 3), TopLeftX+(19*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Roll No.
-               pg.drawString(GetData(table, i, 2), TopLeftX+Width-5,      TopLeftY+(7*Height)/4+(i*Height));      // Name              
-   				}
-   				
-   				for(int i = 0; i < 5; i++){    //   SCIENCE
-   		           pg.drawString(GetData(table, i+11, 6), TopLeftX+(9*Width), TopLeftY+(43*Height)/4+(i*Height));// Percentage
-               pg.drawString(GetData(table, i+11, 5), TopLeftX+(25*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Score
-               pg.drawString(GetData(table, i+11, 4), TopLeftX+(22*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Division
-               pg.drawString(GetData(table, i+11, 3), TopLeftX+(19*Width)/3-10, TopLeftY+(43*Height)/4+(i*Height)); // Roll No.
-               pg.drawString(GetData(table, i+11, 2), TopLeftX+Width-5,      TopLeftY+(43*Height)/4+(i*Height)); // Name              
+				  if(i > 1) { pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height, Width, Height); } 
+				  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+i*100, TopLeftY+15);
+				  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+15);
+   				}					
+   			  }
+   		  for(int i = 0; i < 5; i++){     //  COMMERCE
+           pg.drawString(GetData(table, i, 6), TopLeftX+(9*Width), TopLeftY+(7*Height)/4+(i*Height));    // Percentage
+           pg.drawString(GetData(table, i, 5), TopLeftX+(25*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Score
+           pg.drawString(GetData(table, i, 4), TopLeftX+(22*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Division
+           pg.drawString(GetData(table, i, 3), TopLeftX+(19*Width)/3, TopLeftY+(7*Height)/4+(i*Height)); // Roll No.
+           pg.drawString(GetData(table, i, 2), TopLeftX+Width-5,      TopLeftY+(7*Height)/4+(i*Height));      // Name              
+   		  }
+    				
+   		   pg.drawString("S C I E N C E", TopLeftX, TopLeftY+8*Height);					  
+   		  for(int i =0; i < 6; i++){
+   			for(int j = 0; j < 6; j++){
+   			  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+9*Height+15);	
+   			  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height+9*Height, 3*Width/4, Height); }       
+   			  if(i == 1) pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height+9*Height, 11*Width/2, Height);
+   			  if(i > 1) pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height+9*Height, Width, Height);
+   			  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+(i*100), TopLeftY+11*Height-25);
+   			  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+11*Height-25);
 
-   				}
-   				
-   				pg.drawString("S C I E N C E", TopLeftX, TopLeftY+8*Height);					  
-   				  for(int i =0; i < 6; i++){
-   					for(int j = 0; j < 6; j++){
-   					  pg.drawString(SerialNum[j], TopLeftX+5, TopLeftY+j*Height+9*Height+15);	
-   					  if(i == 0){ pg.drawRect(TopLeftX+i*Width, TopLeftY+j*Height+9*Height, 3*Width/4, Height); }       
-   					  if(i == 1) pg.drawRect(TopLeftX+i*Width-Width/4, TopLeftY+j*Height+9*Height, 11*Width/2, Height);
-   					  if(i > 1) pg.drawRect(TopLeftX+i*Width+(9*Width/2)-Width/4, TopLeftY+j*Height+9*Height, Width, Height);
-   					  if(i < 2 )pg.drawString(Header1[i], (4+TopLeftX)+(i*100), TopLeftY+11*Height-25);
-   					  if(i > 1 )pg.drawString(Header1[i], (11*TopLeftX/2)+i*Width, TopLeftY+11*Height-25);
-
-   					}					
-   				  }
+   			}					
+   		  }   				
+     	  for(int i = 0; i < 5; i++){    //   SCIENCE
+     		pg.drawString(GetData(table, i+5, 6), TopLeftX+(9*Width), TopLeftY+(43*Height)/4+(i*Height));// Percentage
+            pg.drawString(GetData(table, i+5, 5), TopLeftX+(25*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Score
+            pg.drawString(GetData(table, i+5, 4), TopLeftX+(22*Width)/3, TopLeftY+(43*Height)/4+(i*Height)); // Division
+            pg.drawString(GetData(table, i+5, 3), TopLeftX+(19*Width)/3-10, TopLeftY+(43*Height)/4+(i*Height)); // Roll No.
+            pg.drawString(GetData(table, i+5, 2), TopLeftX+Width-5,      TopLeftY+(43*Height)/4+(i*Height)); // Name              
+     	  }
    					  
-   				pg.drawString("RESULT VIEW OF BOTH SCIENCE AND COMMERCE", TopLeftX, TopLeftY+17*Height);	
+   		pg.drawString("RESULT VIEW OF BOTH SCIENCE AND COMMERCE", TopLeftX, TopLeftY+17*Height);	
 
-   				  for(int i =0; i < 4; i++){
-   					for(int j = 0; j < 11; j++){
-   					  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+18*Height, (9*Width)/2, Height); }       
-                  if(i == 1) pg.drawRect(TopLeftX+(9*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height); 
-   					  if(i == 2) pg.drawRect(TopLeftX+(13*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
-   					  if(i == 3) pg.drawRect(TopLeftX+(17*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
-   					  if(i == 0) pg.drawString("Particulars", (11*TopLeftX)/4, TopLeftY+21*Height-45);
-   					  if(i == 1) pg.drawString(Header1[i+6], (6*TopLeftX)-10, TopLeftY+21*Height-45);
-   					  if(i == 2) pg.drawString(Header1[i+6], (8*TopLeftX), TopLeftY+21*Height-45);
-   					  if(i == 3) pg.drawString(Header1[i+6], (10*TopLeftX), TopLeftY+21*Height-45);
+   		for(int i =0; i < 4; i++){
+   		  for(int j = 0; j < 11; j++){
+   			if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+18*Height, (9*Width)/2, Height); }       
+            if(i == 1) pg.drawRect(TopLeftX+(9*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height); 
+   			if(i == 2) pg.drawRect(TopLeftX+(13*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
+   			if(i == 3) pg.drawRect(TopLeftX+(17*Width)/2, TopLeftY+j*Height+18*Height, 2*Width, Height);
+   			if(i == 0) pg.drawString("Particulars", (11*TopLeftX)/4, TopLeftY+21*Height-45);
+   			if(i == 1) pg.drawString(Header1[i+6], (6*TopLeftX)-10, TopLeftY+21*Height-45);
+   			if(i == 2) pg.drawString(Header1[i+6], (8*TopLeftX), TopLeftY+21*Height-45);
+   			if(i == 3) pg.drawString(Header1[i+6], (10*TopLeftX), TopLeftY+21*Height-45);
    					}					
-   				  }
-   				  
-   				  for(int j = 0; j < Result.length; j++){
-   					  pg.drawString(Result[j], TopLeftX+5, (TopLeftY+20*Height-5)+(j*Height));				  				  
-   				  }
-   				  			  
-             int k =  0, m = 0;
-   				for(int j = 2; j < 5; j++){  
-   				  for(int i = 23; i < 32; i++){
-//			      pg.drawString(GetData(table_1, i, j), (2*m*Width)+(23*TopLeftX)/4, TopLeftY+(k*Height+20*Height-5));
-   					  k++; 
-   					  if(i == 31){ m++; k=0;}
-   					  }
-   				    }  
-   															    				
-   				return Printable.PAGE_EXISTS;
-   			}
-   		});
-
-   				if (pjob.printDialog() == false) // choose printer
-   				return; 
-   					     
-   				HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
-   				pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
-   				pjob.print(pattribs); 
-   			}
-   				catch (PrinterException pe) {
-   				pe.printStackTrace();
-   			  }                                     						
-   			
    		}
+		for(int j = 0; j < 9; j++){
+		  for(int i = 0; i < 3; i++){
+		   	pg.drawString(GetData(table_2, 0+j, 2+i), TopLeftX+(5*Width)+(2*i*Width), TopLeftY+(20*Height)+(j*Height)-5); 
+		  }
+		}				   	
+    	for(int j = 0; j < Result.length; j++){
+   		  pg.drawString(Result[j], TopLeftX+5, (TopLeftY+20*Height-5)+(j*Height));				  				  
+   		}
+   				  			  
+        int k =  0, m = 0;
+   		for(int j = 2; j < 5; j++){  
+   		  for(int i = 23; i < 32; i++){
+//			pg.drawString(GetData(table_1, i, j), (2*m*Width)+(23*TopLeftX)/4, TopLeftY+(k*Height+20*Height-5));
+   			k++; 
+   			if(i == 31){ m++; k=0;}
+   		   }
+   		 }  
+   															    				
+		return Printable.PAGE_EXISTS;
+	  }
+  });
+
+      if (pjob.printDialog() == false) // choose printer
+   		 return; 
+   					     
+   	  HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
+   	  pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
+   	  pjob.print(pattribs); 
+   	}
+   	  catch (PrinterException pe) {
+   	  pe.printStackTrace();
+   	}                                     						
+   			
+   	}
    		      
-   });
+ });
    		
-   			STPrintButton = new JButton("Print Subject Toppers");        //  ST = Subject Topper
-   			STPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
-   			GridBagConstraints gbc_STPrintButton = new GridBagConstraints();
-   			gbc_STPrintButton.anchor = GridBagConstraints.NORTHWEST;
-   			gbc_STPrintButton.insets = new Insets(10, 30, 5, 5);
-   			gbc_STPrintButton.gridx = 2;
-   			gbc_STPrintButton.gridy = 0;
-   			frame.getContentPane().add(STPrintButton, gbc_STPrintButton);
-   			STPrintButton.addActionListener(new ActionListener() {
-   				public void actionPerformed(ActionEvent arg0) {
-   					 try {
-   						 
-   					      PrinterJob pjob = PrinterJob.getPrinterJob();
-   						  pjob.setJobName("SUBJECT TOPPERS");
-   						  pjob.setCopies(1);
-   						  pjob.setPrintable(new Printable() {
-   						  public int print(Graphics pg, PageFormat pf, int pageNum) {
-   						  int totalpages = 0;
-   						  if (pageNum > totalpages)                                 // we only print one page
-   						  return Printable.NO_SUCH_PAGE;                            // ie., end of job
-//				  Font newFont;		          
-//				  newFont = new Font("Liberation Serif", Font.PLAIN, 13);
+  STPrintButton = new JButton("Print Subject Toppers");        //  ST = Subject Topper
+  STPrintButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
+  GridBagConstraints gbc_STPrintButton = new GridBagConstraints();
+  gbc_STPrintButton.anchor = GridBagConstraints.NORTHWEST;
+  gbc_STPrintButton.insets = new Insets(10, 30, 5, 5);
+  gbc_STPrintButton.gridx = 2;
+  gbc_STPrintButton.gridy = 0;
+  frame.getContentPane().add(STPrintButton, gbc_STPrintButton);
+  STPrintButton.addActionListener(new ActionListener() {
+  public void actionPerformed(ActionEvent arg0) {
+  	 try { 						 
+   		   PrinterJob pjob = PrinterJob.getPrinterJob();
+   		   pjob.setJobName("SUBJECT TOPPERS");
+   		   pjob.setCopies(1);
+   		   pjob.setPrintable(new Printable() {
+   	 public int print(Graphics pg, PageFormat pf, int pageNum) {
+//   	int totalpages = 0;
+   		if (pageNum > 0)                                 // we only print one page
+   		return Printable.NO_SUCH_PAGE;                            // ie., end of job
+//		Font newFont;		          
+//		newFont = new Font("Liberation Serif", Font.PLAIN, 13);
 
-   						  pg.drawString("SUBJECT TOPPERS FROM BOTH THE STREAMS", 150, 30);
+   		pg.drawString("SUBJECT TOPPERS FROM BOTH THE STREAMS", 150, 30);
    						  
-   						  pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
-   						  for(int i =0; i < 5; i++){
-   							for(int j = 0; j < 11; j++){
-   							  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height, (5*Width)/2, Height); } //  Subject
-   							  if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height, (9*Width)/2, Height);   //  Name
-   							  if(j < 10)pg.drawString(ComSubjects[j], TopLeftX+5, TopLeftY+j*Height+35 );
-//					  pg.drawString("KHATRI MOINUDDIN MOHMD AREEF", 178, TopLeftY+15);
-   							  if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height, Width, Height); 
-   							}					
-   						  }
+   		pg.drawString("C O M M E R C E", TopLeftX, TopLeftY-Height);
+   		for(int i =0; i < 5; i++){
+   		  for(int j = 0; j < 11; j++){
+   			if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height, (5*Width)/2, Height); } //  Subject
+   		    if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height, (9*Width)/2, Height);   //  Name
+   			if(j < 10)pg.drawString(ComSubjects[j], TopLeftX+5, TopLeftY+j*Height+35 );
+   			if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height, Width, Height); 
+   		  }					
+   		}
 
-   						 for(int i = 0 ; i < 5; i++){
-   							 if(i == 0){ pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+15);
-   							             pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+335); }
-   							 if(i == 1){ pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+15);
-   				                         pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+335); }
-   							 if(i > 1) { pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+15);
-   							             pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+335); }
-   						 }
+   		for(int i = 0 ; i < 10; i++){         //   Only Names
+			  pg.drawString(GetData(table_1, 0+i, 1).substring(0, 30), TopLeftX+(5*Width)/2, TopLeftY+(2*Height)+(i*Height)-5); 
+   		  }
+   		
+   		for(int i = 0 ; i < 10; i++){
+   		  for(int j = 0; j < 3; j++){   // Roll no., Div, and Scores
+   	   		pg.drawString(GetData(table_1, 0+i, j+2), TopLeftX+(7*Width)+(j*Width), TopLeftY+(2*Height)+(i*Height)-5); // Roll, Div, Score
+ 
+   		  }
+   		}
+
+   		for(int i = 0 ; i < 5; i++){
+   		 if(i == 0){ pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+15);
+   		             pg.drawString(Header2[i], TopLeftX+Width, TopLeftY+335); }
+   		 if(i == 1){ pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+15);
+   				     pg.drawString(Header2[i], 5*TopLeftX+(Width/2), TopLeftY+335); }
+   		 if(i > 1) { pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+15);
+   					 pg.drawString(Header2[i], TopLeftX+5*Width+i*Width+10, TopLeftY+335); }
+   		}
    						  
-   						  pg.drawString("S C I E N C E", TopLeftX, TopLeftY+15*Height);	
+   		pg.drawString("S C I E N C E", TopLeftX, TopLeftY+15*Height);	
    						  
-   						  for(int i =0; i < 5; i++){
-   							for(int j = 0; j < 11; j++){
-   							  if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+16*Height, (5*Width)/2, Height); } //  Subject
-   							  if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height+16*Height, (9*Width)/2, Height);   //  Name
-   							  if(j < 10)pg.drawString(SciSubjects[j], TopLeftX+5, TopLeftY+j*Height+355 );
-//					  pg.drawString("KHATRI MOINUDDIN MOHMD AREEF", 178, TopLeftY+15);
-   							  if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height+16*Height, Width, Height); 
-   							}					
-   						  }
+   		for(int i =0; i < 5; i++){
+   		  for(int j = 0; j < 13; j++){    //     Only Grid
+   			if(i == 0){ pg.drawRect(TopLeftX, TopLeftY+j*Height+16*Height, (5*Width)/2, Height); } //  Subject
+   			if(i == 1) pg.drawRect(3*TopLeftX+Width/2, TopLeftY+j*Height+16*Height, (9*Width)/2, Height);   //  Name
+   			if(i > 1) pg.drawRect(6*TopLeftX+i*Width, TopLeftY+j*Height+16*Height, Width, Height); 
+   		  }					
+   		}
+ 
+   		for(int i = 0 ; i < 12; i++){         //   Only Names
+   		  pg.drawString(GetData(table_1, 11+i, 1).substring(0, 30), TopLeftX+(5*Width)/2, TopLeftY+(18*Height)+(i*Height)-5); 
+   		}
    						  
+   		for(int i =0; i < 5; i++){
+   		  for(int j = 0; j < 12; j++){
+   			pg.drawString(SciSubjects[j], TopLeftX+5, TopLeftY+j*Height+355 );   							  
+   		  }					
+   		}
    						  
-//				pg.drawString("( FOR OFFICE USE ONLY )", 230, 750);
-   						
-   						
+   		for(int i = 0 ; i < 12; i++){
+     		  for(int j = 0; j < 3; j++){   // Roll no., Div, and Scores
+     	   		pg.drawString(GetData(table_1, 11+i, j+2), TopLeftX+(7*Width)+(j*Width), TopLeftY+(18*Height)+(i*Height)-5); // Roll, Div, Score
+   
+     		  }
+     		}
    							    				
-   						return Printable.PAGE_EXISTS;
-   					  }
-   				   });
+		return Printable.PAGE_EXISTS;
+	  }
+  });
 
-   						if (pjob.printDialog() == false) // choose printer
-   						return; 
+		if (pjob.printDialog() == false) // choose printer
+			return; 
    								     
-   						HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
-   						pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
-   						pjob.print(pattribs); 
-   					}
-   						catch (PrinterException pe) {
-   						pe.printStackTrace();
-   					  }                                     								
-   				}
+		HashPrintRequestAttributeSet pattribs=new HashPrintRequestAttributeSet();
+		pattribs.add(new MediaPrintableArea(2, 2, 210, 297, MediaPrintableArea.MM));
+		pjob.print(pattribs); 
+	 }
+   		catch (PrinterException pe) {
+   		pe.printStackTrace();
+   	  }                                     								
+   	}
    				      
-    });
+ });
    		
    		JButton btnOK = new JButton("EXIT");
    		btnOK.addActionListener(new ActionListener() {
@@ -498,16 +516,16 @@ public class showstatistics {
 
    }
    
-   public JTable Table(){
-       return table;
-   }
-   
-   public JTable Table1(){
-       return table_1;
-   }
-   
-   // This button's action is simply to dispose of the JDialog.
-   private void okButtonAction() {
+	   public JTable Table(){
+	       return table;
+	   }
+	   
+	   public JTable Table1(){
+	       return table_1;
+	   }
+	   
+	   // This button's action is simply to dispose of the JDialog.
+	   private void okButtonAction() {
       // win is here the JDialog that holds this JPanel, but it could be a JFrame or 
       // any other top-level container that is holding this JPanel
       Window win = SwingUtilities.getWindowAncestor(table);
