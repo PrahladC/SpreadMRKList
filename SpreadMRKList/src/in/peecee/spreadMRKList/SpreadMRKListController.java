@@ -79,6 +79,7 @@ public class SpreadMRKListController {
 	public void Show(ArrayList<String> arrayList) {JOptionPane.showMessageDialog(null, arrayList);}   ///for debugging
 	
 	public int[] GraceMrks = {0,0,0,0,0,0};
+	int failcounter = 0;
 	
 	public SpreadMRKListController(SpreadMRKListModel model, SpreadMRKListView view){
 
@@ -811,11 +812,11 @@ public class SpreadMRKListController {
 				 SetData(SrNo,i-1,0);
 		   		 plate=Model.strArray.get(i).split("#");
 			     rollno = plate[0];
-			     if(plate[1].length()<=12){ 
-			     	rollno = plate[0];         //   show(plate);  show(plate[0]); show(plate[1]);   show(plate[2]);    
-			     	div = plate[1].substring(0,1);
-			     	SetData(rollno,i-1,1);
-				    SetData(div, i-1, 2);
+			  if(plate[1].length()<=14){ 
+			     rollno = plate[0];         //   show(plate);  show(plate[0]); show(plate[1]);   show(plate[2]);    
+			     div = plate[1].substring(0,1);
+			     SetData(rollno,i-1,1);
+				 SetData(div, i-1, 2);
 		     	  }
 	     	 else {
 		     	  names = plate[1].substring(0, 60);
@@ -1327,7 +1328,7 @@ public class SpreadMRKListController {
 		String percent = Percent(Integer.valueOf(index));
 	    String Div =  GetData(View.getTable(), index,2).toString();
 	    String Name = GetData(View.getTable(), index,3).toString();
-
+        if(Name.length() < 1) continue;
 	    Stats.SetData(Name.substring(0, 35), j, 2);
 		Stats.SetData("    "+RollNo, j, 3);
 		Stats.SetData("     "+Div, j, 4);
@@ -1373,6 +1374,7 @@ public class SpreadMRKListController {
 		String percent = Percent(Integer.valueOf(temp));
 	    String Div =  GetData(View.getTable(), temp,2).toString();
 	    String Name = GetData(View.getTable(), temp,3).toString();
+	    if(Name.length() < 1) continue;
 	    Stats.SetData(Name.substring(0, 35), j+5, 2);
 		Stats.SetData("    "+RollNo, j+5, 3);
 		Stats.SetData("     "+Div, j+5, 4);
