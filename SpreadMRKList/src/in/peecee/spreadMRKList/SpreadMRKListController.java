@@ -1924,7 +1924,7 @@ public class SpreadMRKListController {
 	     	{
 	     	  plate=Model.strArray.get(i).split("#");
 
-	     	   for (int j = 2; j < plate.length; j++){	
+	     	   for (int j = 1; j < plate.length; j++){	
 	     		   line = plate[j];
 		     	   ENGmarks = plate[j].substring(2, 8);     //   show( submarksU1);
 		     	   subwithmarks = line.split(":");
@@ -1971,7 +1971,7 @@ public class SpreadMRKListController {
 	     	{
 	     	  plate=Model.strArray.get(i).split("#");
 //	     	  show(plate);
-	     	   for (int j = 2; j < plate.length; j++){	
+	     	   for (int j = 1; j < plate.length; j++){	
 	     		    line = plate[j];
 	     		    subwithmarks = line.split(":");
 			    	SLITmarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2080,7 +2080,7 @@ public class SpreadMRKListController {
 			 for(int i=1; i < Model.strArray.size() ; i++)                      //  strArray.size()
 		     	{
 				   plate=Model.strArray.get(i).split("#");
-				   for (int j = 2; j < plate.length; j++){	
+				   for (int j = 1; j < plate.length; j++){	
 					 
 					  line = plate[j];
 				      VocationalMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2186,7 +2186,7 @@ public class SpreadMRKListController {
 		 for(int i=1; i < Model.strArray.size() ; i++)                      //  strArray.size()
 	     	{
 			 plate=Model.strArray.get(i).split("#");
-	     	   for (int j = 2; j < plate.length; j++){		     		   
+	     	   for (int j = 1; j < plate.length; j++){		     		   
 					  line = plate[j];
 					  subwithmarks = line.split(":");
 				      BIOMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2226,7 +2226,7 @@ public class SpreadMRKListController {
 		 for(int i=1; i < Model.strArray.size() ; i++)                      //  Model.strArray.size()
 	     	{
 			 plate=Model.strArray.get(i).split("#");
-	     	   for (int j = 2; j < plate.length; j++){		     		  
+	     	   for (int j = 1; j < plate.length; j++){		     		  
 				  line = plate[j];
 				  subwithmarks = line.split(":");
 				  ECOMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2269,7 +2269,7 @@ public class SpreadMRKListController {
 	     	{
 			 plate=Model.strArray.get(i).split("#");
 //	     	  show(plate);
-	     	   for (int j = 2; j < plate.length; j++){		     		  
+	     	   for (int j = 1; j < plate.length; j++){		     		  
 				  line = plate[j];
 				  subwithmarks = line.split(":");
 				  BKEMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2311,7 +2311,7 @@ public class SpreadMRKListController {
 			     	{
 					 plate=Model.strArray.get(i).split("#");
 //			     	  show(plate);
-			     	   for (int j = 2; j < plate.length; j++){				     		   
+			     	   for (int j = 1; j < plate.length; j++){				     		   
 						 line = plate[j];
 						 subwithmarks = line.split(":");
 						 PHYMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2354,7 +2354,7 @@ public class SpreadMRKListController {
 	     	{
 			 plate=Model.strArray.get(i).split("#");
 //	     	  show(plate);
-	     	   for (int j = 2; j < plate.length; j++){		     		   
+	     	   for (int j = 1; j < plate.length; j++){		     		   
                  line = plate[j];
                  subwithmarks = line.split(":");
 				 OCMMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2396,7 +2396,7 @@ public class SpreadMRKListController {
 		 for(int i=1; i < Model.strArray.size() ; i++)                      //  Model.strArray.size()
 	       {
 			plate=Model.strArray.get(i).split("#");
-	     	   for (int j = 2; j < plate.length; j++){		     		   
+	     	   for (int j = 1; j < plate.length; j++){		     		   
 				line = plate[j];
 				subwithmarks = line.split(":");
 				CHEMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2438,7 +2438,7 @@ public class SpreadMRKListController {
 		 for(int i=1; i < Model.strArray.size() ; i++)                      //  Model.strArray.size()
 	     	{
 			 plate=Model.strArray.get(i).split("#");
-	     	   for (int j = 2; j < plate.length; j++){	   		   
+	     	   for (int j = 1; j < plate.length; j++){	   		   
 			     line = plate[j];
 			     subwithmarks = line.split(":");
 				 MATMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2480,7 +2480,7 @@ public class SpreadMRKListController {
 		 for(int i=1; i < Model.strArray.size() ; i++)                      //  Model.strArray.size()
 	     	{
 			 plate=Model.strArray.get(i).split("#");
-	     	  for (int j = 2; j < plate.length; j++){		     		   
+	     	  for (int j = 1; j < plate.length; j++){		     		   
 				  line = plate[j];
 				  subwithmarks = line.split(":");
 				  SEPMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2521,7 +2521,7 @@ public class SpreadMRKListController {
 		 for(int i=1; i < Model.strArray.size() ; i++)                      //  Model.strArray.size()
 	     	{
 			 plate=Model.strArray.get(i).split("#");
-	     	  for (int j = 2; j < plate.length; j++){		     		   
+	     	  for (int j = 1; j < plate.length; j++){		     		   
 				  line = plate[j];
 				  subwithmarks = line.split(":");
 				  EVSMarks = plate[j].substring(2, 8);     //   show( submarksU1); 
@@ -2542,7 +2542,7 @@ public class SpreadMRKListController {
 		 for(int i=1; i < Model.strArray.size() ; i++)                      //  Model.strArray.size()
 	     	{
 			 plate=Model.strArray.get(i).split("#");
-	     	  for (int j = 2; j < plate.length; j++){		     		   
+	     	  for (int j = 1; j < plate.length; j++){		     		   
 				  line = plate[j];
 				  subwithmarks = line.split(":");
 				  PTEGrade = plate[j].substring(2, 8);     //   show( submarksU1); 
