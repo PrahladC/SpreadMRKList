@@ -328,7 +328,7 @@ public class SpreadMRKListController {
 //		fl.failList(5);
 
 		int row = 0, k = 0, failcounter = 0;
-		int sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0;
+		float sub1 = 0, sub2 = 0, sub3 = 0, sub4 = 0, sub5 = 0, sub6 = 0;
 		int evs = 0;  String pte = null;
 		int NumofRows = View.getTable().getRowCount()-1;
 		fl.failures();        
@@ -342,32 +342,38 @@ public class SpreadMRKListController {
    		    String Name = GetData1(View.getTable(), row, 3);
    		    sub1 = Sub1(row); sub2 = Sub2(row); sub3 = Sub3(row);
    		    sub4 = Sub4(row); sub5 = Sub5(row); sub6 = Sub6(row);
-   		    evs = EVSmarks(row);
+   		    evs = EVSmarks(row);  
    		    pte = GetData1(View.getTable(), row, 29);
 			if(result == "Fail" || result.contains("Fail")){
 			   failcounter++;	
 			   fl.SetData(Roll, k, 1);
 			   fl.SetData(Div,  k, 2);
 			   fl.SetData(Name, k, 3);	
-			   fl.SetData(sub1, k, 4);
-			   fl.SetData(sub2, k, 5);
-               fl.SetData(sub3, k, 6);
-               fl.SetData(sub4, k, 7);
-               fl.SetData(sub5, k, 8);
-               fl.SetData(sub6, k, 9);
+			   
+			   fl.SetData((int) Math.ceil(sub1/2), k, 4);
+			   fl.SetData((int) Math.ceil(sub2/2), k, 5);
+               fl.SetData((int) Math.ceil(sub3/2), k, 6);
+               fl.SetData((int) Math.ceil(sub4/2), k, 7);
+               fl.SetData((int) Math.ceil(sub5/2), k, 8);
+               fl.SetData((int) Math.ceil(sub6/2), k, 9);
+               
                fl.SetData(evs, k, 10);
                fl.SetData(pte, k, 11);
 			   if(k < NumofRows) k++;	
+			   
+/*		        float[] AverageMrks = {Sub1(row), Sub2(row), Sub3(row), Sub4(row), Sub5(row), Sub6(row)};
+		        for(int i = 0; i < 6; i++){
+		    		fl.SetData(String.valueOf((int) Math.ceil(AverageMrks[i]/2)), k, k+4); // Average marks of each subject
+
+		        }
+*/			   
+			   
+			   
 			}
 			else continue;
 			
 		}               
-		
-	//	if(sub1>69 && sub2>69 && sub3>69 && sub4>69 && sub5>69 && 
-	//	     sub6>69 && evs > 17 && ( Integer.parseInt(pte)<1 || pte.isEmpty() || pte.contains(null) || pte.contains(""))) {
-	//		 remark = "Failed only in PTE"; 
-	//		}
-		
+//		show("Fail Counter : " + failcounter );
 	    for(int i = 0; i < failcounter; i++){
 		    fl.SetData(remark, i, 12);
 	    	fl.SetData(i+1, i, 0);
@@ -1004,7 +1010,7 @@ public class SpreadMRKListController {
 		  
 	 try {
 		 final String[] TableItemC1 = {"Examination","Unit Test I","Terminal I","Unit test II","Terminaal II",
-	                "Aggregate","Average","Grace"};
+	                                   "Aggregate","Average","Grace"};
          final String[] TableItemC2 = {"Max", "25", "50", "25", "100", "-----", "-----", "15"};
          final String[] TableItemC3 = {"Min", "-----", "-----", "-----", "-----", "70", "35", "-----"};
          final int[] SubTotal = {Sub1(row),Sub2(row), Sub3(row), Sub4(row), Sub5(row), Sub6(row)};
@@ -1041,8 +1047,6 @@ public class SpreadMRKListController {
 		  for(int i = 0; i < 8; i++){pg.drawString(TableItemC3[i], 182, 315+i*20);}
 		  for(int i = 0; i < subject.size(); i++){ pg.drawString(subject.get(i), 214+i*35, 315);}	 // Subjects
 	 	  
-		pg.drawString("( FOR OFFICE USE ONLY )", 230, LtMrg);
-		pg.drawString("( FOR OFFICE USE ONLY )", 230, BtMrg);
 		int k = 0;
   	    for(int i= 0; i < 6; i++){
 	        for(int j = 0; j < 4; j++){
@@ -1165,8 +1169,6 @@ public class SpreadMRKListController {
 				int totalpages = RowCount;
 				  if (pageNum < totalpages) 
 				   {
-					pg.drawString("( FOR OFFICE USE ONLY )", 230, 40);
-					pg.drawString("( FOR OFFICE USE ONLY )", 230, 750);
 					pg.drawString("EVS", 425, 315);
 					pg.drawString("PTE", 460, 315);          
 					pg.drawString("Total", 505, 315);
@@ -1385,7 +1387,7 @@ public class SpreadMRKListController {
  	
 	public void resultCom(){
 		int[] arrayOfMarks; int ind = 0;
-		  int rowcount = View.getTable().getRowCount();
+		  int rowcount = View.getTable().getRowCount()-1;
 		  arrayOfMarks = new int [rowcount];
 		  int[] arrayOfIndexC = new int [rowcount];
 		  int Numfailed = 0, Dist = 0, FC = 0,
@@ -1425,7 +1427,7 @@ public class SpreadMRKListController {
 
 	public void resultSci(){
 		int[] arrayOfMarks; int ind = 0;
-		  int rowcount = View.getTable().getRowCount();
+		  int rowcount = View.getTable().getRowCount()-1;
 		  arrayOfMarks = new int [rowcount];
 		  int length = arrayOfMarks.length;	
 		  int[] arrayOfIndexC = new int [rowcount];
@@ -1450,7 +1452,7 @@ public class SpreadMRKListController {
 				  if(result == "Distinction") Dist++;
 				  ind++;	    
 		  }	  
-		  
+		  Show(rowcount);
 		  float sum = Promoted+Passclass+SC+FC+Dist, Passpercent, Percent;
 		  Passpercent = (sum*100)/ind;
 		  Stats.SetData2("     "+ind, 0, 3);
@@ -1467,7 +1469,7 @@ public class SpreadMRKListController {
 
 	public void OverAllResult(){
 		  int[] arrayOfMarks; int ind = 0;
-		  int rowcount = View.getTable().getRowCount();
+		  int rowcount = View.getTable().getRowCount()-1;
 		  arrayOfMarks = new int [rowcount];
 		  int length = arrayOfMarks.length;	
 		  int[] arrayOfIndexC = new int [rowcount];
@@ -1755,7 +1757,7 @@ public class SpreadMRKListController {
 		
 		 if(GraceValue > 10 || pte < 1 || evs < 18){ return Result1;}
 		 else if(GraceCount > 3){ return Result1;}
-		 else if(GraceCount < 4 && GraceTotal > 16){return Result1;}
+		 else if(GraceCount < 4 && GraceTotal > 15){return Result1;}
 		 else if(GraceCount < 4 && GraceTotal > 0 && GraceTotal < 16){return Result2;}
 		 else if(Class >= 50 && Class < 60) { FCCounter++;  /*show(FCCounter);*/ return Result4; }
 		 else if(Class >= 60 && Class < 70) { return Result5; }
@@ -2114,7 +2116,7 @@ public class SpreadMRKListController {
 			     			VocationalMarks = subwithmarks[1];	
 			     			SetData(subwithmarks[1], i-1, 9);                 		     			
 			     			}	 
-					   if(VocationalMarks.contains("U2=ECS1")){
+					   if(VocationalMarks.contains("U2=CS1")){
 			     			VocationalMarks = subwithmarks[1];	
 			     			SetData(subwithmarks[1], i-1, 10);                 		     			
 			     			}	
@@ -2157,7 +2159,7 @@ public class SpreadMRKListController {
 			     			VocationalMarks = subwithmarks[1];	
 			     			SetData(subwithmarks[1], i-1, 13);                 		     			
 			     			}	 
-					   if(VocationalMarks.contains("U2=ECS2")){
+					   if(VocationalMarks.contains("U2=CS2")){
 			     			VocationalMarks = subwithmarks[1];	
 			     			SetData(subwithmarks[1], i-1, 14);                 		     			
 			     			}	
