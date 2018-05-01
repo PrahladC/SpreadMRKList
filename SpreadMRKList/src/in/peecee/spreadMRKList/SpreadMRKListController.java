@@ -279,7 +279,7 @@ public class SpreadMRKListController {
 
 	   protected void BtnOveralllResult() {
 	 int RNum = 26;    //  View.getTable().getRowCount()-1;
-	  ListOfSubjects(RNum);
+	  ListOfSubjects();
   }
 	
 	private void BtnMeritList(){
@@ -797,37 +797,33 @@ public class SpreadMRKListController {
 		}		
 	}
 	
-	public ArrayList<String> ListOfSubjects(int RNum){
+	public ArrayList<String> ListOfSubjects(){
 //		 RNum = View.getTable().getRowCount()-1;
+	     int row = View.getTable().getSelectedRow();
+		 String RowNo = (String) View.getTable().getModel().getValueAt(row, 0);
+		 int rowNo = Integer.parseInt(RowNo.trim());
 		 String SubjectNames = null; 
-		 int index = 0;
-	  	 String plate[];
-//	  	      for(int j = 1; j < RNum; j++){ 
-			   		plate=Model.strArray.get(RNum).split("#");	
-				    subjectsArray.removeAll(subjectsArray);	
-					for (int i = 1; i < plate.length; i++) {			   		
-						if(plate[1].length() <= 14)
-						
-						  { 
-						    SubjectNames = plate[i].substring(5, 8);	
-						    subjectsArray.add(SubjectNames);
-				          }
-			     	    
-						else 
-						  {
-							  SubjectNames = plate[i].substring(5, 8);
-							  subjectsArray.add(SubjectNames);
-			     	      }
-		        }	  
-					Set<String> NewSubjectsArray = new HashSet<>();
-					NewSubjectsArray.addAll(subjectsArray);
-					subjectsArray.clear();
-					subjectsArray.addAll(NewSubjectsArray);
-					Show(subjectsArray);
-					Show(subjectsArray.get(4));
-
-//	  	      }
-			return subjectsArray;
+		 String plate[];
+		 plate=Model.strArray.get(rowNo).split("#");	
+		 subjectsArray.removeAll(subjectsArray);	
+		   for (int i = 2; i < plate.length; i++) {			   		
+			 if(plate[1].length() <= 14){ 
+				SubjectNames = plate[i-1].substring(5, 8);	// plate(0) = Roll No, plate(1) = subjects string. 
+				subjectsArray.add(SubjectNames);
+			 }			     	    
+			  else {
+		  	    SubjectNames = plate[i].substring(5, 8);   	// plate(0) = Roll No, plate(1) = Name so i started with 2
+				subjectsArray.add(SubjectNames);
+			  }
+		    }	  
+		  Set<String> NewSubjectsArray = new HashSet<>();
+		  NewSubjectsArray.addAll(subjectsArray);
+		  subjectsArray.clear();
+		  subjectsArray.addAll(NewSubjectsArray);
+		  Show(subjectsArray);
+//		  Show(subjectsArray.get(4));
+		  		  
+		  return subjectsArray;
 	
 	}
 	
