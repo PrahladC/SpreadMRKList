@@ -279,7 +279,7 @@ public class SpreadMRKListController {
 
 	   protected void BtnOveralllResult() {
 	 int RNum = 26;    //  View.getTable().getRowCount()-1;
-	  ListOfSubjects();
+	  Model.ListOfSubjects();
   }
 	
 	private void BtnMeritList(){
@@ -797,7 +797,7 @@ public class SpreadMRKListController {
 		}		
 	}
 	
-	public ArrayList<String> ListOfSubjects(){
+/*	public ArrayList<String> ListOfSubjects(){
 //		 RNum = View.getTable().getRowCount()-1;
 	     int row = View.getTable().getSelectedRow();
 		 String RowNo = (String) View.getTable().getModel().getValueAt(row, 0);
@@ -819,13 +819,13 @@ public class SpreadMRKListController {
 		  Set<String> NewSubjectsArray = new HashSet<>();
 		  NewSubjectsArray.addAll(subjectsArray);
 		  subjectsArray.clear();
-		  subjectsArray.addAll(NewSubjectsArray);
-		  Show(subjectsArray);
+		  subjectsArray.addAll(NewSubjectsArray); 
+//		  Show(subjectsArray);
 //		  Show(subjectsArray.get(4));
 		  		  
 		  return subjectsArray;
 	
-	}
+	}                        */         
 	
 	public void process(){
 	 ClearTable();
@@ -2062,7 +2062,7 @@ public class SpreadMRKListController {
 		int Rows = View.getTable().getRowCount();
 		String subject = null;
 		ArrayList<String> subjects;
-		subjects = ListOfSubjects();		
+		subjects = Model.ListOfSubjects();		
 		 for (int row = 0; row < Rows-1; row++) {				
 			  plate=Model.strArray.get(row+1).split("#");
 			  String SameRoll = GetData1(View.getTable(), row, 1);

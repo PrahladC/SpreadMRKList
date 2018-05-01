@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -26,6 +28,7 @@ public class SpreadMRKListModel {
 	public void SetData(Object obj, int row_index, int col_index){View.getTable().getModel().setValueAt(obj,row_index,col_index);  }
 
 	public  ArrayList<String> strArray = new ArrayList<String>();
+	public  ArrayList<String> subjectsArray = new ArrayList<String>();
 
     public SpreadMRKListModel(){
        //  To Do - Constructor
@@ -360,7 +363,8 @@ public class SpreadMRKListModel {
 	     }
 		 
 	   	 JTableHeader th = View.getTable().getTableHeader();          //  For header changing dynamically
-		 th.repaint();                                          
+		 th.repaint();   
+		 View.SL.text = "SL / ITE / EL1 / CS1";
     }
 
 	public void BIOMarks(){
@@ -378,7 +382,8 @@ public class SpreadMRKListModel {
 					   if(BIOMarks.contains("U1=BIO")){
 			     			BIOMarks = subwithmarks[1];	
 			     			SetData(subwithmarks[1], i-1, 12);                 		     			
-			     			}	
+			     			}
+ 					   
 			     		if(BIOMarks.contains("T1=BIO")){
 			     			BIOMarks = subwithmarks[1];	
 			     			SetData(subwithmarks[1], i-1, 13);                 		     			
@@ -400,7 +405,8 @@ public class SpreadMRKListModel {
 	     	  BIOTotalT2 = 0;
 	    }		
 	   	 JTableHeader th = View.getTable().getTableHeader();     
-		 th.repaint();                                          
+		 th.repaint();  
+		 View.Sub1.text = "ECO / BIO / EL2 / CS2";
 	}
 
 	public void ECOMarks(){
@@ -738,5 +744,38 @@ public class SpreadMRKListModel {
 	       }
 	    }
      }
+	
+	public ArrayList<String> ListOfSubjects(){
+//		 RNum = View.getTable().getRowCount()-1;
+	     int row = View.getTable().getSelectedRow();
+//   	     if(row < 0){show("No name or Roll Number is selected "); return;}
+
+		 String RowNo = (String) View.getTable().getModel().getValueAt(row, 0);
+		 int rowNo = Integer.parseInt(RowNo.trim());
+		 String SubjectNames = null; 
+		 String plate[];
+		 plate = strArray.get(rowNo).split("#");	
+		 subjectsArray.removeAll(subjectsArray);	
+		   for (int i = 2; i < plate.length; i++) {			   		
+			 if(plate[1].length() <= 14){ 
+				SubjectNames = plate[i-1].substring(5, 8);	// plate(0) = Roll No, plate(1) = subjects string. 
+				subjectsArray.add(SubjectNames);
+			 }			     	    
+			  else {
+		  	    SubjectNames = plate[i].substring(5, 8);   	// plate(0) = Roll No, plate(1) = Name so i started with 2
+				subjectsArray.add(SubjectNames);
+			  }
+		    }	  
+		  Set<String> NewSubjectsArray = new HashSet<>();
+		  NewSubjectsArray.addAll(subjectsArray);
+		  subjectsArray.clear();
+		  subjectsArray.addAll(NewSubjectsArray); 
+//		  Show(subjectsArray);
+//		  Show(subjectsArray.get(4));
+		  		  
+		  return subjectsArray;
+	
+	}
+
 	
   }
