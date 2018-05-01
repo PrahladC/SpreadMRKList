@@ -210,11 +210,11 @@ public class FailuresList {
 				  
 //				  show(String.valueOf(GetData( TABLE, 4, 0)));
 				  
-				int m = 0;  
 				for(int i = 0; i < 8; i++){  
 				  pg.drawString(HeadereSubjects[i], (LTopX+6*Width)+(i*25)-2, LTopY+15);
 				}
-				
+			
+				int m = 0;  				
 				for(int k = 0; k < 35; k++){
 				  if(m+pageNum*35 > Rows) continue;	
 /*Sr. No */	      pg.drawString(String.valueOf(GetData( TABLE, m+pageNum*35, 0)), LTopX+5 , LTopY+(k+2)*Height-2);
