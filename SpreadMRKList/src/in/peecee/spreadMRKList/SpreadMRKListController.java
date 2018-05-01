@@ -2061,7 +2061,8 @@ public class SpreadMRKListController {
 //		String RollNo = View.Search().getText();
 		int Rows = View.getTable().getRowCount();
 		String subject = null;
-				
+		ArrayList<String> subjects;
+		subjects = ListOfSubjects();		
 		 for (int row = 0; row < Rows-1; row++) {				
 			  plate=Model.strArray.get(row+1).split("#");
 			  String SameRoll = GetData1(View.getTable(), row, 1);
@@ -2083,29 +2084,60 @@ public class SpreadMRKListController {
 			for (int j = 2; j < plate.length; j++){							 
 	     	   subject = plate[j].substring(5, 8);
 	     	   rollno = plate[0].substring(0);
-	     		  if(RollNo.trim().equals(rollno.trim())){    		    
+	     		if(RollNo.trim().equals(rollno.trim())){    		    
 	     		    
-	     		    if(subject.contains("ENG")){ 
-	     		    	View.Eng.text="ENG"; }
+	     		if(subject.contains("ENG")){ View.Eng.text="ENG"; }
 	     		    
 	     		if(subject.contains("MAR")||subject.contains("TAM")||subject.contains("HIN")||subject.contains("EL1")
-	     				||subject.contains("ITE")||subject.contains("CS1")){ 
-	     		    	View.SL.text= subject; }
+	     				||subject.contains("ITE")||subject.contains("CS1")){
+		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+		   	        th.repaint();      
+     		    	View.SL.text= subject; }
 	     		   
 	     		if(subject.contains("ECO")||subject.contains("BIO")
 	     				||subject.contains("EL2")||subject.contains("CS2")){ 
-	     		    	View.Sub1.text= subject; }
+		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+		   	        th.repaint();      
+     		    	View.Sub1.text= subject; }
+	     		
+	     	    if(subjects.contains("ECO") && subjects.contains("BIO")){
+		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+		   	        th.repaint();      
+     	    	    View.Sub1.text= "ECO";
+     	    	    View.Sub4.text= "BIO";
+	     	    }
+
 	     		  
 	     		if(subject.contains("BKE")||subject.contains("PHY")){ 
-		     		    View.Sub2.text= subject; }
+		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+		   	        th.repaint();      
+	     		    View.Sub2.text= subject; }
 	     		 
-	     		if(subject.contains("OCM")||subject.contains("CHE")){ 
-	     		    	View.Sub3.text= subject; }
+	     		if(subject.contains("OCM")||subject.contains("CHE")){
+		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+		   	        th.repaint();      
+     		    	View.Sub3.text= subject; }
 	     		 
 	     		if(subject.contains("MAT")||subject.contains("SEP")){ 
-    		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
-    		   	        th.repaint();      
-    		    	    View.Sub4.text= subject; }     		   
+    		     	JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+    		   	    th.repaint();      
+    		    	View.Sub4.text= subject; }  
+	     		
+	     	    if(subjects.contains("ECO") && subjects.contains("MAT")){
+		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+		   	        th.repaint();      
+     	    	    View.Sub1.text= "ECO";
+     	    	    View.Sub4.text= "MAT";
+	     	    }
+
+	     	    if(subjects.contains("BIO") && subjects.contains("MAT")){
+		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
+		   	        th.repaint();      
+     	    	    View.Sub1.text= "BIO";
+     	    	    View.Sub4.text= "MAT";
+	     	    }
+
+	     		
 	     		  }
 	     	   }
 		 }
