@@ -114,11 +114,11 @@ public class SpreadMRKListController {
 	                       setprinterListener, printCurrentListener, printAllListener,
 	                       canselListener, overallresultListener,   UpdateListener, spreadsheetListener,
 	                       printConsolidatedListener, failedNumbersListener ;
-    
+
     int TotalMarklists=0;
-	
+
 	public void contol(){
-		
+
 		int n = 2000;
 		ResizeTable(View.getTable(),n);
 
@@ -277,9 +277,9 @@ public class SpreadMRKListController {
 
 	 }	
 
-	   protected void BtnOveralllResult() {
-	 int RNum = 26;    //  View.getTable().getRowCount()-1;
-	  Model.ListOfSubjects();
+	   protected void BtnOveralllResult() { 
+	   
+	Subjectfinder("5021");   
   }
 	
 	private void BtnMeritList(){
@@ -838,6 +838,7 @@ public class SpreadMRKListController {
 				 SetData(SrNo,i-1,0);
 		   		 plate=Model.strArray.get(i).split("#");
 			     rollno = plate[0];
+//			     show(plate[1]);
 			  if(plate[1].length()<=14){ 
 			     rollno = plate[0];         //   show(plate);  show(plate[0]); show(plate[1]);   show(plate[2]);    
 			     div = plate[1].substring(0,1);
@@ -858,6 +859,9 @@ public class SpreadMRKListController {
 		 
 //		 displayAll();
 //		SubMarks.ENGMarks();
+//			Model.marksFill("ENG");
+//			Model.marksFill("BIO");
+ 
 		Model.ENGMarks();
 		Model.SecLangMarks();
 		Model.VocationalMarks();
@@ -871,7 +875,7 @@ public class SpreadMRKListController {
 		Model.SEPMarks();
 		Model.EVSMarks();
 		Model.PTEGrade();
-        TotalScore(); 
+        TotalScore();             
   }
 	    	    	    
 	private void BtnSearch(){
@@ -1531,8 +1535,8 @@ public class SpreadMRKListController {
 	    
 	private void BtnUpdate(){
 
-//		TotalScore();
-		SubTop.Rearrange(View, Model);
+		TotalScore();
+//		SubTop.Rearrange(View, Model);
 //	pb.progressBar(View);	
 		
 	}
@@ -1932,7 +1936,7 @@ public class SpreadMRKListController {
 		return AvgTotal;		
 	}
 	
-	public void ENGMarks(){
+/*	public void ENGMarks(){
 		  
 		 String[] subwithmarks = null;
     	 String plate[];
@@ -1976,7 +1980,26 @@ public class SpreadMRKListController {
      	 JTableHeader th = View.getTable().getTableHeader();          //  For header changing dynamically
     	 th.repaint();                                          
      	 View.Eng.text="ENG";                       
-	}     				 
+	}     		                  */		 
+	
+
+	public ArrayList<String> Subjectfinder(String RollNo){
+		int row = View.getTable().getSelectedRow();
+	   	String plate[];
+	 	
+		 for(int i=1; i < strArray.size() ; i++){
+			 
+			 plate = strArray.get(i).split("#");
+			 
+			 show(plate);
+		 }
+	
+		
+		
+		subjectsArray.removeAll(subjectsArray);
+		return subjectsArray;
+	}
+
 	
 
 	public ArrayList<String> columnHeaderfinder(String RollNo){
@@ -2063,11 +2086,11 @@ public class SpreadMRKListController {
 		String subject = null;
 		ArrayList<String> subjects;
 		subjects = Model.ListOfSubjects();		
-		 for (int row = 0; row < Rows-1; row++) {				
+		 for (int row = 0; row < Rows-1; row++) {
 			  plate=Model.strArray.get(row+1).split("#");
 			  String SameRoll = GetData1(View.getTable(), row, 1);
-			  rollno = plate[0].substring(0);		    
-			  
+			  rollno = plate[0].substring(0);
+
 			if(RollNo.trim().equals(SameRoll.trim())){		//	show(rollno);		
 			found = true;
 			// this will automatically set the view of the scroll in the location of the value
@@ -2106,7 +2129,6 @@ public class SpreadMRKListController {
      	    	    View.Sub1.text= "ECO";
      	    	    View.Sub4.text= "BIO";
 	     	    }
-
 	     		  
 	     		if(subject.contains("BKE")||subject.contains("PHY")){ 
 		     	    JTableHeader th = View.getTable().getTableHeader();  //  For header changing dynamically
